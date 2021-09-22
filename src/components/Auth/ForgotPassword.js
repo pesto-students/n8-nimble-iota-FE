@@ -4,7 +4,7 @@ import { ForgotPassword } from "../../redux";
 import { useSelector, useDispatch } from "react-redux";
 
 function ForgotPswd() {
-  const { loading, error, message } = useSelector((state) => state.user);
+  const { loading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const forgotpassword = ({ email }) => {
     dispatch(ForgotPassword({ email }));

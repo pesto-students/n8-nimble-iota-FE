@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Input, Button, Card, Row, Select } from "antd";
 import { Anchor } from "antd";
 import Axios from "../../service/Axios";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { RegisterUser } from "../../redux";
 
 function SignUp() {

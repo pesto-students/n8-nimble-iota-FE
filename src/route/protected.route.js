@@ -3,22 +3,18 @@ import { Route, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { checkPermission } from "../components/Mounter/Mounter";
 
-function ProtectedRoute({
-  component: Component,
-  requiredRoles: requiredRoles,
-  ...rest
-}) {
+function ProtectedRoute(properties) {
   const user = useSelector((state) => state.user);
-  console.log(user);
   return (
     <Route
-      {...rest}
+      exact={properties.exact}
+      path={properties.path}
       render={(props) => {
         if (
           user.isAuthenticated &&
-          checkPermission(user.user.role.name, requiredRoles)
+          checkPermission(user.user.role.name, properties.requiredRoles)
         ) {
-          return <Component {...props} />;
+          return <properties.component {...props} />;
         }
         if (!user.isAuthenticated) {
           return <Redirect to="/signin" />;

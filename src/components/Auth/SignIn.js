@@ -7,9 +7,7 @@ import { Anchor } from "antd";
 
 function SignIn() {
   const { Link } = Anchor;
-  const { user, loading, isAuthenticated, error, message } = useSelector(
-    (state) => state.user
-  );
+  const { user, loading, isAuthenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const login = ({ email, password, remember }) =>
     dispatch(LoginUser(email, password, remember));
