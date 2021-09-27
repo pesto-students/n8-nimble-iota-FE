@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { checkPermission } from "../components/Mounter/Mounter";
+import { checkPermission } from "../components/Common/Mounter/Mounter";
 
 function ProtectedRoute(properties) {
     const user = useSelector((state) => state.user);
