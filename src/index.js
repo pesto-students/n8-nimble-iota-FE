@@ -5,7 +5,8 @@ import { Integrations } from "@sentry/tracing";
 import App from "./components/App/App";
 
 Sentry.init({
-    dsn: "https://2d10f589cb6e4cabb6c3b9440dffc49c@o1015448.ingest.sentry.io/5981037",
+    // eslint-disable-next-line no-undef
+    dsn: process.env.REACT_APP_SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],
     tracesSampleRate: 1.0,
 });
