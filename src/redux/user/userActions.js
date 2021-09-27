@@ -1,4 +1,6 @@
 import axios from "../../service/Axios";
+import { fbstorage } from "../../service/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import {
   LOGIN_USER_REQUEST,
   LOGIN_USER_SUCCESS,
@@ -15,6 +17,9 @@ import {
   ACCOUNT_ACTIVATION_FAILURE,
   ACCOUNT_ACTIVATION_SUCCESS,
   ACCOUNT_ACTIVATION_REQUEST,
+  CHANGE_IMAGE_REQUEST,
+  CHANGE_IMAGE_SUCCESS,
+  CHANGE_IMAGE_FAILURE,
   RESET_STATE,
   RESET_ERR_MSG,
   LOGOUT_USER,
@@ -22,6 +27,28 @@ import {
 export const LogoutUser = () => {
   return (dispatch) => {
     dispatch(logout());
+  };
+};
+
+export const ChangeImage = (image, user, id) => {
+  return (dispatch) => {
+    dispatch(changeImageRequest());
+    const profileImgRef = ref(fbstorage, `profile-images/${user.email}`);
+    uploadBytes(profileImgRef, image)
+      .then((snapshot) => {
+        getDownloadURL(ref(fbstorage, `profile-images/${user.email}`))
+          .then((url) => {
+            const img = document.getElementById(id);
+            img.setAttribute("src", url);
+            dispatch(changeImageSuccess(url));
+          })
+          .catch((error) => {
+            dispatch(changeImageFailure(error));
+          });
+      })
+      .catch((error) => {
+        dispatch(changeImageFailure(error));
+      });
   };
 };
 
@@ -239,5 +266,25 @@ export const logout = () => {
   return {
     type: LOGOUT_USER,
     payload: null,
+  };
+};
+
+export const changeImageRequest = () => {
+  return {
+    type: CHANGE_IMAGE_REQUEST,
+  };
+};
+
+export const changeImageSuccess = (obj) => {
+  return {
+    type: CHANGE_IMAGE_SUCCESS,
+    payload: obj,
+  };
+};
+
+export const changeImageFailure = (error) => {
+  return {
+    type: CHANGE_IMAGE_FAILURE,
+    payload: error,
   };
 };

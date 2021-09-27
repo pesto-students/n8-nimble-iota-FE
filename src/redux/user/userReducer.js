@@ -17,6 +17,9 @@ import {
   RESET_STATE,
   RESET_ERR_MSG,
   LOGOUT_USER,
+  CHANGE_IMAGE_FAILURE,
+  CHANGE_IMAGE_REQUEST,
+  CHANGE_IMAGE_SUCCESS,
 } from "./userActionTypes";
 import { produce } from "immer";
 
@@ -26,6 +29,7 @@ const initialState = {
   user: null,
   isAuthenticated: false,
   message: "",
+  img: "",
 };
 
 const userReducer = (state = initialState, action) => {
@@ -104,6 +108,17 @@ const userReducer = (state = initialState, action) => {
       case RESET_ERR_MSG:
         draft.error = "";
         draft.message = "";
+        return;
+      case CHANGE_IMAGE_REQUEST:
+        draft.loading = true;
+        return;
+      case CHANGE_IMAGE_SUCCESS:
+        draft.loading = false;
+        draft.img = action.payload;
+        return;
+      case CHANGE_IMAGE_FAILURE:
+        draft.loading = false;
+        draft.error = action.payload;
         return;
       default:
         return;
