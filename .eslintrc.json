@@ -14,7 +14,7 @@
     "plugins": ["react"],
     "rules": {
         "indent": ["warn", 4],
-        "linebreak-style": ["0", "windows"],
+        "linebreak-style": [0, "windows"],
         "quotes": ["warn", "double"],
         "semi": ["warn", "always"]
     }
