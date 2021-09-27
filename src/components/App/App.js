@@ -5,13 +5,13 @@ import IndexRouting from "../../route/IndexRouting";
 import "./App.css";
 
 function App() {
-  return (
-    <>
-      <Provider store={store}>
-        <IndexRouting />
-      </Provider>
-    </>
-  );
+    return (
+        <>
+            <Provider store={store}>
+                <IndexRouting />
+            </Provider>
+        </>
+    );
 }
 
 export default App;
