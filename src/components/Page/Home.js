@@ -20,11 +20,11 @@ function Home() {
     return (
         <div>
             <Button type="primary" onClick={() => dispatch(LogoutUser())}>
-        Sign out
+                Sign out
             </Button>
             <input type="file" onChange={handleChange} />
             <Button type="primary" onClick={handleUpload}>
-        Upload Image
+                Upload Image
             </Button>
             <img src={img} alt="loading..." id="profile-image" />
         </div>
