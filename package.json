@@ -3,6 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@craco/craco": "^6.3.0",
         "@sentry/react": "^6.13.2",
         "@sentry/tracing": "^6.13.2",
         "@testing-library/jest-dom": "^5.14.1",
@@ -10,6 +11,7 @@
         "@testing-library/user-event": "^12.8.3",
         "antd": "^4.16.13",
         "axios": "^0.21.4",
+        "craco-less": "^1.20.0",
         "firebase": "^9.0.2",
         "immer": "^9.0.6",
         "react": "^17.0.2",
@@ -23,8 +25,8 @@
         "web-vitals": "^1.1.2"
     },
     "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
+        "start": "craco start",
+        "build": "craco build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "lint": "eslint"
