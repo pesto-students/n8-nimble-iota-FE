@@ -14,7 +14,7 @@ function AccountActivate() {
     return (
         <>
             {loading && <h2>Please wait till your account is activated</h2>}
-            {isAuthenticated && <Redirect to="/" />}
+            {isAuthenticated && <Redirect to="/home" />}
         </>
     );
 }

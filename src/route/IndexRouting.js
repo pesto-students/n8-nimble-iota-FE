@@ -9,7 +9,8 @@ import { loginUserSuccess } from "../redux";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import AccountActivate from "../components/Auth/AccountActivate";
-import PropTypes from "prop-types";
+import LandingPage from "../components/Page/LandingPage";
+import PlayArea from "../components/PlayArea/PlayArea";
 
 function IndexRouting({ children }) {
     let dispatch = useDispatch();
@@ -25,8 +26,9 @@ function IndexRouting({ children }) {
     return (
         <>
             <BrowserRouter>
-                {children}
                 <Switch>
+                    <Route exact path="/" component={LandingPage} />
+                    <Route exact path="/playarea" component={PlayArea} />
                     <Route exact path="/signin" component={SignIn} />
                     <Route exact path="/signup" component={SignUp} />
                     <Route
@@ -54,9 +56,5 @@ function IndexRouting({ children }) {
         </>
     );
 }
-
-IndexRouting.propTypes = {
-    children: PropTypes.elementType,
-};
 
 export default IndexRouting;
