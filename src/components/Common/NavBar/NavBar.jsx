@@ -10,7 +10,7 @@ const NavBar = () => {
     const breakpoints = useBreakpoint();
     const { isAuthenticated } = useSelector((state) => state.user);
     console.log(breakpoints);
-    const smSize = breakpoints.sm && !breakpoints.md;
+    const smSize = !breakpoints.md;
     return (
         <nav className={styles.navbar}>
             {smSize && (

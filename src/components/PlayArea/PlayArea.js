@@ -1,7 +1,8 @@
 import React from "react";
+import LandingMain from "../Common/Landing/Main/LandingMain";
 
 function PlayArea() {
-    return <div>checking play area</div>;
+    return <LandingMain />;
 }
 
 export default PlayArea;
