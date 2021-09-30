@@ -30,13 +30,13 @@ export const LogoutUser = () => {
     };
 };
 
-export const ChangeImage = (image, user, id) => {
+export const ChangeImage = (image, email, id) => {
     return (dispatch) => {
         dispatch(changeImageRequest());
-        const profileImgRef = ref(fbstorage, `profile-images/${user.email}`);
+        const profileImgRef = ref(fbstorage, `profile-images/${email}`);
         uploadBytes(profileImgRef, image)
             .then(() => {
-                getDownloadURL(ref(fbstorage, `profile-images/${user.email}`))
+                getDownloadURL(ref(fbstorage, `profile-images/${email}`))
                     .then((url) => {
                         const img = document.getElementById(id);
                         img.setAttribute("src", url);
