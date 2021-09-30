@@ -7,7 +7,9 @@ import { Anchor } from "antd";
 
 function SignIn() {
     const { Link } = Anchor;
-    const { user, loading, isAuthenticated } = useSelector((state) => state.user);
+    const { user, loading, isAuthenticated } = useSelector(
+        (state) => state.user
+    );
     const dispatch = useDispatch();
     const login = ({ email, password, remember }) =>
         dispatch(LoginUser(email, password, remember));
@@ -18,10 +20,13 @@ function SignIn() {
 
     return (
         <>
-            {user && isAuthenticated && <Redirect to="/" />}
+            {user && isAuthenticated && <Redirect to="/home" />}
             {!isAuthenticated && (
                 <Row justify="space-around">
-                    <Card title="Sign In!" style={{ width: 450, marginTop: "25vh" }}>
+                    <Card
+                        title="Sign In!"
+                        style={{ width: 450, marginTop: "25vh" }}
+                    >
                         <Form
                             name="basic"
                             labelCol={{
@@ -79,7 +84,11 @@ function SignIn() {
                                     span: 16,
                                 }}
                             >
-                                <Button type="primary" disabled={loading} htmlType="submit">
+                                <Button
+                                    type="primary"
+                                    disabled={loading}
+                                    htmlType="submit"
+                                >
                                     SignIn
                                 </Button>
                             </Form.Item>
@@ -90,8 +99,14 @@ function SignIn() {
                                 }}
                             >
                                 <Anchor>
-                                    <Link href="/signup" title="Don't have an account?" />
-                                    <Link href="/forgotpassword" title="forgot password" />
+                                    <Link
+                                        href="/signup"
+                                        title="Don't have an account?"
+                                    />
+                                    <Link
+                                        href="/forgotpassword"
+                                        title="forgot password"
+                                    />
                                 </Anchor>
                             </Form.Item>
                         </Form>
