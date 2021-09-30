@@ -40,7 +40,14 @@ export const ChangeImage = (image, email, id) => {
                     .then((url) => {
                         const img = document.getElementById(id);
                         img.setAttribute("src", url);
-                        dispatch(changeImageSuccess(url));
+                        axios
+                            .put("/user", { imgurl: url })
+                            .then(() => {
+                                dispatch(changeImageSuccess(url));
+                            })
+                            .catch((error) => {
+                                dispatch(changeImageFailure(error));
+                            });
                     })
                     .catch((error) => {
                         dispatch(changeImageFailure(error));

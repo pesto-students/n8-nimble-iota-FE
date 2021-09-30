@@ -3,7 +3,7 @@ import roles from "../config/roles";
 
 const PrivateRoutes = [
     {
-        path: "/",
+        path: "/home",
         component: Home,
         exact: true,
         requiredRoles: roles.all,
