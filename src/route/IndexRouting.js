@@ -12,7 +12,7 @@ import AccountActivate from "../components/Auth/AccountActivate";
 import LandingPage from "../components/Page/LandingPage";
 import PlayArea from "../components/PlayArea/PlayArea";
 
-function IndexRouting({ children }) {
+function IndexRouting() {
     let dispatch = useDispatch();
     useEffect(() => {
         const loggedInUser = localStorage.getItem("user");
