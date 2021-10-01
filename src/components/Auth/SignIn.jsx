@@ -1,120 +1,103 @@
-import React from "react";
-import { Form, Input, Button, Card, Row, Checkbox } from "antd";
+import React, { useState } from "react";
+import { Form } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import { resetState, LoginUser } from "../../redux";
-import { Redirect } from "react-router-dom";
-import { Anchor } from "antd";
+import { LoginUser } from "../../redux";
+import logo from "../../assets/roundlogo.svg";
+import { FullLengthButton } from "../Common/AppButton/AppButton";
+import AppInput from "../Common/AppInput/AppInput";
+import { NavLink } from "react-router-dom";
+import { Typography } from "antd";
+import { validateEmail } from "../../util/validation";
+import PropTypes from "prop-types";
 
-function SignIn() {
-    const { Link } = Anchor;
-    const { user, loading, isAuthenticated } = useSelector(
-        (state) => state.user
-    );
+function SignIn({ openNotification }) {
+    const { Text } = Typography;
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const { loading } = useSelector((state) => state.user);
     const dispatch = useDispatch();
-    const login = ({ email, password, remember }) =>
-        dispatch(LoginUser(email, password, remember));
-    const loginFail = (errorInfo) => {
-        console.log("Failed:", errorInfo);
-        dispatch(resetState());
+    const login = () => {
+        if (!validateEmail(email))
+            return openNotification("Validation Failed", "invalid email");
+        dispatch(LoginUser(email, password, true));
     };
 
     return (
         <>
-            {user && isAuthenticated && <Redirect to="/home" />}
-            {!isAuthenticated && (
-                <Row justify="space-around">
-                    <Card
-                        title="Sign In!"
-                        style={{ width: 450, marginTop: "25vh" }}
+            <div align="middle">
+                <img src={logo} alt="Nimble" />
+                <h3>Log In to Nimble</h3>
+                <Form
+                    name="basic"
+                    layout="vertical"
+                    align="middle"
+                    labelCol={{
+                        span: 8,
+                    }}
+                    initialValues={{
+                        remember: true,
+                    }}
+                    autoComplete="off"
+                >
+                    <Form.Item
+                        label="Email"
+                        name="email"
+                        type="email"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please input your Email!",
+                            },
+                        ]}
                     >
-                        <Form
-                            name="basic"
-                            labelCol={{
-                                span: 8,
-                            }}
-                            wrapperCol={{
-                                span: 16,
-                            }}
-                            initialValues={{
-                                remember: true,
-                            }}
-                            onFinish={login}
-                            onFinishFailed={loginFail}
-                            autoComplete="off"
+                        <AppInput
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Password"
+                        name="password"
+                        type="password"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please input your password!",
+                            },
+                        ]}
+                    >
+                        <AppInput
+                            isPassword={true}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </Form.Item>
+                    <Form.Item>
+                        <FullLengthButton
+                            type="primary"
+                            size="large"
+                            disabled={loading}
+                            htmlType="submit"
+                            onClick={login}
                         >
-                            <Form.Item
-                                label="Email"
-                                name="email"
-                                type="email"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: "Please input your Email!",
-                                    },
-                                ]}
-                            >
-                                <Input />
-                            </Form.Item>
-
-                            <Form.Item
-                                label="Password"
-                                name="password"
-                                type="password"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: "Please input your password!",
-                                    },
-                                ]}
-                            >
-                                <Input.Password />
-                            </Form.Item>
-
-                            <Form.Item
-                                name="remember"
-                                valuePropName="checked"
-                                wrapperCol={{ offset: 8, span: 16 }}
-                            >
-                                <Checkbox>Remember me</Checkbox>
-                            </Form.Item>
-
-                            <Form.Item
-                                wrapperCol={{
-                                    offset: 8,
-                                    span: 16,
-                                }}
-                            >
-                                <Button
-                                    type="primary"
-                                    disabled={loading}
-                                    htmlType="submit"
-                                >
-                                    SignIn
-                                </Button>
-                            </Form.Item>
-                            <Form.Item
-                                wrapperCol={{
-                                    offset: 8,
-                                    span: 16,
-                                }}
-                            >
-                                <Anchor>
-                                    <Link
-                                        href="/signup"
-                                        title="Don't have an account?"
-                                    />
-                                    <Link
-                                        href="/forgotpassword"
-                                        title="forgot password"
-                                    />
-                                </Anchor>
-                            </Form.Item>
-                        </Form>
-                    </Card>
-                </Row>
-            )}
+                            Log in
+                        </FullLengthButton>
+                    </Form.Item>
+                    <Form.Item>
+                        <Text type="secondary">
+                            forgot password?
+                            <NavLink to="/forgotpassword">
+                                {" " + "Resend password"}
+                            </NavLink>
+                        </Text>
+                    </Form.Item>
+                </Form>
+            </div>
         </>
     );
 }
-
+SignIn.propTypes = {
+    openNotification: PropTypes.func,
+};
 export default SignIn;

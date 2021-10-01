@@ -12,12 +12,15 @@ function ProtectedRoute(properties) {
             render={(props) => {
                 if (
                     user.isAuthenticated &&
-          checkPermission(user.user.role.name, properties.requiredRoles)
+                    checkPermission(
+                        user.user.role.name,
+                        properties.requiredRoles
+                    )
                 ) {
                     return <properties.component {...props} />;
                 }
                 if (!user.isAuthenticated) {
-                    return <Redirect to="/signin" />;
+                    return <Redirect to="/" />;
                 }
                 return <Redirect to="/404" />;
             }}
