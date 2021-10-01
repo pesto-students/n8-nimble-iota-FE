@@ -1,0 +1,2 @@
+export const SET_LOADER_FALSE = "SET_LOADER_FALSE";
+export const SET_LOADER_TRUE = "SET_LOADER_TRUE";

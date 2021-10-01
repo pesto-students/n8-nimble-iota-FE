@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ChangeImage, LogoutUser } from "../../redux";
+import { ChangeImage, logout } from "../../redux";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "antd";
 import NavBar from "../Common/NavBar/NavBar";
@@ -18,7 +18,7 @@ function Home() {
         dispatch(ChangeImage(image, email, "profile-image"));
     };
 
-    const handleLogout = () => dispatch(LogoutUser());
+    const handleLogout = () => dispatch(logout());
 
     return (
         <div>

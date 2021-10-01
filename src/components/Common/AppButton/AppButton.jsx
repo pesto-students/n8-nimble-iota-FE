@@ -20,11 +20,40 @@ const AppButton = ({ type, size, loading, onClick, children, ...props }) => {
     );
 };
 
+export const FullLengthButton = ({
+    type,
+    size,
+    loading,
+    onClick,
+    children,
+}) => {
+    return (
+        <React.Fragment>
+            <Button
+                type={type ? type : "primary"}
+                size={size}
+                loading={loading}
+                className={styles.fulllenbtn}
+                onClick={onClick}
+            >
+                {children}
+            </Button>
+        </React.Fragment>
+    );
+};
+
 export default AppButton;
 
 AppButton.propTypes = {
     type: PropTypes.oneOf(["primary", "dashed", "text", "link", "default"]),
     size: PropTypes.oneOf(["large", "middle", "small"]),
+    loading: PropTypes.bool,
+    children: PropTypes.elementType,
+    onClick: PropTypes.func,
+};
+FullLengthButton.propTypes = {
+    type: PropTypes.oneOf("primary", "dashed", "text", "link", "default"),
+    size: PropTypes.oneOf("large", "middle", "small"),
     loading: PropTypes.bool,
     children: PropTypes.elementType,
     onClick: PropTypes.func,

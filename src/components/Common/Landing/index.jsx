@@ -7,7 +7,7 @@ import Pricing from "./Pricing/Pricing";
 import { scrollTo } from "react-scroll/modules/mixins/scroller";
 import styles from "./index.module.less";
 
-const Landing = ({ page }) => {
+const Landing = () => {
     // useEffect(() => {
     //     const pageName =
     //         page === 1 ? "main" : page === 2 ? "features" : "pricing";
@@ -28,10 +28,6 @@ const Landing = ({ page }) => {
             </Element>
         </div>
     );
-};
-
-Landing.propTypes = {
-    page: PropTypes.number,
 };
 
 export default Landing;

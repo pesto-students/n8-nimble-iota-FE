@@ -3,24 +3,26 @@ import PropTypes from "prop-types";
 import { Modal } from "antd";
 import "./AppModal.less";
 
-const AppModal = ({ visible, children, ...props }) => {
+const AppModal = ({ visible, handleCancel, children, ...props }) => {
     return (
-        <React.Fragment>
+        <>
             <Modal
                 visible={visible}
                 className="modal"
                 centered={true}
                 footer={null}
+                onCancel={handleCancel}
                 {...props}
             >
                 {children}
             </Modal>
-        </React.Fragment>
+        </>
     );
 };
 
 AppModal.propTypes = {
     visible: PropTypes.bool,
+    handleCancel: PropTypes.func,
     children: PropTypes.elementType,
 };
 

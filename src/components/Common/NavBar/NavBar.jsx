@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./NavBar.module.less";
 import logo from "../../../assets/Logo.svg";
-import { NavLink } from "react-router-dom";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import { MenuOutlined } from "@ant-design/icons/lib/icons";
 import { useSelector } from "react-redux";
@@ -56,23 +55,23 @@ const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
                     </div>
                 )}
                 <div className={`${styles.navLinkContainer} ${styles.end}`}>
-                    {!isAuthenticated && (
-                        <NavLink
-                            to="/signin"
-                            // onClick={onLogin}
+                    <div
+                        activeClassName={styles.active}
+                        // to="/signin"
+                        className={styles.navLink}
+                        onClick={onLogin}
+                    >
+                        Login
+                    </div>
+                    {!smSize && (
+                        <div
+                            activeClassName={styles.active}
+                            // to="/signup"
                             className={styles.navLink}
-                        >
-                            Login
-                        </NavLink>
-                    )}
-                    {!smSize && !isAuthenticated && (
-                        <a
-                            to="/signup"
                             onClick={onRegister}
-                            className={styles.navLink}
                         >
                             Register
-                        </a>
+                        </div>
                     )}
                     {isAuthenticated && (
                         <>
