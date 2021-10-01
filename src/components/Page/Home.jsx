@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ChangeImage, LogoutUser } from "../../redux";
+import { ChangeImage, logout } from "../../redux";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "antd";
 
@@ -19,7 +19,7 @@ function Home() {
 
     return (
         <div>
-            <Button type="primary" onClick={() => dispatch(LogoutUser())}>
+            <Button type="primary" onClick={() => dispatch(logout())}>
                 Sign out
             </Button>
             <input type="file" onChange={handleChange} />
