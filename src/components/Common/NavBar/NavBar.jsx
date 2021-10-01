@@ -6,8 +6,10 @@ import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import { MenuOutlined } from "@ant-design/icons/lib/icons";
 import { useSelector } from "react-redux";
 import { Link as ScrollLink } from "react-scroll";
+import PropTypes from "prop-types";
+import { Avatar } from "antd";
 
-const NavBar = () => {
+const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
     const breakpoints = useBreakpoint();
     const { isAuthenticated } = useSelector((state) => state.user);
     console.log(breakpoints);
@@ -54,26 +56,35 @@ const NavBar = () => {
                     </div>
                 )}
                 <div className={`${styles.navLinkContainer} ${styles.end}`}>
-                    <NavLink
-                        activeClassName={styles.active}
-                        to="/signin"
-                        className={styles.navLink}
-                    >
-                        Login
-                    </NavLink>
-                    {!smSize && (
+                    {!isAuthenticated && (
                         <NavLink
-                            activeClassName={styles.active}
+                            to="/signin"
+                            // onClick={onLogin}
+                            className={styles.navLink}
+                        >
+                            Login
+                        </NavLink>
+                    )}
+                    {!smSize && !isAuthenticated && (
+                        <a
                             to="/signup"
+                            onClick={onRegister}
                             className={styles.navLink}
                         >
                             Register
-                        </NavLink>
+                        </a>
                     )}
                     {isAuthenticated && (
                         <>
-                            <div className={styles.navLink}>Logout</div>
-                            <div className={styles.navLink}>SH</div>
+                            <a className={styles.navLink} onClick={onLogout}>
+                                Logout
+                            </a>
+                            <div
+                                className={styles.navLink}
+                                onClick={onProfileClick}
+                            >
+                                <Avatar>SM</Avatar>
+                            </div>
                         </>
                     )}
                 </div>
@@ -82,6 +93,11 @@ const NavBar = () => {
     );
 };
 
-NavBar.propTypes = {};
+NavBar.propTypes = {
+    onLogin: PropTypes.func,
+    onRegister: PropTypes.func,
+    onLogout: PropTypes.func,
+    onProfileClick: PropTypes.func,
+};
 
 export default NavBar;
