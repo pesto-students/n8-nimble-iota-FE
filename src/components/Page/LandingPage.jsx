@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Landing from "../Common/Landing";
 import NavBar from "../Common/NavBar/NavBar";
 import AppModal from "../AppModal/AppModal";
 import SignIn from "../Auth/SignIn";
@@ -46,6 +47,7 @@ function LandingPage() {
             >
                 <SignUp openNotification={openNotification} />
             </AppModal>
+            <Landing />
         </>
     );
 }
