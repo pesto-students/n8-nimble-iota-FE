@@ -5,8 +5,9 @@ import { NavLink } from "react-router-dom";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import { MenuOutlined } from "@ant-design/icons/lib/icons";
 import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
-const NavBar = () => {
+const NavBar = ({ onLogin, onRegister }) => {
     const breakpoints = useBreakpoint();
     const { isAuthenticated } = useSelector((state) => state.user);
     console.log(breakpoints);
@@ -49,21 +50,23 @@ const NavBar = () => {
                     </div>
                 )}
                 <div className={`${styles.navLinkContainer} ${styles.end}`}>
-                    <NavLink
+                    <div
                         activeClassName={styles.active}
-                        to="/signin"
+                        // to="/signin"
                         className={styles.navLink}
+                        onClick={onLogin}
                     >
                         Login
-                    </NavLink>
+                    </div>
                     {!smSize && (
-                        <NavLink
+                        <div
                             activeClassName={styles.active}
-                            to="/signup"
+                            // to="/signup"
                             className={styles.navLink}
+                            onClick={onRegister}
                         >
                             Register
-                        </NavLink>
+                        </div>
                     )}
                     {isAuthenticated && (
                         <>
@@ -77,6 +80,9 @@ const NavBar = () => {
     );
 };
 
-NavBar.propTypes = {};
+NavBar.propTypes = {
+    onLogin: PropTypes.func,
+    onRegister: PropTypes.func,
+};
 
 export default NavBar;
