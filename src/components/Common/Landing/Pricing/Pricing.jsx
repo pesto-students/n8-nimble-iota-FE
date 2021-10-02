@@ -44,7 +44,7 @@ const Pricing = () => {
                 </div>
             </div>
             <div className={styles.imageContainer}>
-                <img src={landingPricingImage} alt="" />
+                <img src={landingPricingImage} alt="Flexible Pricing" />
             </div>
         </section>
     );
