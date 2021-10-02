@@ -22,7 +22,7 @@ import {
     CHANGE_IMAGE_FAILURE,
     RESET_STATE,
     RESET_ERR_MSG,
-    LOGOUT_USER,
+    LOGOUT_USER
 } from "./userActionTypes";
 export const LogoutUser = () => {
     return (dispatch) => {
@@ -160,6 +160,13 @@ export const ResetPassword = (obj) => {
             });
     };
 };
+
+
+
+
+
+
+
 
 export const forgotPasswordRequest = () => {
     return {
@@ -301,3 +308,4 @@ export const changeImageFailure = (error) => {
         payload: error,
     };
 };
+

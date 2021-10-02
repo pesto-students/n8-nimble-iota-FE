@@ -19,3 +19,4 @@ export const CHANGE_IMAGE_FAILURE = "CHANGE_IMAGE_FAILURE";
 export const RESET_STATE = "RESET_STATE";
 export const RESET_ERR_MSG = "RESET_ERR_MSG";
 export const LOGOUT_USER = "LOGOUT_USER";
+

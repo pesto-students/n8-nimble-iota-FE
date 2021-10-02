@@ -3,6 +3,7 @@ import { ChangeImage, logout } from "../../redux";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "antd";
 import NavBar from "../Common/NavBar/NavBar";
+import { NavLink } from "react-router-dom";
 
 function Home() {
     const { email, img } = useSelector((state) => state.user.user);
@@ -31,6 +32,16 @@ function Home() {
                 Upload Image
             </Button>
             <img src={img} alt="loading..." id="profile-image" />
+            <br></br>
+            <NavLink to="/backlogs">
+                backlogs
+            </NavLink>{" "}
+            <NavLink to="/user">
+                user
+            </NavLink>{" "}
+            <NavLink to="/subscription">
+                subscription
+            </NavLink>{" "}
         </div>
     );
 }
