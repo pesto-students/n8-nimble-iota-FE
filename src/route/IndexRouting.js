@@ -6,14 +6,16 @@ import ForgotPassword from "../components/Auth/ForgotPassword";
 import ProtectedRoute from "./protected.route";
 import PrivateRoutes from "./PrivateRoutes";
 import { loginUserSuccess } from "../redux";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import AccountActivate from "../components/Auth/AccountActivate";
 import LandingPage from "../components/Page/LandingPage";
 import PlayArea from "../components/PlayArea/PlayArea";
+import Loader from "../components/Common/Loader/Loader";
 
 function IndexRouting() {
     let dispatch = useDispatch();
+    const loading = useSelector((state) => state.common.loading);
     useEffect(() => {
         const loggedInUser = localStorage.getItem("user");
         if (loggedInUser) {
@@ -24,7 +26,7 @@ function IndexRouting() {
         }
     }, [dispatch]);
     return (
-        <>
+        <Loader load={loading}>
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/" component={LandingPage} />
@@ -53,7 +55,7 @@ function IndexRouting() {
                     <Route path="*" component={() => "404 NOT FOUND"} />
                 </Switch>
             </BrowserRouter>
-        </>
+        </Loader>
     );
 }
 

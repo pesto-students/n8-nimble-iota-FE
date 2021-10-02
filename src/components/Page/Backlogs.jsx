@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Tag, Modal, Divider } from "antd";
+import { Table, Button, Tag, Modal, Divider, Affix } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllTickets,deleteTicket } from "../../redux";
+import { fetchAllTickets, deleteTicket } from "../../redux";
 import TicketModal from "../TicketModal/TicketModal";
 import AppButton from "../Common/AppButton/AppButton";
-import TextArea from "rc-textarea";
-import { ArrowRightOutlined, DeleteFilled } from "@ant-design/icons/lib/icons";
+import { ArrowRightOutlined, DeleteFilled, PlusCircleFilled } from "@ant-design/icons/lib/icons";
+import { fetchAllDevlopersProject } from "../../redux/Project/Developers/developersActions";
+
+import AppSelect from "../Common/AppSelect/AppSelect";
 
 const row = {
     backgroundColor: "red",
 };
 
-
-
 function Backlogs() {
-    const { loading, ticketList } = useSelector((state) => state.ticket);
+    const { loading, ticketList } = useSelector((state) => state.project.ticket);
+    const { developerList } = useSelector((state) => state.project.developer);
+
     const dispatch = useDispatch();
     const columns = [
         {
@@ -36,6 +38,16 @@ function Backlogs() {
         {
             title: "Assignee",
             dataIndex: "assignee",
+            render: (assigneeId)=>(
+                <div>
+                    {developerList.length > 0
+                    ? developerList.find((developer) => {
+                          return developer["_id"] == assigneeId;
+                      })?.name??""
+                    :""}
+                </div>
+            )
+           
         },
         {
             title: "Priority",
@@ -59,31 +71,42 @@ function Backlogs() {
         {
             title: "Delete",
             dataIndex: "delete",
-            render: (text,record,index) => (
-                <DeleteFilled onClick={(e)=>{
-                    e.stopPropagation();
-                    Promise.resolve(dispatch(deleteTicket("61546b7864bccbe191f15977",record.ticketId))).then(()=>{
-                        dispatch(fetchAllTickets("61546b7864bccbe191f15977"))
-                    })
-                  
-                }} />
+            render: (text, record, index) => (
+                <div
+                    style={{
+                        backgroundColor: "#e5e5e5",
+                        height: "40px",
+                        width: "40px",
+                        borderRadius: "50%",
+                        border: "1px solid",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <DeleteFilled
+                        type="primary"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            dispatch(deleteTicket("61546b7864bccbe191f15977", record.ticketId));
+                        }}
+                    />
+                </div>
             ),
         },
         {
             title: "Move to Poker",
             dataIndex: "move",
-            render: (priority) => (
-                <ArrowRightOutlined />
-            ),
+            render: (priority) => <ArrowRightOutlined />,
         },
     ];
 
     const [selectedRowKeys, setSelectedRowsKeys] = useState([]);
     const [openModal, setOpenModal] = useState(false);
     const [clickedRow, setClickedRow] = useState(-1);
+    const [ticketOperation, setTickearOperation] = useState();
 
     const onSelectChange = (selectedRowKeys) => {
-        console.log("selectedRowKeys changed: ", selectedRowKeys);
         setSelectedRowsKeys(selectedRowKeys);
     };
 
@@ -95,7 +118,8 @@ function Backlogs() {
 
     useEffect(() => {
         dispatch(fetchAllTickets("61546b7864bccbe191f15977"));
-    }, [dispatch]);
+        dispatch(fetchAllDevlopersProject("61546b7864bccbe191f15977"));
+    }, []);
 
     const handleOk = () => {
         setOpenModal(false);
@@ -108,6 +132,20 @@ function Backlogs() {
     return (
         <>
             {loading && <h4>Data is loading</h4>}
+            <Affix style={{ position: "absolute", bottom: 50, right: 30 }}>
+                <AppButton
+                    style={{ height: "60px", width: "60px", borderRadius: "50%" }}
+                    size="large"
+                    type="primary"
+                    onClick={() => {
+                        setTickearOperation("CREATE");
+                        setOpenModal(true);
+                    }}
+                    disabled={loading}
+                >
+                    <PlusCircleFilled />
+                </AppButton>
+            </Affix>
             {!loading && (
                 <div>
                     <div style={{ marginBottom: 16 }}>
@@ -122,6 +160,7 @@ function Backlogs() {
                         onRow={(record, rowIndex) => {
                             return {
                                 onClick: (event) => {
+                                    setTickearOperation("UPDATE");
                                     setOpenModal(true), setClickedRow(rowIndex);
                                 },
                             };
@@ -133,54 +172,18 @@ function Backlogs() {
                     />
                 </div>
             )}
-            <TicketModal
-                okText={"Save"}
-                onOk={handleOk}
-                cancelButtonProps={{ style: { display: "none" } }}
-                onCancel={handleCancel}
-                visible={openModal}
-            >
-                <div className="ticketTitle" style={{ textAlign: "center", width: "100%" }}>
-                    <b>Ticket No.</b> {ticketList[clickedRow]?.ticketId ?? ""}
-                </div>
-                <Divider />
-                <div className="ticketTitle" style={{ width: "100%" }}>
-                    <b>Title</b> {ticketList[clickedRow]?.title ?? ""}
-                </div>
-                <Divider />
-                <div className="ticketTitle" style={{ width: "100%" }}>
-                    <TextArea
-                        placeholder="Name"
-                        isPassword={false}
-                        size="large"
-                        style={{ width: "100%", height: "50px" }}
-                        value={ticketList[clickedRow]?.description ?? ""}
-                    />
-                </div>
-                <Divider />
-                <div className="ticketTitle" style={{ width: "100%" }}>
-                    <b>Assignee</b> {ticketList[clickedRow]?.assignee ?? ""}
-                </div>
-                <Divider />
-                <div className="ticketTitle" style={{ width: "100%" }}>
-                    <b>Type</b> {ticketList[clickedRow]?.type ?? ""}
-                </div>
-                <Divider />
-                <div className="ticketTitle" style={{ width: "100%" }}>
-                    <b>Priority</b> {ticketList[clickedRow]?.priority ?? ""}
-                </div>
-                <Divider />
-                <div className="ticketTitle" style={{ width: "100%" }}>
-                    <b>Points</b> {ticketList[clickedRow]?.storyPoints ?? ""}
-                </div>
-                <Divider />
-                <AppButton size="large" >Save</AppButton>
-
-                
-
-                {/* <AppButton size="medium" >Save</AppButton>   */}
-            </TicketModal>
-            {/* {openModal && <TicketModal/>} */}
+            {openModal && (
+                <TicketModal
+                    cancelButtonProps={{ style: { display: "none" } }}
+                    onCancel={handleCancel}
+                    visible={openModal}
+                    width="400px"
+                    ticketOperation={ticketOperation}
+                    ticketData={ticketList[clickedRow]}
+                    projectId={"61546b7864bccbe191f15977"}
+                    developerList={developerList}
+                />
+            )}
         </>
     );
 }

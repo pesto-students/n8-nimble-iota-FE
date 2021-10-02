@@ -7,6 +7,10 @@
     align-items: stretch;
     padding: 0 1em;
     color: white;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
     * {
         color: inherit;
     }
@@ -54,11 +58,13 @@
             .navLink {
                 padding: 1em 1em;
                 display: grid;
+                cursor: pointer;
                 place-items: center;
                 width: 6em;
                 transition: background-color 150ms ease-in;
                 font-weight: 500;
                 letter-spacing: 1px;
+                cursor: pointer;
                 &:hover {
                     background-color: rgba(white, 0.1);
                     color: white;

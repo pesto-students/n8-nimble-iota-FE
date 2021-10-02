@@ -1,16 +1,18 @@
 import React from "react";
 import styles from "./NavBar.module.less";
 import logo from "../../../assets/Logo.svg";
-import { NavLink } from "react-router-dom";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import { MenuOutlined } from "@ant-design/icons/lib/icons";
 import { useSelector } from "react-redux";
+import { Link as ScrollLink } from "react-scroll";
+import PropTypes from "prop-types";
+import { Avatar } from "antd";
 
-const NavBar = () => {
+const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
     const breakpoints = useBreakpoint();
     const { isAuthenticated } = useSelector((state) => state.user);
     console.log(breakpoints);
-    const smSize = breakpoints.sm && !breakpoints.md;
+    const smSize = !breakpoints.md;
     return (
         <nav className={styles.navbar}>
             {smSize && (
@@ -32,43 +34,56 @@ const NavBar = () => {
             <div className={styles.nav}>
                 {!isAuthenticated && !smSize && (
                     <div className={styles.navLinkContainer}>
-                        <NavLink
-                            activeClassName={styles.active}
-                            to="/features"
+                        <ScrollLink
+                            activeClass={styles.active}
+                            to="features"
                             className={styles.navLink}
+                            smooth={true}
+                            duration={200}
                         >
                             Features
-                        </NavLink>
-                        <NavLink
-                            activeClassName={styles.active}
-                            to="/pricing"
+                        </ScrollLink>
+                        <ScrollLink
+                            activeClass={styles.active}
+                            to="pricing"
                             className={styles.navLink}
+                            smooth={true}
+                            duration={200}
                         >
                             Pricing
-                        </NavLink>
+                        </ScrollLink>
                     </div>
                 )}
                 <div className={`${styles.navLinkContainer} ${styles.end}`}>
-                    <NavLink
+                    <div
                         activeClassName={styles.active}
-                        to="/signin"
+                        // to="/signin"
                         className={styles.navLink}
+                        onClick={onLogin}
                     >
                         Login
-                    </NavLink>
+                    </div>
                     {!smSize && (
-                        <NavLink
+                        <div
                             activeClassName={styles.active}
-                            to="/signup"
+                            // to="/signup"
                             className={styles.navLink}
+                            onClick={onRegister}
                         >
                             Register
-                        </NavLink>
+                        </div>
                     )}
                     {isAuthenticated && (
                         <>
-                            <div className={styles.navLink}>Logout</div>
-                            <div className={styles.navLink}>SH</div>
+                            <a className={styles.navLink} onClick={onLogout}>
+                                Logout
+                            </a>
+                            <div
+                                className={styles.navLink}
+                                onClick={onProfileClick}
+                            >
+                                <Avatar>SM</Avatar>
+                            </div>
                         </>
                     )}
                 </div>
@@ -77,6 +92,11 @@ const NavBar = () => {
     );
 };
 
-NavBar.propTypes = {};
+NavBar.propTypes = {
+    onLogin: PropTypes.func,
+    onRegister: PropTypes.func,
+    onLogout: PropTypes.func,
+    onProfileClick: PropTypes.func,
+};
 
 export default NavBar;

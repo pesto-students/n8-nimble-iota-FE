@@ -25,7 +25,7 @@ const initialState = {
  
 };
 
-const userReducer = (state = initialState, action) => {
+const ticketReducer = (state = initialState, action) => {
     return produce(state, (draft) => {
         switch (action.type) {
             case FETCH_UPDATED_TICKET_LIST_REQUEST:
@@ -52,10 +52,34 @@ const userReducer = (state = initialState, action) => {
                 draft.error = action.payload;
                 draft.msg = action.payload;
                 return;
+            case UPDATE_TICKET_REQUEST:
+                draft.loading = true;
+                return;
+            case UPDATE_TICKET_STATUS_SUCCESS:
+                draft.loading = false;
+                draft.msg = action.payload
+                return;
+            case UPDATE_TICKET_FAILURE:
+                draft.loading = false;
+                draft.error = action.payload;
+                draft.msg = action.payload;
+                return;
+            case ADD_TICKET_REQUEST:
+                draft.loading = true;
+                return;
+            case ADD_TICKET_SUCCESS:
+                draft.loading = false;
+                draft.msg = action.payload
+                return;
+            case ADD_TICKET_FAILURE:
+                draft.loading = false;
+                draft.error = action.payload;
+                draft.msg = action.payload;
+                return;
             default:
                 return;
         }
     });
 };
 
-export default userReducer;
+export default ticketReducer;

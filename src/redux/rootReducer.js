@@ -1,10 +1,12 @@
 import { combineReducers } from "redux";
 import userReducer from "./user/userReducer";
-import ticketReducer from "./Tickets/ticketReducer";
+import commonReducer from "./common/commonReducer";
+import projectReducer from "./Project/projectReducer"
 
 const rootReducer = combineReducers({
     user: userReducer,
-    ticket: ticketReducer
+    common: commonReducer,
+    project: projectReducer
 });
 
 export default rootReducer;

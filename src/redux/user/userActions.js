@@ -166,6 +166,8 @@ export const ResetPassword = (obj) => {
 
 
 
+
+
 export const forgotPasswordRequest = () => {
     return {
         type: FORGOT_PASSWORD_REQUEST,
@@ -306,3 +308,4 @@ export const changeImageFailure = (error) => {
         payload: error,
     };
 };
+
