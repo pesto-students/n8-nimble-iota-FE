@@ -22,11 +22,23 @@ import {
     CHANGE_IMAGE_FAILURE,
     RESET_STATE,
     RESET_ERR_MSG,
-    LOGOUT_USER,
+    LOGOUT_USER_REQUEST,
+    LOGOUT_USER_SUCCESS,
+    LOGOUT_USER_FAILURE,
 } from "./userActionTypes";
 export const LogoutUser = () => {
     return (dispatch) => {
-        dispatch(logout());
+        dispatch(logoutRequest());
+        const loggedInUser = localStorage.getItem("user");
+        const foundUser = loggedInUser && JSON.parse(loggedInUser);
+        axios
+            .delete("/logout", { token: foundUser.token })
+            .then(() => {
+                dispatch(logoutSuccess());
+            })
+            .catch(() => {
+                dispatch(logoutFailure());
+            });
     };
 };
 
@@ -59,16 +71,14 @@ export const ChangeImage = (image, email, id) => {
     };
 };
 
-export const LoginUser = (email, password, checked) => {
+export const LoginUser = (email, password) => {
     return (dispatch) => {
         dispatch(loginUserRequest());
         axios
             .post("/login", { email, password })
             .then((response) => {
                 const user = response.data;
-                if (checked) localStorage.setItem("user", JSON.stringify(user));
-                axios.defaults.headers.common["Authorization"] =
-                    "Bearer " + user.token;
+                localStorage.setItem("user", JSON.stringify(user));
                 dispatch(loginUserSuccess(user));
             })
             .catch((error) => {
@@ -107,8 +117,6 @@ export const AccountActivation = (obj) => {
             .then((response) => {
                 const user = response.data;
                 localStorage.setItem("user", JSON.stringify(user));
-                axios.defaults.headers.common["Authorization"] =
-                    "Bearer " + user.token;
                 dispatch(accountActivationSuccess(user));
             })
             .catch((error) => {
@@ -273,12 +281,22 @@ export const resetErrorAndMessage = () => {
     };
 };
 
-export const logout = () => {
-    localStorage.clear();
-    axios.defaults.headers.common["Authorization"] = "";
+export const logoutRequest = () => {
     return {
-        type: LOGOUT_USER,
-        payload: null,
+        type: LOGOUT_USER_REQUEST,
+    };
+};
+
+export const logoutSuccess = () => {
+    localStorage.clear();
+    return {
+        type: LOGOUT_USER_SUCCESS,
+    };
+};
+
+export const logoutFailure = () => {
+    return {
+        type: LOGOUT_USER_FAILURE,
     };
 };
 
