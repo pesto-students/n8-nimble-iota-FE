@@ -22,7 +22,7 @@ import {
     CHANGE_IMAGE_FAILURE,
     RESET_STATE,
     RESET_ERR_MSG,
-    LOGOUT_USER,
+    LOGOUT_USER
 } from "./userActionTypes";
 export const LogoutUser = () => {
     return (dispatch) => {
@@ -40,7 +40,14 @@ export const ChangeImage = (image, email, id) => {
                     .then((url) => {
                         const img = document.getElementById(id);
                         img.setAttribute("src", url);
-                        dispatch(changeImageSuccess(url));
+                        axios
+                            .put("/user", { imgurl: url })
+                            .then(() => {
+                                dispatch(changeImageSuccess(url));
+                            })
+                            .catch((error) => {
+                                dispatch(changeImageFailure(error));
+                            });
                     })
                     .catch((error) => {
                         dispatch(changeImageFailure(error));
@@ -153,6 +160,11 @@ export const ResetPassword = (obj) => {
             });
     };
 };
+
+
+
+
+
 
 export const forgotPasswordRequest = () => {
     return {
