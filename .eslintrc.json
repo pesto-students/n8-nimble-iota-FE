@@ -18,6 +18,7 @@
         "linebreak-style": [0, "windows"],
         "quotes": ["warn", "double"],
         "semi": ["warn", "always"],
-        "no-unused-vars": "warn"
+        "no-unused-vars": "warn",
+        "no-undef": "warn"
     }
 }

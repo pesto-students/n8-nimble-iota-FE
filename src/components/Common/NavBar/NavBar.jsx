@@ -57,7 +57,6 @@ const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
                 <div className={`${styles.navLinkContainer} ${styles.end}`}>
                     {!isAuthenticated && (
                         <div
-                            activeClassName={styles.active}
                             // to="/signin"
                             className={styles.navLink}
                             onClick={onLogin}
@@ -67,7 +66,6 @@ const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
                     )}
                     {!smSize && !isAuthenticated && (
                         <div
-                            activeClassName={styles.active}
                             // to="/signup"
                             className={styles.navLink}
                             onClick={onRegister}
