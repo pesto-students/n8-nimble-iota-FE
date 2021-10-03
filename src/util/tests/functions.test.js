@@ -1,4 +1,4 @@
-import { extractInitials } from "../functions";
+import { extractInitials } from "../helperFunctions";
 
 describe("Utils functions tests", () => {
     it("should return initials", () => {

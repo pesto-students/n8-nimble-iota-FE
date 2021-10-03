@@ -3,15 +3,9 @@ import PropTypes from "prop-types";
 import styles from "./UserData.module.less";
 import { useSelector } from "react-redux";
 import { Avatar } from "antd";
-import { extractInitials } from "../../../../util/functions";
+import { extractInitials } from "../../../../util/helperFunctions";
 import AppButton from "../../AppButton/AppButton";
-import {
-    EditFilled,
-    SafetyOutlined,
-    EnvironmentFilled,
-    PhoneFilled,
-    MailFilled,
-} from "@ant-design/icons/lib/icons";
+import { EditFilled, SafetyOutlined, EnvironmentFilled, PhoneFilled, MailFilled } from "@ant-design/icons/lib/icons";
 
 const UserData = (props) => {
     const { user } = useSelector((state) => state.user);
@@ -61,8 +55,7 @@ const UserData = (props) => {
                     </ul>
                 </div>
                 <div className={styles.description}>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. A,
-                    exercitationem.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, exercitationem.
                 </div>
             </div>
         </div>
