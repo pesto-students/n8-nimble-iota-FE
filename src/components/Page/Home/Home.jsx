@@ -8,6 +8,8 @@ import AppModal from "../../Common/AppModal/AppModal";
 import ResetPswd from "../../Auth/ResetPassword";
 import styles from "./Home.module.less";
 import { Typography } from "antd";
+import Sidebar from "../../Common/Sidebar/Sidebar";
+import Projects from "../Projects/Projects";
 
 function Home() {
     const { Text } = Typography;
@@ -32,20 +34,26 @@ function Home() {
     return (
         <div>
             <NavBar onLogout={handleLogout} />
-            <AppModal visible={resetModal} handleCancel={closeReset}>
-                <ResetPswd />
-            </AppModal>
-            <Text className={styles.link} onClick={openReset}>
-                Reset password
-            </Text>
-            <input type="file" onChange={handleChange} />
-            <Button type="primary" onClick={handleUpload}>
-                Upload Image
-            </Button>
-            <img src={img} alt="loading..." id="profile-image" />
-            <br></br>
-            <NavLink to="/backlogs">backlogs</NavLink> <NavLink to="/user">user</NavLink>{" "}
-            <NavLink to="/subscription">subscription</NavLink>{" "}
+            <section className={styles.body}>
+                <Sidebar />
+                <main className={styles.mainContent}>
+                    {/* <AppModal visible={resetModal} handleCancel={closeReset}>
+                        <ResetPswd />
+                    </AppModal>
+                    <Text className={styles.link} onClick={openReset}>
+                        Reset password
+                    </Text>
+                    <input type="file" onChange={handleChange} />
+                    <Button type="primary" onClick={handleUpload}>
+                        Upload Image
+                    </Button>
+                    <img src={img} alt="loading..." id="profile-image" />
+                    <br></br>
+                    <NavLink to="/backlogs">backlogs</NavLink> <NavLink to="/user">user</NavLink>{" "}
+                    <NavLink to="/subscription">subscription</NavLink>{" "} */}
+                    <Projects />
+                </main>
+            </section>
         </div>
     );
 }
