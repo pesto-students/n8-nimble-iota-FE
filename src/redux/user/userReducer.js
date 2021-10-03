@@ -16,7 +16,9 @@ import {
     ACCOUNT_ACTIVATION_FAILURE,
     RESET_STATE,
     RESET_ERR_MSG,
-    LOGOUT_USER,
+    LOGOUT_USER_REQUEST,
+    LOGOUT_USER_SUCCESS,
+    LOGOUT_USER_FAILURE,
     CHANGE_IMAGE_FAILURE,
     CHANGE_IMAGE_REQUEST,
     CHANGE_IMAGE_SUCCESS,
@@ -62,11 +64,18 @@ const userReducer = (state = initialState, action) => {
                 draft.isAuthenticated = false;
                 draft.error = action.payload;
                 return;
-            case LOGOUT_USER:
+            case LOGOUT_USER_REQUEST:
+                draft.loading = true;
+                return;
+            case LOGOUT_USER_SUCCESS:
                 draft.loading = false;
                 draft.isAuthenticated = false;
                 draft.user = null;
                 draft.error = "";
+                return;
+            case LOGOUT_USER_FAILURE:
+                draft.loading = false;
+                draft.error = "Couldn't logout you!";
                 return;
             case RESET_PASSWORD_REQUEST:
                 draft.loading = true;
