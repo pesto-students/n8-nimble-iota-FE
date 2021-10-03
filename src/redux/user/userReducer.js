@@ -21,7 +21,7 @@ import {
     LOGOUT_USER_FAILURE,
     CHANGE_IMAGE_FAILURE,
     CHANGE_IMAGE_REQUEST,
-    CHANGE_IMAGE_SUCCESS
+    CHANGE_IMAGE_SUCCESS,
 } from "./userActionTypes";
 import { produce } from "immer";
 
@@ -32,7 +32,6 @@ const initialState = {
     isAuthenticated: false,
     message: "",
     img: "",
-    
 };
 
 const userReducer = (state = initialState, action) => {

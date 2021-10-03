@@ -14,11 +14,12 @@
     "plugins": ["react"],
     "ignorePatterns": ["node_modules", "build"],
     "rules": {
-        "indent": ["warn", 4],
+        "indent": ["warn", 4, { "SwitchCase": 1 }],
         "linebreak-style": [0, "windows"],
         "quotes": ["warn", "double"],
         "semi": ["warn", "always"],
         "no-unused-vars": "warn",
-        "no-undef": "warn"
+        "no-undef": "warn",
+        "no-tabs": ["error", { "allowIndentationTabs": true }]
     }
 }
