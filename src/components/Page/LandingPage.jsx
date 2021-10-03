@@ -38,12 +38,14 @@ function LandingPage() {
             <AppModal
                 visible={loginModal}
                 handleCancel={() => setLoginModal(false)}
+                width="400px"
             >
                 <SignIn openNotification={openNotification} />
             </AppModal>
             <AppModal
                 visible={registerModal}
                 handleCancel={() => setRegisterModal(false)}
+                width="400px"
             >
                 <SignUp openNotification={openNotification} />
             </AppModal>
