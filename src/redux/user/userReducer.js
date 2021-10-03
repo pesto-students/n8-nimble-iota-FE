@@ -35,93 +35,93 @@ const initialState = {
 const userReducer = (state = initialState, action) => {
     return produce(state, (draft) => {
         switch (action.type) {
-        case LOGIN_USER_REQUEST:
-            draft.loading = true;
-            return;
-        case LOGIN_USER_SUCCESS:
-            draft.loading = false;
-            draft.isAuthenticated = true;
-            draft.user = action.payload;
-            return;
-        case LOGIN_USER_FAILURE:
-            draft.loading = false;
-            draft.isAuthenticated = false;
-            draft.user = null;
-            draft.error = action.payload;
-            return;
-        case REGISTER_USER_REQUEST:
-            draft.loading = true;
-            return;
-        case REGISTER_USER_SUCCESS:
-            draft.loading = false;
-            draft.message = action.payload.message;
-            return;
-        case REGISTER_USER_FAILURE:
-            draft.loading = false;
-            draft.user = null;
-            draft.isAuthenticated = false;
-            draft.error = action.payload;
-            return;
-        case LOGOUT_USER:
-            draft.loading = false;
-            draft.isAuthenticated = false;
-            draft.user = null;
-            draft.error = "";
-            return;
-        case RESET_PASSWORD_REQUEST:
-            draft.loading = true;
-            return;
-        case RESET_PASSWORD_SUCCESS:
-            draft.loading = false;
-            draft.message = action.payload.message;
-            return;
-        case RESET_PASSWORD_FAILURE:
-            draft.loading = false;
-            draft.error = action.payload;
-            return;
-        case FORGOT_PASSWORD_REQUEST:
-            draft.loading = true;
-            return;
-        case FORGOT_PASSWORD_SUCCESS:
-            draft.loading = false;
-            draft.message = action.payload.message;
-            return;
-        case FORGOT_PASSWORD_FAILURE:
-            draft.loading = false;
-            draft.error = action.payload;
-            return;
-        case ACCOUNT_ACTIVATION_REQUEST:
-            draft.loading = true;
-            return;
-        case ACCOUNT_ACTIVATION_SUCCESS:
-            draft.loading = false;
-            draft.isAuthenticated = true;
-            draft.user = action.payload;
-            return;
-        case ACCOUNT_ACTIVATION_FAILURE:
-            draft.loading = false;
-            draft.error = action.payload;
-            return;
-        case RESET_STATE:
-            draft.user = null;
-            return;
-        case RESET_ERR_MSG:
-            draft.error = "";
-            draft.message = "";
-            return;
-        case CHANGE_IMAGE_REQUEST:
-            draft.loading = true;
-            return;
-        case CHANGE_IMAGE_SUCCESS:
-            draft.loading = false;
-            draft.img = action.payload;
-            return;
-        case CHANGE_IMAGE_FAILURE:
-            draft.loading = false;
-            draft.error = action.payload;
-            return;
-        default:
-            return;
+            case LOGIN_USER_REQUEST:
+                draft.loading = true;
+                return;
+            case LOGIN_USER_SUCCESS:
+                draft.loading = false;
+                draft.isAuthenticated = true;
+                draft.user = action.payload;
+                return;
+            case LOGIN_USER_FAILURE:
+                draft.loading = false;
+                draft.isAuthenticated = false;
+                draft.user = null;
+                draft.error = action.payload;
+                return;
+            case REGISTER_USER_REQUEST:
+                draft.loading = true;
+                return;
+            case REGISTER_USER_SUCCESS:
+                draft.loading = false;
+                draft.message = action.payload.message;
+                return;
+            case REGISTER_USER_FAILURE:
+                draft.loading = false;
+                draft.user = null;
+                draft.isAuthenticated = false;
+                draft.error = action.payload;
+                return;
+            case LOGOUT_USER:
+                draft.loading = false;
+                draft.isAuthenticated = false;
+                draft.user = null;
+                draft.error = "";
+                return;
+            case RESET_PASSWORD_REQUEST:
+                draft.loading = true;
+                return;
+            case RESET_PASSWORD_SUCCESS:
+                draft.loading = false;
+                draft.message = action.payload.message;
+                return;
+            case RESET_PASSWORD_FAILURE:
+                draft.loading = false;
+                draft.error = action.payload;
+                return;
+            case FORGOT_PASSWORD_REQUEST:
+                draft.loading = true;
+                return;
+            case FORGOT_PASSWORD_SUCCESS:
+                draft.loading = false;
+                draft.message = action.payload.message;
+                return;
+            case FORGOT_PASSWORD_FAILURE:
+                draft.loading = false;
+                draft.error = action.payload;
+                return;
+            case ACCOUNT_ACTIVATION_REQUEST:
+                draft.loading = true;
+                return;
+            case ACCOUNT_ACTIVATION_SUCCESS:
+                draft.loading = false;
+                draft.isAuthenticated = true;
+                draft.user = action.payload;
+                return;
+            case ACCOUNT_ACTIVATION_FAILURE:
+                draft.loading = false;
+                draft.error = action.payload;
+                return;
+            case RESET_STATE:
+                draft.user = null;
+                return;
+            case RESET_ERR_MSG:
+                draft.error = "";
+                draft.message = "";
+                return;
+            case CHANGE_IMAGE_REQUEST:
+                draft.loading = true;
+                return;
+            case CHANGE_IMAGE_SUCCESS:
+                draft.loading = false;
+                draft.img = action.payload;
+                return;
+            case CHANGE_IMAGE_FAILURE:
+                draft.loading = false;
+                draft.error = action.payload;
+                return;
+            default:
+                return;
         }
     });
 };
