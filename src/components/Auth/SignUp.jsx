@@ -8,9 +8,9 @@ import { FullLengthButton } from "../Common/AppButton/AppButton";
 import AppInput from "../Common/AppInput/AppInput";
 import AppSelect from "../Common/AppSelect/AppSelect";
 import { validateEmail } from "../../util/validation";
-import PropTypes from "prop-types";
+import openAuthNotification from "../Common/AuthNotification/AuthNotification";
 
-function SignUp({ openNotification }) {
+function SignUp() {
     const dispatch = useDispatch();
     const [allroles, setAllRoles] = useState([]);
     const [name, setName] = useState("");
@@ -31,9 +31,8 @@ function SignUp({ openNotification }) {
             });
     }, []);
     const register = () => {
-        console.log(!validateEmail(email));
         if (!validateEmail(email))
-            return openNotification("Validation Failed", "invalid email");
+            return openAuthNotification("Validation Failed", "invalid email");
         if (
             name &&
             password &&
@@ -44,6 +43,11 @@ function SignUp({ openNotification }) {
             dispatch(RegisterUser(name, email, password, { _id: role }));
         }
     };
+    const onChangeName = (e) => setName(e.target.value);
+    const onChangeEmail = (e) => setEmail(e.target.value);
+    const onChangePassword = (e) => setPassword(e.target.value);
+    const onChangeConfirmPassword = (e) => setConfirmpassword(e.target.value);
+    const onChangeRole = (value) => setRole(value);
 
     return (
         <>
@@ -66,7 +70,7 @@ function SignUp({ openNotification }) {
                         label="Name"
                         name="name"
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={onChangeName}
                         rules={[
                             {
                                 required: true,
@@ -82,7 +86,7 @@ function SignUp({ openNotification }) {
                         name="email"
                         type="email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={onChangeEmail}
                         rules={[
                             {
                                 required: true,
@@ -98,7 +102,7 @@ function SignUp({ openNotification }) {
                         name="password"
                         type="password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={onChangePassword}
                         rules={[
                             {
                                 required: true,
@@ -114,7 +118,7 @@ function SignUp({ openNotification }) {
                         name="confirmpassword"
                         type="password"
                         value={confirmpassword}
-                        onChange={(e) => setConfirmpassword(e.target.value)}
+                        onChange={onChangeConfirmPassword}
                         rules={[
                             {
                                 required: true,
@@ -135,10 +139,7 @@ function SignUp({ openNotification }) {
                             },
                         ]}
                     >
-                        <AppSelect
-                            options={allroles}
-                            onChange={(value) => setRole(value)}
-                        />
+                        <AppSelect options={allroles} onChange={onChangeRole} />
                     </Form.Item>
 
                     <Form.Item>
@@ -156,9 +157,5 @@ function SignUp({ openNotification }) {
         </>
     );
 }
-
-SignUp.propTypes = {
-    openNotification: PropTypes.func,
-};
 
 export default SignUp;

@@ -131,11 +131,11 @@ export const AccountActivation = (obj) => {
     };
 };
 
-export const ForgotPassword = (obj) => {
+export const ForgotPassword = (email) => {
     return (dispatch) => {
         dispatch(forgotPasswordRequest());
         axios
-            .put("/forgotpassword", obj)
+            .put("/forgotpassword", { email })
             .then((response) => {
                 dispatch(forgotPasswordSuccess(response.data));
             })
@@ -151,11 +151,11 @@ export const ForgotPassword = (obj) => {
     };
 };
 
-export const ResetPassword = (obj) => {
+export const ResetPassword = (oldpassword, newpassword) => {
     return (dispatch) => {
         dispatch(resetPasswordRequest());
         axios
-            .put("/resetpassword", obj)
+            .put("/resetpassword", { oldpassword, newpassword })
             .then((response) => {
                 dispatch(resetPasswordSuccess(response.data));
             })

@@ -1,5 +1,5 @@
-import Home from "../components/Page/Home";
 import Subscription from "../components/Page/Subscription";
+import Home from "../components/Page/Home/Home";
 import roles from "../config/roles";
 import Backlogs from "../components/Page/Backlogs";
 import CardCustom from "../components/Common/Card/Card";
