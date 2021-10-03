@@ -24,6 +24,7 @@ export const FullLengthButton = ({
     type,
     size,
     loading,
+    disabled,
     onClick,
     children,
 }) => {
@@ -33,6 +34,7 @@ export const FullLengthButton = ({
                 type={type ? type : "primary"}
                 size={size}
                 loading={loading}
+                disabled={disabled}
                 className={styles.fulllenbtn}
                 onClick={onClick}
             >
@@ -55,6 +57,7 @@ FullLengthButton.propTypes = {
     type: PropTypes.oneOf(["primary", "dashed", "text", "link", "default"]),
     size: PropTypes.oneOf(["large", "middle", "small"]),
     loading: PropTypes.bool,
+    disabled: PropTypes.bool,
     children: PropTypes.elementType,
     onClick: PropTypes.func,
 };

@@ -3,12 +3,14 @@ import PropTypes from "prop-types";
 import { Select } from "antd";
 import styles from "./AppSelect.module.less";
 
-function AppSelect({ options, defaultValue, onChange }) {
+function AppSelect({ options, defaultValue, onChange,...props }) {
+    console.log(options);
     return (
         <Select
             defaultValue={defaultValue}
             onChange={onChange}
             className={styles.slct}
+            {...props}
         >
             {options.map((item, index) => (
                 <Select.Option

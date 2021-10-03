@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { Form } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import { LoginUser } from "../../redux";
+import { LoginUser, ForgotPassword } from "../../redux";
 import logo from "../../assets/roundlogo.svg";
 import { FullLengthButton } from "../Common/AppButton/AppButton";
 import AppInput from "../Common/AppInput/AppInput";
-import { NavLink } from "react-router-dom";
 import { Typography } from "antd";
 import { validateEmail } from "../../util/validation";
-import PropTypes from "prop-types";
+import styles from "./Auth.module.less";
+import openAuthNotification from "../Common/AuthNotification/AuthNotification";
 
-function SignIn({ openNotification }) {
+function SignIn() {
     const { Text } = Typography;
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -18,10 +18,16 @@ function SignIn({ openNotification }) {
     const dispatch = useDispatch();
     const login = () => {
         if (!validateEmail(email))
-            return openNotification("Validation Failed", "invalid email");
-        dispatch(LoginUser(email, password, true));
+            return openAuthNotification("Validation Failed", "invalid email");
+        dispatch(LoginUser(email, password));
     };
-
+    const onChangeEmail = (e) => setEmail(e.target.value);
+    const onChangePassword = (e) => setPassword(e.target.value);
+    const resendPassword = () => {
+        if (!validateEmail(email))
+            return openAuthNotification("Validation Failed", "invalid email");
+        dispatch(ForgotPassword(email));
+    };
     return (
         <>
             <div align="middle">
@@ -50,10 +56,7 @@ function SignIn({ openNotification }) {
                             },
                         ]}
                     >
-                        <AppInput
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
+                        <AppInput value={email} onChange={onChangeEmail} />
                     </Form.Item>
 
                     <Form.Item
@@ -70,7 +73,7 @@ function SignIn({ openNotification }) {
                         <AppInput
                             isPassword={true}
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={onChangePassword}
                         />
                     </Form.Item>
                     <Form.Item>
@@ -87,9 +90,12 @@ function SignIn({ openNotification }) {
                     <Form.Item>
                         <Text type="secondary">
                             forgot password?
-                            <NavLink to="/forgotpassword">
+                            <Text
+                                className={styles.link}
+                                onClick={resendPassword}
+                            >
                                 {" " + "Resend password"}
-                            </NavLink>
+                            </Text>
                         </Text>
                     </Form.Item>
                 </Form>
@@ -97,7 +103,5 @@ function SignIn({ openNotification }) {
         </>
     );
 }
-SignIn.propTypes = {
-    openNotification: PropTypes.func,
-};
+
 export default SignIn;
