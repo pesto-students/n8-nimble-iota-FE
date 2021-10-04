@@ -38,7 +38,7 @@ function Home() {
             <section className={styles.body}>
                 <Sidebar />
                 <main className={styles.mainContent}>
-                    {/* <AppModal visible={resetModal} handleCancel={closeReset}>
+                    <AppModal visible={resetModal} handleCancel={closeReset}>
                         <ResetPswd />
                     </AppModal>
                     <Text className={styles.link} onClick={openReset}>
@@ -51,9 +51,9 @@ function Home() {
                     <img src={img} alt="loading..." id="profile-image" />
                     <br></br>
                     <NavLink to="/backlogs">backlogs</NavLink> <NavLink to="/user">user</NavLink>{" "}
-                    <NavLink to="/subscription">subscription</NavLink>{" "} */}
-                    {/* <Projects /> */}
-                    <Retrospectives/>
+
+                    <NavLink to="/subscription">subscription</NavLink> <Projects />
+
                 </main>
             </section>
         </div>

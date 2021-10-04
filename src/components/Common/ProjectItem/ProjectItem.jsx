@@ -99,14 +99,22 @@ const ProjectItem = ({ project, onClick }) => {
                                 <PlusSquareFilled />
                             </div>
                         </div>
-                        <div>
-                            <a href="#">Raghu Datta</a>
-                        </div>
-                        <div>
-                            <a href="#">Vipan</a>
-                        </div>
-                        <div>
-                            <a href="#">Vishnu</a>
+                        <div className={styles.scroller}>
+                            <div>
+                                <a href="#">Raghu Datta</a>
+                            </div>
+                            <div>
+                                <a href="#">Vipan Kumar</a>
+                            </div>
+                            <div>
+                                <a href="#">Vishnu Thiyagarajan</a>
+                            </div>
+                            <div>
+                                <a href="#">Jyotirmaya Sahu</a>
+                            </div>
+                            <div>
+                                <a href="#">Pesto Nimble</a>
+                            </div>
                         </div>
                     </div>
                 </div>
