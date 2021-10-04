@@ -10,6 +10,7 @@ import styles from "./Home.module.less";
 import { Typography } from "antd";
 import Sidebar from "../../Common/Sidebar/Sidebar";
 import Projects from "../Projects/Projects";
+import Retrospectives from "../Retrospectives/Retrospectives";
 
 function Home() {
     const { Text } = Typography;
@@ -50,7 +51,9 @@ function Home() {
                     <img src={img} alt="loading..." id="profile-image" />
                     <br></br>
                     <NavLink to="/backlogs">backlogs</NavLink> <NavLink to="/user">user</NavLink>{" "}
+
                     <NavLink to="/subscription">subscription</NavLink> <Projects />
+
                 </main>
             </section>
         </div>
