@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
-import AppModal from "../Common/AppModal/AppModal";
-import PropTypes from "prop-types";
-import AppSelect from "../Common/AppSelect/AppSelect";
-import TextArea from "rc-textarea";
 import { Divider } from "antd";
-import AppButton from "../Common/AppButton/AppButton";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchAllDevlopersProject } from "../../redux/Project/Developers/developersActions";
+import PropTypes from "prop-types";
+import TextArea from "rc-textarea";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import ticketConstants from "../../config/Ticket";
-import AppInput from "../Common/AppInput/AppInput";
-import { generateTicketNumber } from "../../util/helperFunctions";
-import TicketListItem from "./TicketListItem";
 import { addTicket, updateTicket } from "../../redux/Project/Tickets/ticketActions";
+import { generateTicketNumber } from "../../util/helperFunctions";
+import AppButton from "../Common/AppButton/AppButton";
+import AppInput from "../Common/AppInput/AppInput";
+import AppModal from "../Common/AppModal/AppModal";
+import AppSelect from "../Common/AppSelect/AppSelect";
+import TicketListItem from "./TicketListItem";
 
 function TicketModal(props) {
     const { projectId, ticketData, ticketOperation, developerList } = props;
@@ -32,7 +31,7 @@ function TicketModal(props) {
     const handleDescriptionChange = (event) => {
         setTcketDescription(event.target.value);
     };
-    const handleTypeChange = (value,obj) => {
+    const handleTypeChange = (value, obj) => {
         setType(
             ticketConstants.ticketType.find((type) => {
                 return type["_id"] == value;
@@ -50,8 +49,8 @@ function TicketModal(props) {
         setAssignee(
             developerList.length > 0
                 ? developerList.find((developer) => {
-                    return developer["_id"] == value;
-                })
+                      return developer["_id"] == value;
+                  })
                 : ""
         );
     };
@@ -90,8 +89,8 @@ function TicketModal(props) {
             setAssignee(
                 developerList.length > 0
                     ? developerList.find((developer) => {
-                        return developer["_id"] == ticketData.assignee;
-                    })
+                          return developer["_id"] == ticketData.assignee;
+                      })
                     : ""
             );
             setPriority(
@@ -122,111 +121,109 @@ function TicketModal(props) {
 
     return (
         <>
-            <div>
-                <AppModal {...props}>
-                    <div className="ticketTitle" style={{ textAlign: "center", width: "100%", color: "primary" }}>
-                        <b>Ticket No.</b> {ticketId}
-                    </div>
-                    <Divider />
-                    <TicketListItem
-                        label="Title"
-                        Component={
-                            <AppInput
-                                placeholder={"Ticket title"}
-                                style={{ width: "60%" }}
-                                value={title}
-                                onChange={handleTitleChange}
-                            />
-                        }
-                    />
-                    <Divider />
-                    <TicketListItem
-                        label="Description"
-                        fullWidth={true}
-                        Component={
-                            <TextArea
-                                placeholder="This is ticket description"
-                                isPassword={false}
-                                size="large"
-                                style={{ width: "100%", height: "80px" }}
-                                value={description}
-                                onChange={handleDescriptionChange}
-                            />
-                        }
-                    />
-                    <Divider />
-                    <TicketListItem
-                        label="Assignee"
-                        Component={
-                            <AppSelect
-                                style={{ width: "60%" }}
-                                onChange={handleAssigneeChange}
-                                value={assignee?.name ?? ""}
-                                options={developerList}
-                            />
-                        }
-                    />
-                    <Divider />
-                    <TicketListItem
-                        label="Type"
-                        Component={
-                            <AppSelect
-                                style={{ width: "60%" }}
-                                onChange={handleTypeChange}
-                                value={type}
-                                options={ticketConstants.ticketType}
-                            />
-                        }
-                    />
-                    <Divider />
-                    <TicketListItem
-                        label="Priority"
-                        Component={
-                            <AppSelect
-                                style={{ width: "60%" }}
-                                value={priority}
-                                options={ticketConstants.priority}
-                                onChange={handlePriorityChange}
-                            />
-                        }
-                    />
+            <AppModal {...props}>
+                <div className="ticketTitle" style={{ textAlign: "center", width: "100%", color: "primary" }}>
+                    <b>Ticket No.</b> {ticketId}
+                </div>
+                <Divider />
+                <TicketListItem
+                    label="Title"
+                    Component={
+                        <AppInput
+                            placeholder={"Ticket title"}
+                            style={{ width: "60%" }}
+                            value={title}
+                            onChange={handleTitleChange}
+                        />
+                    }
+                />
+                <Divider />
+                <TicketListItem
+                    label="Description"
+                    fullWidth={true}
+                    Component={
+                        <TextArea
+                            placeholder="This is ticket description"
+                            isPassword={false}
+                            size="large"
+                            style={{ width: "100%", height: "80px" }}
+                            value={description}
+                            onChange={handleDescriptionChange}
+                        />
+                    }
+                />
+                <Divider />
+                <TicketListItem
+                    label="Assignee"
+                    Component={
+                        <AppSelect
+                            style={{ width: "60%" }}
+                            onChange={handleAssigneeChange}
+                            value={assignee?.name ?? ""}
+                            options={developerList}
+                        />
+                    }
+                />
+                <Divider />
+                <TicketListItem
+                    label="Type"
+                    Component={
+                        <AppSelect
+                            style={{ width: "60%" }}
+                            onChange={handleTypeChange}
+                            value={type}
+                            options={ticketConstants.ticketType}
+                        />
+                    }
+                />
+                <Divider />
+                <TicketListItem
+                    label="Priority"
+                    Component={
+                        <AppSelect
+                            style={{ width: "60%" }}
+                            value={priority}
+                            options={ticketConstants.priority}
+                            onChange={handlePriorityChange}
+                        />
+                    }
+                />
 
-                    <Divider />
-                    <TicketListItem
-                        label="Sprints"
-                        Component={
-                            <AppSelect
-                                style={{ width: "60%" }}
-                                value={sprint}
-                                options={ticketConstants.sprints}
-                                onChange={handleSprintChange}
-                            />
-                        }
-                    />
+                <Divider />
+                <TicketListItem
+                    label="Sprints"
+                    Component={
+                        <AppSelect
+                            style={{ width: "60%" }}
+                            value={sprint}
+                            options={ticketConstants.sprints}
+                            onChange={handleSprintChange}
+                        />
+                    }
+                />
 
-                    <Divider />
-                    {ticketOperation == "UPDATE" && (
-                        <>
-                            <TicketListItem
-                                label="Story Points"
-                                Component={
-                                    <AppInput
-                                        placeholder={"Ticket title"}
-                                        style={{ width: "60%" }}
-                                        value={points}
-                                        disabled={true}
-                                    />
-                                }
-                            />
-                            <Divider />
-                        </>
-                    )}
+                <Divider />
+                {ticketOperation == "UPDATE" && (
+                    <>
+                        <TicketListItem
+                            label="Story Points"
+                            Component={
+                                <AppInput
+                                    placeholder={"Ticket title"}
+                                    style={{ width: "60%" }}
+                                    value={points}
+                                    disabled={true}
+                                />
+                            }
+                        />
+                        <Divider />
+                    </>
+                )}
 
-                    <AppButton onClick={handleTicketAction} style={{ width: "100%" }}>
-                        {ticketOperation == "CREATE" ? "Create" : "Update"}
-                    </AppButton>
-                </AppModal>
-            </div>
+                <AppButton onClick={handleTicketAction} style={{ width: "100%" }}>
+                    {ticketOperation == "CREATE" ? "Create" : "Update"}
+                </AppButton>
+            </AppModal>
         </>
     );
 }
