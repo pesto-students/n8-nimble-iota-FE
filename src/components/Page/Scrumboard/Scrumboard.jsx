@@ -55,10 +55,10 @@ function Scrumboard() {
         <>
             <div className={styles.container}>
                 <div className={styles.actions}>
-                    <AppButton loading={false} size={"medium"} style={{ marginRight: "8px" }}>
+                    <AppButton loading={false} size={"middle"} style={{ marginRight: "8px" }}>
                         <PhoneFilled /> Join Call
                     </AppButton>
-                    <AppButton loading={false} size={"medium"}>
+                    <AppButton loading={false} size={"middle"}>
                         <CheckCircleFilled /> Mark as Complete
                     </AppButton>
                 </div>

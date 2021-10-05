@@ -8,11 +8,15 @@ function Retrospectives() {
         <>
             <div className={styles.container}>
                 <div className={styles.actions}>
-                    <AppButton loading={false} size={"medium"} style={{ marginRight: "8px" }}>
-                        <PhoneFilled /> Join Call
+                    <AppButton loading={false} size={"middle"} style={{ marginRight: "8px" }}>
+                        <>
+                            <PhoneFilled /> Join Call
+                        </>
                     </AppButton>
-                    <AppButton loading={false} size={"medium"}>
-                        <CheckCircleFilled /> Mark as Complete
+                    <AppButton loading={false} size={"middle"}>
+                        <>
+                            <CheckCircleFilled /> Mark as Complete
+                        </>
                     </AppButton>
                 </div>
                 <div className={styles.retroHeadingContainer}>

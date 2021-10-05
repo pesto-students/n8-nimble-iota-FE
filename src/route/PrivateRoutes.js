@@ -1,5 +1,5 @@
 import Backlogs from "src/components/Page/Backlogs";
-import Home from "src/components/Page/Home";
+import Home from "src/components/Page/Home/Home";
 import Retrospectives from "src/components/Page/Retrospectives/Retrospectives";
 import Subscription from "src/components/Page/Subscription";
 import UserProfile from "src/components/Page/UserProfile/UserProfile";

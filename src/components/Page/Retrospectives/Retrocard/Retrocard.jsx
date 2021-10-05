@@ -21,30 +21,31 @@ function Retrocard({ type }) {
                 })}
                 bodyStyle={{ height: "100%", padding: "8px" }}
             >
-                <TextArea
-                    placeholder="Text here ..."
-                    isPassword={false}
-                    size="large"
-                    style={{
-                        width: "100%",
-                        // borderRadius: "8px",
-                        height: "90%",
-                        border: "none",
-                        // backgroundColor: "transparent",
-                        outline: "none",
-                    }}
-                    className={classNames({
-                        [styles.positive]: type == "positive",
-                        [styles.negitive]: type == "negitive",
-                        [styles.neutral]: type == "neutral",
-                        [styles.actionItem]: type == "actionItem",
-                    })}
-                    value={"The sprint was well planned and clear on the requirements and effort estimation."}
-                    // onChange={handleTextChange}
-                />
-                <div className={styles.actionCont}>
-                    <DeleteFilled />
-                </div>
+                <>
+                    <TextArea
+                        placeholder="Text here ..."
+                        size="large"
+                        style={{
+                            width: "100%",
+                            // borderRadius: "8px",
+                            height: "90%",
+                            border: "none",
+                            // backgroundColor: "transparent",
+                            outline: "none",
+                        }}
+                        className={classNames({
+                            [styles.positive]: type == "positive",
+                            [styles.negitive]: type == "negitive",
+                            [styles.neutral]: type == "neutral",
+                            [styles.actionItem]: type == "actionItem",
+                        })}
+                        value={"The sprint was well planned and clear on the requirements and effort estimation."}
+                        // onChange={handleTextChange}
+                    />
+                    <div className={styles.actionCont}>
+                        <DeleteFilled />
+                    </div>
+                </>
             </CardCustom>
         </div>
     );

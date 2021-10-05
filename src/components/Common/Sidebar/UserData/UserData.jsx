@@ -4,6 +4,7 @@ import styles from "src/components/Common/Sidebar/UserData/UserData.module.less"
 import { useSelector } from "react-redux";
 import { Avatar } from "antd";
 import { EditFilled, SafetyOutlined, EnvironmentFilled, PhoneFilled, MailFilled } from "@ant-design/icons/lib/icons";
+import { extractInitials } from "src/util/helperFunctions";
 
 const UserData = (props) => {
     const { user } = useSelector((state) => state.user);

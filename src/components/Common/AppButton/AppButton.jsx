@@ -43,7 +43,7 @@ AppButton.propTypes = {
     type: PropTypes.oneOf(["primary", "dashed", "text", "link", "default"]),
     size: PropTypes.oneOf(["large", "middle", "small"]),
     loading: PropTypes.bool,
-    children: PropTypes.elementType,
+    children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
     onClick: PropTypes.func,
 };
 FullLengthButton.propTypes = {
@@ -51,6 +51,6 @@ FullLengthButton.propTypes = {
     size: PropTypes.oneOf(["large", "middle", "small"]),
     loading: PropTypes.bool,
     disabled: PropTypes.bool,
-    children: PropTypes.elementType,
+    children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
     onClick: PropTypes.func,
 };
