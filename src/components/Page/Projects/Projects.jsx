@@ -1,16 +1,13 @@
 import React, { useEffect } from "react";
-import PropTypes from "prop-types";
-import styles from "./Projects.module.less";
-import { useDispatch, useSelector } from "react-redux";
-import { loadProjects } from "../../../redux/projectList/projectListActions";
-import AppButton from "../../Common/AppButton/AppButton";
-import ProjectItem from "../../Common/ProjectItem/ProjectItem";
-import Searchbox from "../../Common/Searchbox/Searchbox";
-import { NavLink } from "react-router-dom";
+import styles from "src/components/Page/Projects/Projects.module.less";
+import { useDispatch } from "react-redux";
+import { loadProjects } from "src/redux/projectList/projectListActions";
+import ProjectItem from "src/components/Common/ProjectItem/ProjectItem";
+import Searchbox from "src/components/Common/Searchbox/Searchbox";
+import AppButton from "src/components/Common/AppButton/AppButton";
 
 const Projects = (props) => {
     const dispatch = useDispatch();
-    // const projects = useSelector((state) => state.projectList.projects);
 
     const projects = [
         {
@@ -72,13 +69,12 @@ const Projects = (props) => {
     return (
         <>
             <div>
-                <Searchbox className={styles.searchBar} placeholder="Search all projects .." loading={false}/>
+                <Searchbox className={styles.searchBar} placeholder="Search all projects .." loading={false} />
             </div>
             <div className={styles.createButton}>
                 <AppButton size="large">Create Project</AppButton>
             </div>
             <div className={styles.project}>{prepareJsx()}</div>
-            
         </>
     );
 };

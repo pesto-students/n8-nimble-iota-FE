@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
 import { Form } from "antd";
-import Axios from "../../service/Axios";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RegisterUser } from "../../redux";
-import logo from "../../assets/roundlogo.svg";
-import { FullLengthButton } from "../Common/AppButton/AppButton";
-import AppInput from "../Common/AppInput/AppInput";
-import AppSelect from "../Common/AppSelect/AppSelect";
-import { validateEmail } from "../../util/validation";
-import openAuthNotification from "../Common/AuthNotification/AuthNotification";
+import logo from "src/assets/roundlogo.svg";
+import { FullLengthButton } from "src/components/Common/AppButton/AppButton";
+import AppInput from "src/components/Common/AppInput/AppInput";
+import AppSelect from "src/components/Common/AppSelect/AppSelect";
+import openAuthNotification from "src/components/Common/AuthNotification/AuthNotification";
+import { RegisterUser } from "src/redux";
+import Axios from "src/service/Axios";
+import { validateEmail } from "src/util/validation";
 
 function SignUp() {
     const dispatch = useDispatch();
@@ -31,15 +31,8 @@ function SignUp() {
             });
     }, []);
     const register = () => {
-        if (!validateEmail(email))
-            return openAuthNotification("Validation Failed", "invalid email");
-        if (
-            name &&
-            password &&
-            confirmpassword &&
-            role &&
-            password === confirmpassword
-        ) {
+        if (!validateEmail(email)) return openAuthNotification("Validation Failed", "invalid email");
+        if (name && password && confirmpassword && role && password === confirmpassword) {
             dispatch(RegisterUser(name, email, password, { _id: role }));
         }
     };
@@ -143,12 +136,7 @@ function SignUp() {
                     </Form.Item>
 
                     <Form.Item>
-                        <FullLengthButton
-                            type="primary"
-                            htmlType="submit"
-                            onClick={register}
-                            disabled={loading}
-                        >
+                        <FullLengthButton type="primary" htmlType="submit" onClick={register} disabled={loading}>
                             Register
                         </FullLengthButton>
                     </Form.Item>

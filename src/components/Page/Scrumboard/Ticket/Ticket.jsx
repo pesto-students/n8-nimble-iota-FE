@@ -1,19 +1,25 @@
 import React from "react";
-import CardCustom from "../../../Common/Card/Card";
-import styles from "./Ticket.module.less";
+import styles from "src/components/Page/Scrumboard/Ticket/Ticket.module.less";
 import { Input } from "antd";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { DeleteFilled } from "@ant-design/icons";
 import { Draggable } from "react-beautiful-dnd";
+import CardCustom from "src/components/Common/Card/Card";
 
-function Ticket({ text,index }) {
+function Ticket({ text, index }) {
     const { TextArea } = Input;
 
     return (
         <Draggable draggableId={index}>
             {(provided) => (
-                <div className={styles.container} {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} index={index}>
+                <div
+                    className={styles.container}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    ref={provided.innerRef}
+                    index={index}
+                >
                     <CardCustom bodyStyle={{ height: "100%", padding: "8px" }}>
                         <TextArea
                             placeholder="Text here ..."
@@ -21,14 +27,13 @@ function Ticket({ text,index }) {
                             size="large"
                             style={{
                                 width: "100%",
-                                // borderRadius: "8px",
+
                                 height: "90%",
                                 border: "none",
-                                // backgroundColor: "transparent",
+
                                 outline: "none",
                             }}
                             value={text}
-                            // onChange={handleTextChange}
                         />
                         <div className={styles.actionCont}>
                             <DeleteFilled />
@@ -42,7 +47,7 @@ function Ticket({ text,index }) {
 
 Ticket.propTypes = {
     text: PropTypes.string,
-    index : PropTypes.number
+    index: PropTypes.number,
 };
 
 export default Ticket;

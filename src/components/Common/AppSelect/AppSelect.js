@@ -1,23 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Select } from "antd";
-import styles from "./AppSelect.module.less";
+import styles from "src/components/Common/AppSelect/AppSelect.module.less";
 
-function AppSelect({ options, defaultValue, onChange,...props }) {
+function AppSelect({ options, defaultValue, onChange, ...props }) {
     console.log(options);
     return (
-        <Select
-            defaultValue={defaultValue}
-            onChange={onChange}
-            className={styles.slct}
-            {...props}
-        >
+        <Select defaultValue={defaultValue} onChange={onChange} className={styles.slct} {...props}>
             {options.map((item, index) => (
-                <Select.Option
-                    key={index}
-                    value={item._id}
-                    disabled={item.disabled}
-                >
+                <Select.Option key={index} value={item._id} disabled={item.disabled}>
                     {item.name}
                 </Select.Option>
             ))}

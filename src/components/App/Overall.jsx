@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { resetErrorAndMessage } from "../../redux";
-import IndexRouting from "../../route/IndexRouting";
-import useNavigatorOnLine from "../Common/NavigatorOnline/NavigatorOnline";
-import openAuthNotification from "../Common/AuthNotification/AuthNotification";
+import { useDispatch, useSelector } from "react-redux";
+import openAuthNotification from "src/components/Common/AuthNotification/AuthNotification";
+import useNavigatorOnLine from "src/components/Common/NavigatorOnline/NavigatorOnline";
+import { resetErrorAndMessage } from "src/redux";
+import IndexRouting from "src/route/IndexRouting";
 
 function Overall() {
     let dispatch = useDispatch();

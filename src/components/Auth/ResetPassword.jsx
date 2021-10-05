@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Form } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { ResetPassword } from "../../redux";
-import logo from "../../assets/roundlogo.svg";
-import { FullLengthButton } from "../Common/AppButton/AppButton";
-import AppInput from "../Common/AppInput/AppInput";
+
+import logo from "src/assets/roundlogo.svg";
+import { ResetPassword } from "src/redux";
+import AppInput from "src/components/Common/AppInput/AppInput";
+import { FullLengthButton } from "src/components/Common/AppButton/AppButton";
 
 function ResetPswd() {
     const dispatch = useDispatch();
@@ -66,12 +67,7 @@ function ResetPswd() {
                     </Form.Item>
 
                     <Form.Item>
-                        <FullLengthButton
-                            type="primary"
-                            htmlType="submit"
-                            onClick={resetPassword}
-                            disabled={loading}
-                        >
+                        <FullLengthButton type="primary" htmlType="submit" onClick={resetPassword} disabled={loading}>
                             Reset
                         </FullLengthButton>
                     </Form.Item>

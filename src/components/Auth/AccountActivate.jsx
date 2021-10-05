@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect, useParams } from "react-router-dom";
-import { AccountActivation } from "../../redux";
+import { AccountActivation } from "src/redux";
 
 function AccountActivate() {
     const dispatch = useDispatch();

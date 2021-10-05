@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { ChangeImage, logout } from "../../redux";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "antd";
-import NavBar from "../Common/NavBar/NavBar";
-import Projects from "./Projects/Projects";
+import { ChangeImage } from "src/redux";
+import NavBar from "src/components/Common/NavBar/NavBar";
+import Projects from "src/components/Page/Projects/Projects";
 
 function Home() {
     const { email, img } = useSelector((state) => state.user.user);
@@ -24,9 +24,6 @@ function Home() {
     return (
         <div>
             <NavBar onLogout={handleLogout} />
-            {/* <Button type="primary" onClick={() => dispatch(LogoutUser())}>
-                Sign out
-            </Button> */}
             <input type="file" onChange={handleChange} />
             <Button type="primary" onClick={handleUpload}>
                 Upload Image

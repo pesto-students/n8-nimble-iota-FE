@@ -1,6 +1,6 @@
 import React from "react";
-import styles from "./Pricing.module.less";
-import landingPricingImage from "../../../../assets/LandingPricing.svg";
+import styles from "src/components/Common/Landing/Pricing/Pricing.module.less";
+import landingPricingImage from "src/assets/LandingPricing.svg";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import classNames from "classnames";
 
@@ -20,25 +20,19 @@ const Pricing = () => {
                         <div className={styles.planName}>BASIC</div>
                         <div className={styles.type}>Free</div>
                         <div className={styles.desc}>
-                            <p className={`${styles.price} ${styles.none}`}>
-                                INR 0/project
-                            </p>
-                            The Nimble platform allows scrum master to use only
-                            one project and include only 3 developers in the
-                            particular project
+                            <p className={`${styles.price} ${styles.none}`}>INR 0/project</p>
+                            The Nimble platform allows scrum master to use only one project and include only 3
+                            developers in the particular project
                         </div>
                     </div>
                     <div className={priceCardClassName}>
-                        <div className={styles.header}>
-                            Unlimited Members per team
-                        </div>
+                        <div className={styles.header}>Unlimited Members per team</div>
                         <div className={styles.planName}>RECOMMENDED</div>
                         <div className={styles.type}>Premium</div>
                         <div className={styles.desc}>
                             <p className={styles.price}>INR 1000/project</p>
-                            The Nimble platform allows scrum master to add one
-                            more project and include unlimited developers in the
-                            particular project
+                            The Nimble platform allows scrum master to add one more project and include unlimited
+                            developers in the particular project
                         </div>
                     </div>
                 </div>

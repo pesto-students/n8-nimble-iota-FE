@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
-import ticketReducer from "./Tickets/ticketReducer";
-import developerReducer from "./Developers/developerReducer";
+import ticketReducer from "src/redux/Project/Tickets/ticketReducer";
+import developerReducer from "src/redux/Project/Developers/developerReducer";
 
 const projectReducer = combineReducers({
     ticket: ticketReducer,
-    developer : developerReducer
+    developer: developerReducer,
 });
 
 export default projectReducer;

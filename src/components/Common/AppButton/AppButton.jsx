@@ -1,7 +1,7 @@
-import React from "react";
 import { Button } from "antd";
 import PropTypes from "prop-types";
-import styles from "./Button.module.less";
+import React from "react";
+import styles from "src/components/Common/AppButton/Button.module.less";
 
 const AppButton = ({ type, size, loading, onClick, children, ...props }) => {
     return (
@@ -20,14 +20,7 @@ const AppButton = ({ type, size, loading, onClick, children, ...props }) => {
     );
 };
 
-export const FullLengthButton = ({
-    type,
-    size,
-    loading,
-    disabled,
-    onClick,
-    children,
-}) => {
+export const FullLengthButton = ({ type, size, loading, disabled, onClick, children }) => {
     return (
         <React.Fragment>
             <Button

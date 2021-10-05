@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import Landing from "../Common/Landing";
-import NavBar from "../Common/NavBar/NavBar";
-import AppModal from "../Common/AppModal/AppModal";
-import SignIn from "../Auth/SignIn";
-import SignUp from "../Auth/SignUp";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
+import SignIn from "src/components/Auth/SignIn";
+import SignUp from "src/components/Auth/SignUp";
+import AppModal from "src/components/Common/AppModal/AppModal";
+import Landing from "src/components/Common/Landing";
+import NavBar from "src/components/Common/NavBar/NavBar";
 
 function LandingPage() {
     const [loginModal, setLoginModal] = useState(false);

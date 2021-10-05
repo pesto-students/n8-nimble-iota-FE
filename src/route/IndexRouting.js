@@ -1,13 +1,13 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import React, { useEffect } from "react";
-import ProtectedRoute from "./protected.route";
-import PrivateRoutes from "./PrivateRoutes";
-import { loginUserSuccess } from "../redux";
 import { useDispatch, useSelector } from "react-redux";
-import AccountActivate from "../components/Auth/AccountActivate";
-import LandingPage from "../components/Page/LandingPage";
-import PlayArea from "../components/PlayArea/PlayArea";
-import Loader from "../components/Common/Loader/Loader";
+import { loginUserSuccess } from "src/redux";
+import Loader from "src/components/Common/Loader/Loader";
+import LandingPage from "src/components/Page/LandingPage";
+import PlayArea from "src/components/PlayArea/PlayArea";
+import AccountActivate from "src/components/Auth/AccountActivate";
+import PrivateRoutes from "src/route/PrivateRoutes";
+import ProtectedRoute from "src/route/protected.route";
 
 function IndexRouting() {
     let dispatch = useDispatch();
@@ -25,11 +25,7 @@ function IndexRouting() {
                 <Switch>
                     <Route exact path="/" component={LandingPage} />
                     <Route exact path="/playarea" component={PlayArea} />
-                    <Route
-                        exact
-                        path="/auth/activate/:token"
-                        component={AccountActivate}
-                    />
+                    <Route exact path="/auth/activate/:token" component={AccountActivate} />
                     {PrivateRoutes.map((route, index) => (
                         <ProtectedRoute
                             key={index}

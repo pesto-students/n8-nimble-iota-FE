@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styles from "./AppInput.module.less";
+import styles from "src/components/Common/AppInput/AppInput.module.less";
 import { Input } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons/lib/icons";
 
@@ -12,18 +12,11 @@ const AppInput = ({ placeholder, isPassword, ...props }) => {
                     size="large"
                     placeholder={placeholder}
                     className={styles.input}
-                    iconRender={(visible) =>
-                        visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-                    }
+                    iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                     {...props}
                 />
             ) : (
-                <Input
-                    size="large"
-                    placeholder={placeholder}
-                    className={styles.input}
-                    {...props}
-                />
+                <Input size="large" placeholder={placeholder} className={styles.input} {...props} />
             )}
         </React.Fragment>
     );

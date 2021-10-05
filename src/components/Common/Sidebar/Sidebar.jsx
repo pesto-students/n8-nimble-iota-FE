@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import UserData from "./UserData/UserData";
-import styles from "./Sidebar.module.less";
+import styles from "src/components/Common/Sidebar/Sidebar.module.less";
+import UserData from "src/components/Common/Sidebar/UserData/UserData";
 
 const Sidebar = (props) => {
     return (

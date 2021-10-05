@@ -1,10 +1,10 @@
 import React from "react";
-import CardCustom from "../../../Common/Card/Card";
-import styles from "./Retrocard.module.less";
+import styles from "src/components/Page/Retrospectives/Retrocard/Retrocard.module.less";
 import { Input } from "antd";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { DeleteFilled } from "@ant-design/icons";
+import CardCustom from "src/components/Common/Card/Card";
 
 function Retrocard({ type }) {
     const { TextArea } = Input;

@@ -22,7 +22,7 @@ import {
     CHANGE_IMAGE_FAILURE,
     CHANGE_IMAGE_REQUEST,
     CHANGE_IMAGE_SUCCESS,
-} from "./userActionTypes";
+} from "src/redux/user/userActionTypes";
 import { produce } from "immer";
 
 const initialState = {

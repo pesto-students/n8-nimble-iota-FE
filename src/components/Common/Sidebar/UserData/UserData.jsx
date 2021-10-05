@@ -1,10 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styles from "./UserData.module.less";
+import styles from "src/components/Common/Sidebar/UserData/UserData.module.less";
 import { useSelector } from "react-redux";
 import { Avatar } from "antd";
-import { extractInitials } from "../../../../util/helperFunctions";
-import AppButton from "../../AppButton/AppButton";
 import { EditFilled, SafetyOutlined, EnvironmentFilled, PhoneFilled, MailFilled } from "@ant-design/icons/lib/icons";
 
 const UserData = (props) => {

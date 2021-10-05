@@ -1,18 +1,18 @@
 import { CheckCircleFilled, PhoneFilled, PlusCircleFilled } from "@ant-design/icons";
 import React from "react";
-import AppButton from "../../Common/AppButton/AppButton";
-import Retrocard from "./Retrocard/Retrocard";
-import styles from "./Retrospectives.module.less";
+import AppButton from "src/components/Common/AppButton/AppButton";
+import Retrocard from "src/components/Page/Retrospectives/Retrocard/Retrocard";
+import styles from "src/components/Page/Retrospectives/Retrospectives.module.less";
 function Retrospectives() {
     return (
         <>
             <div className={styles.container}>
                 <div className={styles.actions}>
                     <AppButton loading={false} size={"medium"} style={{ marginRight: "8px" }}>
-                        <PhoneFilled/> Join Call
+                        <PhoneFilled /> Join Call
                     </AppButton>
                     <AppButton loading={false} size={"medium"}>
-                        <CheckCircleFilled/> Mark as Complete
+                        <CheckCircleFilled /> Mark as Complete
                     </AppButton>
                 </div>
                 <div className={styles.retroHeadingContainer}>

@@ -1,2 +1,2 @@
-export * from "./Tickets/ticketActions";
-export * from "./Developers/developersActions";
+export * from "src/redux/Project/Tickets/ticketActions";
+export * from "src/redux/Project/Developers/developersActions";

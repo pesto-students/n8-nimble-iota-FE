@@ -15,8 +15,7 @@ import {
     FETCH_UPDATED_TICKET_LIST_REQUEST,
     FETCH_UPDATED_TICKET_LIST_SUCCESS,
     FETCH_UPDATED_TICKET_LIST_FAILURE,
-} from "./ticketActionTypes";
-
+} from "src/redux/Project/Tickets/ticketActionTypes";
 
 export const addTicketRequest = () => {
     return {
@@ -58,9 +57,6 @@ export const updateTicketFailure = (obj) => {
     };
 };
 
-
-
-
 export const fetchAllTicketsRequest = () => {
     return {
         type: FETCH_UPDATED_TICKET_LIST_REQUEST,
@@ -101,11 +97,11 @@ export const deleteTicketRequestFailure = (obj) => {
     };
 };
 
-export const addTicket = (projectId,ticketDetails) => {
+export const addTicket = (projectId, ticketDetails) => {
     return (dispatch) => {
         dispatch(addTicketRequest());
         axios
-            .post("/addTicket", {projectId,ticketDetails})
+            .post("/addTicket", { projectId, ticketDetails })
             .then((response) => {
                 const ticketData = response.data;
                 dispatch(addTicketSucess(ticketData));
@@ -121,16 +117,15 @@ export const addTicket = (projectId,ticketDetails) => {
     };
 };
 
-export const updateTicket = (projectId,ticketDetails) => {
+export const updateTicket = (projectId, ticketDetails) => {
     return (dispatch) => {
         dispatch(updateTicketRequest());
         axios
-            .post("/updateTicket", {projectId,ticketDetails})
+            .post("/updateTicket", { projectId, ticketDetails })
             .then((response) => {
                 const ticketData = response.data;
                 dispatch(updateTicketSucess(ticketData));
                 dispatch(fetchAllTickets(projectId));
-
             })
             .catch((error) => {
                 if (error.response) {
@@ -172,7 +167,6 @@ export const deleteTicket = (projectId, ticketId) => {
                 dispatch(deleteTicketRequestSuccess(resMessage));
                 dispatch(fetchAllTickets(projectId));
                 // dispatch(showNotificationRequest("success", "Test"));
-
             })
             .catch((error) => {
                 if (error.response) {

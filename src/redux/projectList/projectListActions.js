@@ -3,12 +3,9 @@ import {
     LOAD_PROJECT_LIST,
     SET_PROJECT_LIST,
     SET_PROJECT_LIST_ERROR,
-} from "./projectListActionTypes";
+} from "src/redux/projectList/projectListActionTypes";
 
 export const loadProjects = () => (dispatch) => {
-    // const user = JSON.parse(localStorage.getItem("user"));
-    // if(!user) throw "Unauthorized";
-    // const token = user.token;
     axios
         .get("/projects")
         .then((res) => {

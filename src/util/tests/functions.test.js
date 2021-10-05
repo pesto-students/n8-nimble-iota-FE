@@ -1,4 +1,4 @@
-import { extractInitials } from "../helperFunctions";
+const { extractInitials } = require("src/util/helperFunctions");
 
 describe("Utils functions tests", () => {
     it("should return initials", () => {

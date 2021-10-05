@@ -1,3 +1,3 @@
-export * from "./user/userActions";
-export * from "./Project";
-export * from "./common/commonActions";
+export * from "src/redux/user/userActions";
+export * from "src/redux/Project";
+export * from "src/redux/common/commonActions";

@@ -1,5 +1,5 @@
 import produce from "immer";
-import { LOAD_PROJECT_LIST, SET_PROJECT_LIST } from "./projectListActionTypes";
+import { LOAD_PROJECT_LIST, SET_PROJECT_LIST } from "src/redux/projectList/projectListActionTypes";
 
 const initialState = {
     loading: false,

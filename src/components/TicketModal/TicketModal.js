@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 import TextArea from "rc-textarea";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import ticketConstants from "../../config/Ticket";
-import { addTicket, updateTicket } from "../../redux/Project/Tickets/ticketActions";
-import { generateTicketNumber } from "../../util/helperFunctions";
-import AppButton from "../Common/AppButton/AppButton";
-import AppInput from "../Common/AppInput/AppInput";
-import AppModal from "../Common/AppModal/AppModal";
-import AppSelect from "../Common/AppSelect/AppSelect";
-import TicketListItem from "./TicketListItem";
+import AppButton from "src/components/Common/AppButton/AppButton";
+import AppInput from "src/components/Common/AppInput/AppInput";
+import AppModal from "src/components/Common/AppModal/AppModal";
+import AppSelect from "src/components/Common/AppSelect/AppSelect";
+import TicketListItem from "src/components/TicketModal/TicketListItem";
+import ticketConstants from "src/config/Ticket";
+import { addTicket, updateTicket } from "src/redux";
+import { generateTicketNumber } from "src/util/helperFunctions";
 
 function TicketModal(props) {
     const { projectId, ticketData, ticketOperation, developerList } = props;

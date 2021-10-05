@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Form } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import { LoginUser, ForgotPassword } from "../../redux";
-import logo from "../../assets/roundlogo.svg";
-import { FullLengthButton } from "../Common/AppButton/AppButton";
-import AppInput from "../Common/AppInput/AppInput";
+import logo from "src/assets/roundlogo.svg";
 import { Typography } from "antd";
-import { validateEmail } from "../../util/validation";
-import styles from "./Auth.module.less";
-import openAuthNotification from "../Common/AuthNotification/AuthNotification";
+import styles from "src/components/Auth/Auth.module.less";
+import { validateEmail } from "src/util/validation";
+import openAuthNotification from "src/components/Common/AuthNotification/AuthNotification";
+import { ForgotPassword, LoginUser } from "src/redux";
+import AppInput from "src/components/Common/AppInput/AppInput";
+import { FullLengthButton } from "src/components/Common/AppButton/AppButton";
 
 function SignIn() {
     const { Text } = Typography;
@@ -17,15 +17,13 @@ function SignIn() {
     const { loading } = useSelector((state) => state.user);
     const dispatch = useDispatch();
     const login = () => {
-        if (!validateEmail(email))
-            return openAuthNotification("Validation Failed", "invalid email");
+        if (!validateEmail(email)) return openAuthNotification("Validation Failed", "invalid email");
         dispatch(LoginUser(email, password));
     };
     const onChangeEmail = (e) => setEmail(e.target.value);
     const onChangePassword = (e) => setPassword(e.target.value);
     const resendPassword = () => {
-        if (!validateEmail(email))
-            return openAuthNotification("Validation Failed", "invalid email");
+        if (!validateEmail(email)) return openAuthNotification("Validation Failed", "invalid email");
         dispatch(ForgotPassword(email));
     };
     return (
@@ -70,11 +68,7 @@ function SignIn() {
                             },
                         ]}
                     >
-                        <AppInput
-                            isPassword={true}
-                            value={password}
-                            onChange={onChangePassword}
-                        />
+                        <AppInput isPassword={true} value={password} onChange={onChangePassword} />
                     </Form.Item>
                     <Form.Item>
                         <FullLengthButton
@@ -90,10 +84,7 @@ function SignIn() {
                     <Form.Item>
                         <Text type="secondary">
                             forgot password?
-                            <Text
-                                className={styles.link}
-                                onClick={resendPassword}
-                            >
+                            <Text className={styles.link} onClick={resendPassword}>
                                 {" " + "Resend password"}
                             </Text>
                         </Text>

@@ -1,18 +1,15 @@
-import React from 'react';
-import { Input } from 'antd';
+import React from "react";
+import { Input } from "antd";
 import PropTypes from "prop-types";
 
-
-function Searchbox({placeholder,loading,...props}) {
+function Searchbox({ placeholder, loading, ...props }) {
     const { Search } = Input;
-    return (
-        <Search placeholder={placeholder} loading={loading} {...props}  />
-    )
+    return <Search placeholder={placeholder} loading={loading} {...props} />;
 }
 
 Searchbox.propTypes = {
-    placeholder : PropTypes.string,
-    loading : PropTypes.bool
-}
+    placeholder: PropTypes.string,
+    loading: PropTypes.bool,
+};
 
-export default Searchbox
+export default Searchbox;

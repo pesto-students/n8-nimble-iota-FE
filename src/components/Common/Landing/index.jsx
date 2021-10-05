@@ -1,20 +1,11 @@
-import React, { useEffect, useLayoutEffect } from "react";
-import PropTypes from "prop-types";
-import { Element, scroller } from "react-scroll";
-import LandingMain from "./Main/LandingMain";
-import Features from "./Features/Features";
-import Pricing from "./Pricing/Pricing";
-import { scrollTo } from "react-scroll/modules/mixins/scroller";
-import styles from "./index.module.less";
+import React from "react";
+import { Element } from "react-scroll";
+import styles from "src/components/Common/Landing/index.module.less";
+import LandingMain from "src/components/Common/Landing/Main/LandingMain";
+import Features from "src/components/Common/Landing/Features/Features";
+import Pricing from "src/components/Common/Landing/Pricing/Pricing";
 
 const Landing = () => {
-    // useEffect(() => {
-    //     const pageName =
-    //         page === 1 ? "main" : page === 2 ? "features" : "pricing";
-    //     console.log(pageName);
-    //     scroller.scrollTo(pageName, {});
-    // }, []);
-
     return (
         <div className={styles.container}>
             <Element name="main">

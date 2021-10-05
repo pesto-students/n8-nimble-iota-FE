@@ -1,12 +1,12 @@
 import React from "react";
 import { Avatar, Card } from "antd";
-import AppButton from "../../Common/AppButton/AppButton";
 import { Row, Col, Divider } from "antd";
-import AppInput from "../../Common/AppInput/AppInput";
 import { Input } from "antd";
-import CardCustom from "../../Common/Card/Card";
-import styles from "./Userprofile.module.less";
-import TicketListItem from "../../TicketModal/TicketListItem";
+import styles from "src/components/Page/UserProfile/Userprofile.module.less";
+import CardCustom from "src/components/Common/Card/Card";
+import TicketListItem from "src/components/TicketModal/TicketListItem";
+import AppButton from "src/components/Common/AppButton/AppButton";
+import AppInput from "src/components/Common/AppInput/AppInput";
 
 function UserProfile() {
     const { Meta } = Card;
@@ -88,7 +88,7 @@ function UserProfile() {
                                         placeholder="This is your description"
                                         isPassword={false}
                                         size="large"
-                                        style={{ width: "70%"}}
+                                        style={{ width: "70%" }}
                                     />
                                 }
                             />

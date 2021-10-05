@@ -1,4 +1,9 @@
-import { SET_LOADER_FALSE, SET_LOADER_TRUE, SHOW_NOTIFICATION, REMOVE_NOTIFICATION } from "./commonActionTypes";
+import {
+    SET_LOADER_FALSE,
+    SET_LOADER_TRUE,
+    SHOW_NOTIFICATION,
+    REMOVE_NOTIFICATION,
+} from "src/redux/common/commonActionTypes";
 
 export const setLoaderTrue = () => {
     return (dispatch) => {

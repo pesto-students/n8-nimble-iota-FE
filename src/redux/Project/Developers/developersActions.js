@@ -2,11 +2,8 @@ import axios from "../../../service/Axios";
 import {
     FETCH_DEVELOPERS_PROJECT_REQUEST,
     FETCH_DEVELOPERS_PROJECT_SUCCESS,
-    FETCH_DEVELOPERS_PROJECT_FAILURE
-} from "./developerActionTypes";
-
-
-
+    FETCH_DEVELOPERS_PROJECT_FAILURE,
+} from "src/redux/Project/Developers/developerActionTypes";
 
 export const fetchDeveloperProjectRequest = (obj) => {
     return {
@@ -15,14 +12,12 @@ export const fetchDeveloperProjectRequest = (obj) => {
     };
 };
 
-
 export const fetchDeveloperProjectSuccess = (obj) => {
     return {
         type: FETCH_DEVELOPERS_PROJECT_SUCCESS,
         payload: obj,
     };
 };
-
 
 export const fetchDeveloperProjectFailure = (obj) => {
     return {
@@ -31,12 +26,11 @@ export const fetchDeveloperProjectFailure = (obj) => {
     };
 };
 
-
 export const fetchAllDevlopersProject = (projectId) => {
     return (dispatch) => {
         dispatch(fetchDeveloperProjectRequest());
         axios
-            .post("/alldevelopersOfAProject", {projectId})
+            .post("/alldevelopersOfAProject", { projectId })
             .then((response) => {
                 dispatch(fetchDeveloperProjectSuccess(response.data.data));
             })
@@ -49,4 +43,3 @@ export const fetchAllDevlopersProject = (projectId) => {
             });
     };
 };
-

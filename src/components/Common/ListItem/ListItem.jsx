@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-import styles from "./TicketModal.module.less";
+import styles from "src/components/Common/ListItem/ListItem.module.less";
 import PropTypes from "prop-types";
 
 const ListItem = ({ label, fullWidth, Component }) => {

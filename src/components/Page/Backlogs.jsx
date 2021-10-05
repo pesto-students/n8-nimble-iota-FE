@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Table, Button, Tag, Modal, Divider, Affix } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllTickets, deleteTicket } from "../../redux/Project/Tickets/ticketActions";
-import TicketModal from "../TicketModal/TicketModal";
-import AppButton from "../Common/AppButton/AppButton";
 import { ArrowRightOutlined, DeleteFilled, PlusCircleFilled } from "@ant-design/icons/lib/icons";
-import { fetchAllDevlopersProject } from "../../redux/Project/Developers/developersActions";
-
-import AppSelect from "../Common/AppSelect/AppSelect";
+import { deleteTicket, fetchAllDevlopersProject, fetchAllTickets } from "src/redux";
+import AppButton from "src/components/Common/AppButton/AppButton";
+import TicketModal from "src/components/TicketModal/TicketModal";
 
 const row = {
     backgroundColor: "red",
@@ -38,16 +35,15 @@ function Backlogs() {
         {
             title: "Assignee",
             dataIndex: "assignee",
-            render: (assigneeId)=>(
+            render: (assigneeId) => (
                 <div>
                     {developerList.length > 0
-                    ? developerList.find((developer) => {
-                          return developer["_id"] == assigneeId;
-                      })?.name??""
-                    :""}
+                        ? developerList.find((developer) => {
+                              return developer["_id"] == assigneeId;
+                          })?.name ?? ""
+                        : ""}
                 </div>
-            )
-           
+            ),
         },
         {
             title: "Priority",

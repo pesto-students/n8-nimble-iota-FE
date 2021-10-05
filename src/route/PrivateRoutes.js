@@ -1,9 +1,9 @@
-import Subscription from "../components/Page/Subscription";
-import Home from "../components/Page/Home/Home";
-import roles from "../config/roles";
-import Backlogs from "../components/Page/Backlogs";
-import UserProfile from "../components/Page/UserProfile/UserProfile";
-import Retrospectives from "../components/Page/Retrospectives/Retrospectives";
+import Backlogs from "src/components/Page/Backlogs";
+import Home from "src/components/Page/Home";
+import Retrospectives from "src/components/Page/Retrospectives/Retrospectives";
+import Subscription from "src/components/Page/Subscription";
+import UserProfile from "src/components/Page/UserProfile/UserProfile";
+import roles from "src/config/roles";
 
 const PrivateRoutes = [
     {

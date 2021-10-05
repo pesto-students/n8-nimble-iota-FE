@@ -1,19 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Modal } from "antd";
-import "./AppModal.less";
+import "src/components/Common/AppModal/AppModal.less";
 
 const AppModal = ({ visible, handleCancel, children, ...props }) => {
     return (
         <>
-            <Modal
-                visible={visible}
-                className="modal"
-                centered={true}
-                footer={null}
-                onCancel={handleCancel}
-                {...props}
-            >
+            <Modal visible={visible} className="modal" centered={true} footer={null} onCancel={handleCancel} {...props}>
                 {children}
             </Modal>
         </>

@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
-import App from "./components/App/App";
+import App from "src/components/App/App";
 
 Sentry.init({
     // eslint-disable-next-line no-undef
