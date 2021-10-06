@@ -10,6 +10,9 @@ import Sidebar from "src/components/Common/Sidebar/Sidebar";
 import AppModal from "src/components/Common/AppModal/AppModal";
 import ResetPswd from "src/components/Auth/ResetPassword";
 import Retrospectives from "src/components/Page/Retrospectives/Retrospectives";
+import Projects from "src/components/Page/Projects/Projects";
+import Scrumboard from "src/components/Page/Scrumboard/Scrumboard";
+import UserProfile from "src/components/Page/UserProfile/UserProfile";
 
 function Home() {
     const { Text } = Typography;
@@ -37,7 +40,7 @@ function Home() {
             <section className={styles.body}>
                 <Sidebar />
                 <main className={styles.mainContent}>
-                    <AppModal visible={resetModal} handleCancel={closeReset}>
+                    {/* <AppModal visible={resetModal} handleCancel={closeReset}>
                         <ResetPswd />
                     </AppModal>
                     <Text className={styles.link} onClick={openReset}>
@@ -50,7 +53,11 @@ function Home() {
                     <img src={img} alt="loading..." id="profile-image" />
                     <br></br>
                     <NavLink to="/backlogs">backlogs</NavLink> <NavLink to="/user">user</NavLink>{" "}
-                    <NavLink to="/subscription">subscription</NavLink> <Retrospectives />
+                    <NavLink to="/subscription">subscription</NavLink>  */}
+                    {/* <Retrospectives />
+                    <Projects /> */}
+                    {/* <Scrumboard/> */}
+                    <UserProfile/>
                 </main>
             </section>
         </div>
