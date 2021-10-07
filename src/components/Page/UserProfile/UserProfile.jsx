@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Avatar, Card } from "antd";
 import { Row, Col, Divider } from "antd";
 import { Input } from "antd";
@@ -7,15 +8,25 @@ import CardCustom from "src/components/Common/Card/Card";
 import TicketListItem from "src/components/TicketModal/TicketListItem";
 import AppButton from "src/components/Common/AppButton/AppButton";
 import AppInput from "src/components/Common/AppInput/AppInput";
+import { CheckCircleTwoTone, TrophyTwoTone } from "@ant-design/icons";
+import CustomTag from "src/components/Common/CustomTag/CustomTag";
+import { colors } from "src/config/constants";
 
 function UserProfile() {
-    const { Meta } = Card;
     const { TextArea } = Input;
+    const { user } = useSelector((state) => state.user);
+
+    const name = user ? user.name : "";
+    const role = user ? user.role.name : "";
+    const email = user ? user.email : "";
+    const selfintro = user ? user.selfintro : "";
+    const location = user ? user.location : ""
+    const phone = user ? user.phone : ""
 
     return (
         <CardCustom style={{ width: "100%" }} loading={false}>
             <Row>
-                <Col xs={{ span: 24 }} lg={{ span: 5, offset: 1 }} style={{ padding: "15px" }}>
+                <Col xs={{ span: 24 }} lg={{ span: 7, offset: 1 }} style={{ padding: "15px" }}>
                     <CardCustom className={styles.cardContainer} loading={false}>
                         <div className={styles.profilePicContainer}>
                             <Avatar
@@ -23,28 +34,30 @@ function UserProfile() {
                                 src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
                             />
                         </div>
-                        <div className={styles.meta}>Suresh Menon</div>
-                        <div className={styles.role}>Scrum Master</div>
+                        <div className={styles.meta}>{name}</div>
+                        <div className={styles.role}>{role}</div>
                         <div className={styles.action}>
                             <AppButton style={{ width: "100%" }}>Upload Profile Picture</AppButton>
                         </div>
                     </CardCustom>
                 </Col>
-                <Col xs={{ span: 24 }} lg={{ span: 10, offset: 2 }} style={{ padding: "15px" }}>
+                <Col xs={{ span: 24 }} lg={{ span: 13, offset: 2 }} style={{ padding: "15px" }}>
                     <CardCustom className={styles.cardContainer} loading={false}>
                         <div style={{ display: "flex", flexDirection: "column" }}>
                             <TicketListItem
-                                label="Title"
+                                label="Email"
                                 Component={
                                     <AppInput
-                                        placeholder="Name"
+                                        placeholder="Email"
                                         isPassword={false}
                                         size="large"
                                         style={{ width: "70%" }}
+                                        value={email}
+                                        disabled={true}
                                     />
                                 }
                             />
-                            <Divider />
+                            <Divider className={styles.dividerStyle} />
                             <TicketListItem
                                 label="Phone"
                                 Component={
@@ -53,81 +66,66 @@ function UserProfile() {
                                         isPassword={false}
                                         size="large"
                                         style={{ width: "70%" }}
+                                        value={phone}
                                     />
                                 }
                             />
-                            <Divider />
+                            <Divider className={styles.dividerStyle} />
                             <TicketListItem
                                 label="Address"
                                 Component={
                                     <AppInput
-                                        placeholder="Address"
+                                        placeholder="Location"
                                         isPassword={false}
                                         size="large"
                                         style={{ width: "70%" }}
+                                        value={location}
                                     />
                                 }
                             />
-                            <Divider />
+                            <Divider className={styles.dividerStyle} />
                             <TicketListItem
-                                label="Phone"
-                                Component={
-                                    <AppInput
-                                        placeholder="Phone"
-                                        isPassword={false}
-                                        size="large"
-                                        style={{ width: "70%" }}
-                                    />
-                                }
-                            />
-                            <Divider />
-                            <TicketListItem
-                                label="Phone"
+                                label="Description"
                                 Component={
                                     <TextArea
                                         placeholder="This is your description"
                                         isPassword={false}
                                         size="large"
                                         style={{ width: "70%" }}
+                                        value={selfintro}
                                     />
                                 }
                             />
                         </div>
                     </CardCustom>
                 </Col>
-                <Col xs={{ span: 24 }} lg={{ span: 5, offset: 1 }} style={{ padding: "15px" }}>
+                <Col xs={{ span: 24 }} lg={{ span: 7, offset: 1 }} style={{ padding: "15px" }}>
                     <CardCustom className={styles.cardContainer} loading={false}>
                         <div className={styles.profilePicContainer}>
-                            <Avatar
-                                className={styles.avatar}
-                                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                            />
+                            <TrophyTwoTone style={{ fontSize: "150px" }} />
                         </div>
-                        <div className={styles.meta}>Suresh Menon</div>
-                        <div className={styles.role}>Scrum Master</div>
+                        <div className={styles.meta}>Subscription</div>
+                        <div className={styles.role}>Premium</div>
                         <div className={styles.action}>
-                            <AppButton style={{ width: "100%" }}>Upload Profile Picture</AppButton>
+                            <AppButton disabled={true} style={{ width: "100%" }}>
+                                Update Subscption
+                            </AppButton>
                         </div>
                     </CardCustom>
                 </Col>
-                <Col xs={{ span: 24 }} lg={{ span: 13, offset: 1 }} style={{ marginTop: "15px" }}>
+                <Col xs={{ span: 24 }} lg={{ span: 13, offset: 2 }} style={{ padding: "15px" }}>
                     <CardCustom className={styles.cardContainer} loading={false}>
-                        <div className={styles.profilePicContainer}>
-                            <Avatar
-                                style={{
-                                    width: 154,
-                                    height: 154,
-                                    border: "1px solid #eae7e7",
-                                }}
-                                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                        <div style={{ display: "flex", flexDirection: "column" }}>
+                            <TicketListItem label="View My Projects" Component={<></>} />
+                            <Divider className={styles.dividerStyle} />
+                            <TicketListItem
+                                label="Default Project"
+                                Component={
+                                    <>
+                                        <CustomTag color={colors.tagBlue} text={"Click to Open"}/>
+                                    </>
+                                }
                             />
-                        </div>
-                        <div className={styles.meta}>
-                            <b>Suresh Menon</b>
-                        </div>
-                        <div className={styles.role}>Scrum Master</div>
-                        <div className={styles.action}>
-                            <AppButton size="large">Upload Profile Pic</AppButton>
                         </div>
                     </CardCustom>
                 </Col>
