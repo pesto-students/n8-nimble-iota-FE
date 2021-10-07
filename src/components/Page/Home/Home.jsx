@@ -11,12 +11,14 @@ import Sidebar from "src/components/Common/Sidebar/Sidebar";
 import AppModal from "src/components/Common/AppModal/AppModal";
 import ResetPswd from "src/components/Auth/ResetPassword";
 import Retrospectives from "src/components/Page/Retrospectives/Retrospectives";
+
 import { Switch } from "react-router-dom";
 import { Route } from "react-router-dom";
 import Projects from "src/components/Page/Projects/Projects";
 import Project from "src/components/Page/Project/Project";
 import { Redirect } from "react-router-dom";
 import { useRouteMatch } from "react-router-dom";
+
 
 function Home() {
     const { Text } = Typography;
@@ -59,6 +61,7 @@ function Home() {
                     <img src={img} alt="loading..." id="profile-image" />
                     <br></br>
                     <NavLink to="/backlogs">backlogs</NavLink> <NavLink to="/user">user</NavLink>{" "}
+
                     <NavLink to="/subscription">subscription</NavLink> <Retrospectives /> */}
                     <Switch>
                         <Route exact path={path}>
