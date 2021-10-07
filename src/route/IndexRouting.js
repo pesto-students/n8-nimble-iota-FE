@@ -1,16 +1,16 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import React, { useEffect } from "react";
+import React, { useEffect, lazy } from "react";
+import ProtectedRoute from "./protected.route";
+import PrivateRoutes from "./PrivateRoutes";
+import { loginUserSuccess } from "../redux";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUserSuccess } from "src/redux";
-import Loader from "src/components/Common/Loader/Loader";
-import LandingPage from "src/components/Page/LandingPage";
-import PlayArea from "src/components/PlayArea/PlayArea";
-import AccountActivate from "src/components/Auth/AccountActivate";
-import PrivateRoutes from "src/route/PrivateRoutes";
-import ProtectedRoute from "src/route/protected.route";
+const AccountActivate = lazy(() => import("../components/Auth/AccountActivate"));
+const LandingPage = lazy(() => import("../components/Page/LandingPage"));
+const PlayArea = lazy(() => import("../components/PlayArea/PlayArea"));
+const Loader = lazy(() => import("../components/Common/Loader/Loader"));
 
 function IndexRouting() {
-    let dispatch = useDispatch();
+    const dispatch = useDispatch();
     const loading = useSelector((state) => state.common.loading);
     useEffect(() => {
         const loggedInUser = localStorage.getItem("user");
@@ -18,7 +18,7 @@ function IndexRouting() {
             const foundUser = JSON.parse(loggedInUser);
             dispatch(loginUserSuccess(foundUser));
         }
-    }, [dispatch]);
+    }, []);
     return (
         <Loader load={loading}>
             <BrowserRouter>

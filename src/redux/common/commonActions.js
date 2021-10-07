@@ -5,12 +5,6 @@ import {
     REMOVE_NOTIFICATION,
 } from "src/redux/common/commonActionTypes";
 
-export const setLoaderTrue = () => {
-    return (dispatch) => {
-        dispatch(setLoadingTrue());
-    };
-};
-
 export const setLoadingTrue = () => {
     return {
         type: SET_LOADER_TRUE,

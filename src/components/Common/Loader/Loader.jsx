@@ -3,8 +3,11 @@ import { Spin } from "antd";
 import PropTypes from "prop-types";
 
 function Loader({ load, children }) {
-    if (load) return <Spin tip="Loading...">{children}</Spin>;
-    return <>{children}</>;
+    return (
+        <Spin spinning={load} tip="Loading...">
+            {children}
+        </Spin>
+    );
 }
 
 Loader.propTypes = {

@@ -1,6 +1,6 @@
 import React from "react";
-import styles from "src/components/Common/NavBar/NavBar.module.less";
-import logo from "src/assets/Logo.svg";
+import styles from "./NavBar.module.less";
+import assetMap from "../../../assets";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import { MenuOutlined } from "@ant-design/icons/lib/icons";
 import { useSelector } from "react-redux";
@@ -22,7 +22,7 @@ const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
             )}
             <div className={styles.brand}>
                 <div className={styles.logo}>
-                    <img src={logo} alt="Nimble" />
+                    <img src={assetMap("Logo")} alt="Nimble" />
                 </div>
                 <div className={styles.brandName}>
                     <h1 className={styles.title}>Nimble</h1>
