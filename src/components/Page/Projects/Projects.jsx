@@ -5,6 +5,7 @@ import { loadProjects } from "src/redux/projectList/projectListActions";
 import ProjectItem from "src/components/Common/ProjectItem/ProjectItem";
 import Searchbox from "src/components/Common/Searchbox/Searchbox";
 import AppButton from "src/components/Common/AppButton/AppButton";
+import { useRouting } from "src/util/hooks";
 
 const Projects = (props) => {
     const dispatch = useDispatch();
@@ -59,10 +60,19 @@ const Projects = (props) => {
         dispatch(loadProjects());
     }, []);
 
+    // const history = useHistory();
+    // const { path, url } = useRouteMatch();
+    const router = useRouting();
+
     const prepareJsx = () => {
         return projects.map((project, index) => (
             <div key={index}>
-                <ProjectItem onClick={() => {}} project={project} />
+                <ProjectItem
+                    onClick={() => {
+                        router.navigate(project._id);
+                    }}
+                    project={project}
+                />
             </div>
         ));
     };

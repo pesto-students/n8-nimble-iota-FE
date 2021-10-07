@@ -8,6 +8,7 @@ import PlayArea from "src/components/PlayArea/PlayArea";
 import AccountActivate from "src/components/Auth/AccountActivate";
 import PrivateRoutes from "src/route/PrivateRoutes";
 import ProtectedRoute from "src/route/protected.route";
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
 function IndexRouting() {
     let dispatch = useDispatch();
@@ -26,6 +27,7 @@ function IndexRouting() {
                     <Route exact path="/" component={LandingPage} />
                     <Route exact path="/playarea" component={PlayArea} />
                     <Route exact path="/auth/activate/:token" component={AccountActivate} />
+                    <Route exact path="/home" render={() => <Redirect to="/projects" />} />
                     {PrivateRoutes.map((route, index) => (
                         <ProtectedRoute
                             key={index}

@@ -14,9 +14,9 @@ const PrivateRoutes = [
         requiredRoles: roles.scrummasters,
     },
     {
-        path: "/home",
+        path: "/projects",
         component: Home,
-        exact: true,
+        exact: false,
         requiredRoles: roles.all,
     },
 

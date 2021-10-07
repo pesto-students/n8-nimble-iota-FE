@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "antd";
@@ -10,9 +11,14 @@ import Sidebar from "src/components/Common/Sidebar/Sidebar";
 import AppModal from "src/components/Common/AppModal/AppModal";
 import ResetPswd from "src/components/Auth/ResetPassword";
 import Retrospectives from "src/components/Page/Retrospectives/Retrospectives";
+
+import { Switch } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Projects from "src/components/Page/Projects/Projects";
-import Scrumboard from "src/components/Page/Scrumboard/Scrumboard";
-import UserProfile from "src/components/Page/UserProfile/UserProfile";
+import Project from "src/components/Page/Project/Project";
+import { Redirect } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
+
 
 function Home() {
     const { Text } = Typography;
@@ -34,6 +40,8 @@ function Home() {
 
     const handleLogout = () => dispatch(LogoutUser());
 
+    const { path, url } = useRouteMatch();
+    console.log(path, url, "j");
     return (
         <div>
             <NavBar onLogout={handleLogout} />
@@ -53,11 +61,16 @@ function Home() {
                     <img src={img} alt="loading..." id="profile-image" />
                     <br></br>
                     <NavLink to="/backlogs">backlogs</NavLink> <NavLink to="/user">user</NavLink>{" "}
-                    <NavLink to="/subscription">subscription</NavLink>  */}
-                    {/* <Retrospectives />
-                    <Projects /> */}
-                    {/* <Scrumboard/> */}
-                    <UserProfile/>
+
+                    <NavLink to="/subscription">subscription</NavLink> <Retrospectives /> */}
+                    <Switch>
+                        <Route exact path={path}>
+                            <Projects />
+                        </Route>
+                        <Route path={`${path}/:projectId`}>
+                            <Project />
+                        </Route>
+                    </Switch>
                 </main>
             </section>
         </div>
