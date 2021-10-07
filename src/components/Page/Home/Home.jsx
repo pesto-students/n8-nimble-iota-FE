@@ -19,7 +19,6 @@ import Project from "src/components/Page/Project/Project";
 import { Redirect } from "react-router-dom";
 import { useRouteMatch } from "react-router-dom";
 
-
 function Home() {
     const { Text } = Typography;
     const { email, img } = useSelector((state) => state.user.user);
@@ -48,21 +47,6 @@ function Home() {
             <section className={styles.body}>
                 <Sidebar />
                 <main className={styles.mainContent}>
-                    {/* <AppModal visible={resetModal} handleCancel={closeReset}>
-                        <ResetPswd />
-                    </AppModal>
-                    <Text className={styles.link} onClick={openReset}>
-                        Reset password
-                    </Text>
-                    <input type="file" onChange={handleChange} />
-                    <Button type="primary" onClick={handleUpload}>
-                        Upload Image
-                    </Button>
-                    <img src={img} alt="loading..." id="profile-image" />
-                    <br></br>
-                    <NavLink to="/backlogs">backlogs</NavLink> <NavLink to="/user">user</NavLink>{" "}
-
-                    <NavLink to="/subscription">subscription</NavLink> <Retrospectives /> */}
                     <Switch>
                         <Route exact path={path}>
                             <Projects />
