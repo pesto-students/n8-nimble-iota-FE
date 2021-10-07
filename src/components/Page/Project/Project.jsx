@@ -15,16 +15,9 @@ const Project = () => {
     const { TabPane } = Tabs;
     const initialRoute = "/scrum_board";
     const { navigate, path, url } = useRouting();
-    // const {  } = useRouteMatch();
-    console.log(url, "url");
-    console.log(projectId, "prj");
     return (
         <>
             <Switch>
-                {/* <Route path={path}>
-                    <Redirect to={`${url}${initialRoute}`} />
-                </Route> */}
-                {/* <Route component={Retrospectives} path={"/projects/:projectId/retrospectives"} /> */}
                 <Tabs
                     defaultActiveKey={`${url}${initialRoute}`}
                     onChange={(key) => {
@@ -33,7 +26,7 @@ const Project = () => {
                     }}
                 >
                     {ScrumRoutes.map((route, index) => (
-                        <TabPane key={`${url}${route.path}`} tab={`${url}${route.path}`}>
+                        <TabPane key={`${url}${route.path}`} tab={route.name}>
                             <Route component={route.component} path={`${path}${route.path}`} />
                         </TabPane>
                     ))}
