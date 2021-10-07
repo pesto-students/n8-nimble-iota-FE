@@ -1,37 +1,33 @@
-import React, { useState } from "react";
+import React from "react";
 import { Form } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { LoginUser, ForgotPassword } from "../../redux";
-import logo from "../../assets/roundlogo.svg";
-import { FullLengthButton } from "../Common/AppButton/AppButton";
+import assetMap from "../../assets";
+import AppButton from "../Common/AppButton/AppButton";
 import AppInput from "../Common/AppInput/AppInput";
 import { Typography } from "antd";
 import { validateEmail } from "../../util/validation";
 import styles from "./Auth.module.less";
-import openAuthNotification from "../Common/AuthNotification/AuthNotification";
+import Notification from "../Common/Notification/Notification";
+import { withFormik } from "formik";
+import PropTypes from "prop-types";
 
-function SignIn() {
+function LoginView(props) {
+    const { values, touched, errors, handleChange, handleBlur } = props;
     const { Text } = Typography;
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
     const { loading } = useSelector((state) => state.user);
     const dispatch = useDispatch();
     const login = () => {
-        if (!validateEmail(email))
-            return openAuthNotification("Validation Failed", "invalid email");
-        dispatch(LoginUser(email, password));
+        if (Object.keys(errors).length === 0) dispatch(LoginUser(values.email, values.password));
     };
-    const onChangeEmail = (e) => setEmail(e.target.value);
-    const onChangePassword = (e) => setPassword(e.target.value);
     const resendPassword = () => {
-        if (!validateEmail(email))
-            return openAuthNotification("Validation Failed", "invalid email");
-        dispatch(ForgotPassword(email));
+        if (!validateEmail(values.email)) return Notification("Validation Failed", "invalid email");
+        dispatch(ForgotPassword(values.email));
     };
     return (
         <>
             <div align="middle">
-                <img src={logo} alt="Nimble" />
+                <img src={assetMap("roundlogo")} alt="Nimble" />
                 <h3>Log In to Nimble</h3>
                 <Form
                     name="basic"
@@ -40,61 +36,40 @@ function SignIn() {
                     labelCol={{
                         span: 8,
                     }}
-                    initialValues={{
-                        remember: true,
-                    }}
                     autoComplete="off"
                 >
-                    <Form.Item
-                        label="Email"
-                        name="email"
-                        type="email"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input your Email!",
-                            },
-                        ]}
-                    >
-                        <AppInput value={email} onChange={onChangeEmail} />
+                    <Form.Item label="Email" id="email" type="email">
+                        <AppInput onChange={handleChange} onBlur={handleBlur} value={values.email} name="email" />
+                        {errors.email && touched.email && <div>{errors.email}</div>}
                     </Form.Item>
 
-                    <Form.Item
-                        label="Password"
-                        name="password"
-                        type="password"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input your password!",
-                            },
-                        ]}
-                    >
+                    <Form.Item label="Password" id="password" type="password">
                         <AppInput
+                            name="password"
                             isPassword={true}
-                            value={password}
-                            onChange={onChangePassword}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.password}
                         />
+                        {errors.password && touched.password && <div>{errors.password}</div>}
                     </Form.Item>
                     <Form.Item>
-                        <FullLengthButton
+                        <AppButton
                             type="primary"
                             size="large"
                             disabled={loading}
                             htmlType="submit"
                             onClick={login}
+                            block
                         >
                             Log in
-                        </FullLengthButton>
+                        </AppButton>
                     </Form.Item>
                     <Form.Item>
                         <Text type="secondary">
                             forgot password?
-                            <Text
-                                className={styles.link}
-                                onClick={resendPassword}
-                            >
-                                {" " + "Resend password"}
+                            <Text className={styles.link} onClick={resendPassword}>
+                                &nbsp;Resend password
                             </Text>
                         </Text>
                     </Form.Item>
@@ -103,5 +78,24 @@ function SignIn() {
         </>
     );
 }
+
+const SignIn = withFormik({
+    mapPropsToValues: () => ({ email: "", password: "" }),
+    validate: (values) => {
+        const errors = {};
+        if (!validateEmail(values.email)) errors.email = "invalid email";
+        if (!values.email) errors.email = "Required";
+        if (!values.password) errors.password = "Required";
+        return errors;
+    },
+})(LoginView);
+
+LoginView.propTypes = {
+    values: PropTypes.object,
+    touched: PropTypes.object,
+    errors: PropTypes.object,
+    handleChange: PropTypes.func,
+    handleBlur: PropTypes.func,
+};
 
 export default SignIn;

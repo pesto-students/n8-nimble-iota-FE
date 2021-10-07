@@ -12,18 +12,11 @@ const AppInput = ({ placeholder, isPassword, ...props }) => {
                     size="large"
                     placeholder={placeholder}
                     className={styles.input}
-                    iconRender={(visible) =>
-                        visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-                    }
+                    iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                     {...props}
                 />
             ) : (
-                <Input
-                    size="large"
-                    placeholder={placeholder}
-                    className={styles.input}
-                    {...props}
-                />
+                <Input size="large" placeholder={placeholder} className={styles.input} {...props} />
             )}
         </React.Fragment>
     );

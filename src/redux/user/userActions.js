@@ -121,9 +121,7 @@ export const AccountActivation = (obj) => {
             })
             .catch((error) => {
                 if (error.response) {
-                    dispatch(
-                        accountActivationFailure(error.response.data.message)
-                    );
+                    dispatch(accountActivationFailure(error.response.data.message));
                 } else {
                     dispatch(accountActivationFailure(error.message));
                 }
@@ -141,9 +139,7 @@ export const ForgotPassword = (email) => {
             })
             .catch((error) => {
                 if (error.response) {
-                    dispatch(
-                        forgotPasswordFailure(error.response.data.message)
-                    );
+                    dispatch(forgotPasswordFailure(error.response.data.message));
                 } else {
                     dispatch(forgotPasswordFailure(error.message));
                 }
@@ -168,13 +164,6 @@ export const ResetPassword = (oldpassword, newpassword) => {
             });
     };
 };
-
-
-
-
-
-
-
 
 export const forgotPasswordRequest = () => {
     return {
@@ -326,4 +315,3 @@ export const changeImageFailure = (error) => {
         payload: error,
     };
 };
-

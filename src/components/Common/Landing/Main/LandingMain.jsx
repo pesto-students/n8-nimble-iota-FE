@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./LandingMain.module.less";
-import landingMainImage from "../../../../assets/LandingMain.svg";
+import assetMap from "../../../../assets";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import classNames from "classnames";
 import AppButton from "../../AppButton/AppButton";
@@ -16,29 +16,14 @@ const LandingMain = () => {
         <>
             <section className={styles.main}>
                 <div>
-                    {!smSize && (
-                        <img
-                            className={styles.image}
-                            src={landingMainImage}
-                            alt="Effortless"
-                        />
-                    )}
-                    <h1 className={titleClassName}>
-                        Connect your team with Agile Methodology
-                    </h1>
+                    {!smSize && <img className={styles.image} src={assetMap("LandingMain")} alt="Effortless" />}
+                    <h1 className={titleClassName}>Connect your team with Agile Methodology</h1>
                     <p className={descClassName}>
-                        Nimble is an Agile Sprint management platform which
-                        provides functionality to manage all the three phases of
-                        a sprint- Pre,Active and Post and at the same time it is
-                        very simple to start with it.
+                        Nimble is an Agile Sprint management platform which provides functionality to manage all the
+                        three phases of a sprint- Pre,Active and Post and at the same time it is very simple to start
+                        with it.
                     </p>
-                    {smSize && (
-                        <img
-                            className={styles.smallImage}
-                            src={landingMainImage}
-                            alt="Effortless"
-                        />
-                    )}
+                    {smSize && <img className={styles.smallImage} src={assetMap("LandingMain")} alt="Effortless" />}
                     <div className={startClassName}>
                         <AppButton size="large" onClick={() => {}}>
                             Get Started

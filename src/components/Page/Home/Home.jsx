@@ -51,10 +51,10 @@ function Home() {
                     </Button>
                     <img src={img} alt="loading..." id="profile-image" />
                     <br></br>
-                    <NavLink to="/backlogs">backlogs</NavLink> <NavLink to="/user">user</NavLink>{" "}
-                    <NavLink to="/subscription">subscription</NavLink>{" "}
+                    <NavLink to="/backlogs">backlogs&nbsp;</NavLink> <NavLink to="/user">user&nbsp;</NavLink>
+                    <NavLink to="/subscription">subscription&nbsp;</NavLink>
                     {/* <Projects /> */}
-                    <Retrospectives/>
+                    <Retrospectives />
                     {/* <Scrumboard/> */}
                 </main>
             </section>

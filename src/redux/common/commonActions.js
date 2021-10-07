@@ -1,11 +1,5 @@
 import { SET_LOADER_FALSE, SET_LOADER_TRUE, SHOW_NOTIFICATION, REMOVE_NOTIFICATION } from "./commonActionTypes";
 
-export const setLoaderTrue = () => {
-    return (dispatch) => {
-        dispatch(setLoadingTrue());
-    };
-};
-
 export const setLoadingTrue = () => {
     return {
         type: SET_LOADER_TRUE,

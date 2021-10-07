@@ -1,25 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import { Form } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { ResetPassword } from "../../redux";
-import logo from "../../assets/roundlogo.svg";
-import { FullLengthButton } from "../Common/AppButton/AppButton";
+import assetMap from "../../assets";
+import AppButton from "../Common/AppButton/AppButton";
 import AppInput from "../Common/AppInput/AppInput";
+import { withFormik } from "formik";
+import PropTypes from "prop-types";
 
-function ResetPswd() {
+function ResetView(props) {
+    const { values, touched, errors, handleChange, handleBlur } = props;
     const dispatch = useDispatch();
-    const [oldpassword, setOldPassword] = useState("");
-    const [newpassword, setNewpassword] = useState("");
     const { loading } = useSelector((state) => state.user);
-    const onChangeOldPassword = (e) => setOldPassword(e.target.value);
-    const onChangeNewPassword = (e) => setNewpassword(e.target.value);
     const resetPassword = () => {
-        dispatch(ResetPassword(oldpassword, newpassword));
+        if (Object.keys(errors).length === 0) dispatch(ResetPassword(values.oldpassword, values.newpassword));
     };
     return (
         <>
             <div align="middle">
-                <img src={logo} alt="Nimble" />
+                <img src={assetMap("roundlogo")} alt="Nimble" />
                 <h3>Reset Password</h3>
                 <Form
                     name="basic"
@@ -33,47 +32,32 @@ function ResetPswd() {
                     }}
                     autoComplete="off"
                 >
-                    <Form.Item
-                        label="Old Password"
-                        name="oldpassword"
-                        type="password"
-                        value={oldpassword}
-                        onChange={onChangeOldPassword}
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please enter old password!",
-                            },
-                        ]}
-                    >
-                        <AppInput isPassword={true} />
+                    <Form.Item label="Old Password" id="oldpassword" type="password">
+                        <AppInput
+                            isPassword={true}
+                            name="oldpassword"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.oldpassword}
+                        />
+                        {errors.oldpassword && touched.oldpassword && <div>{errors.oldpassword}</div>}
                     </Form.Item>
 
-                    <Form.Item
-                        label="New Password"
-                        name="NewPassword"
-                        type="password"
-                        value={newpassword}
-                        onChange={onChangeNewPassword}
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please enter new password!",
-                            },
-                        ]}
-                    >
-                        <AppInput isPassword={true} />
+                    <Form.Item label="New Password" name="NewPassword" type="password">
+                        <AppInput
+                            isPassword={true}
+                            name="newpassword"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.newpassword}
+                        />
+                        {errors.newpassword && touched.newpassword && <div>{errors.newpassword}</div>}
                     </Form.Item>
 
                     <Form.Item>
-                        <FullLengthButton
-                            type="primary"
-                            htmlType="submit"
-                            onClick={resetPassword}
-                            disabled={loading}
-                        >
+                        <AppButton type="primary" htmlType="submit" onClick={resetPassword} disabled={loading} block>
                             Reset
-                        </FullLengthButton>
+                        </AppButton>
                     </Form.Item>
                 </Form>
             </div>
@@ -81,4 +65,22 @@ function ResetPswd() {
     );
 }
 
+const ResetPswd = withFormik({
+    mapPropsToValues: () => ({ oldpassword: "", newpassword: "" }),
+    validate: (values) => {
+        const errors = {};
+        if (!values.oldpassword) errors.oldpassword = "Required";
+        if (!values.newpassword) errors.newpassword = "Required";
+        if (values.newpassword === values.oldpassword) errors.newpassword = "Passwords are same";
+        return errors;
+    },
+})(ResetView);
+
+ResetView.propTypes = {
+    values: PropTypes.object,
+    touched: PropTypes.object,
+    errors: PropTypes.object,
+    handleChange: PropTypes.func,
+    handleBlur: PropTypes.func,
+};
 export default ResetPswd;
