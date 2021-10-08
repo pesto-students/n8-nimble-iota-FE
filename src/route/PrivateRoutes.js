@@ -1,4 +1,4 @@
-import Backlogs from "src/components/Page/Backlogs";
+import Backlogs from "src/components/Page/Backlog/Backlogs";
 import Home from "src/components/Page/Home/Home";
 import Retrospectives from "src/components/Page/Retrospectives/Retrospectives";
 import Scrumboard from "src/components/Page/Scrumboard/Scrumboard"

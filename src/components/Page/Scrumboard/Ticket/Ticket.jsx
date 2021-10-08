@@ -11,13 +11,14 @@ import CustomDivider from "src/components/Common/CustomDivider/CustomDivider";
 import TicketListItem from "src/components/TicketModal/TicketListItem";
 import AppSelect from "src/components/Common/AppSelect/AppSelect";
 import ticketConstants from "src/config/Ticket";
+import classNames from "classnames";
 
 function Ticket({ onClick,index,ticketData }) {
 
     const { TextArea } = Input;
 
     const handleClick = ()=>{
-        onClick()
+        onClick(ticketData)
     }
     return (
         <Draggable draggableId={ticketData._id} index={index}  key={ticketData._id}>
@@ -28,7 +29,11 @@ function Ticket({ onClick,index,ticketData }) {
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
                 >
-                    <CardCustom onClick={handleClick} style={{border:`1px solid ${colors.ticketBorderRed}`}} bodyStyle={{ height: "100%", padding: "8px"}}>
+                    <CardCustom disabled={true} onClick={handleClick} style={{border:`2px solid ${classNames({
+                        [colors.ticketBorderRed] : ticketData.status === "TODO",
+                        [colors.ticketBorderOrange] : ticketData.status === "INPROGRESS",
+                        [colors.ticketBorderGreen] : ticketData.status === "COMPLETE",
+                    })}`}} bodyStyle={{ height: "100%", padding: "8px"}}>
                         <div className={styles.ticketHeader}>
                             <div className="ticketTitle" style={{ width: "50%"}}>
                                 <b style={{color: `${colors.tagBlue}` }}>Ticket No:</b> {ticketData.ticketId}
@@ -38,8 +43,8 @@ function Ticket({ onClick,index,ticketData }) {
                                 className="tagContainer"
                                 style={{ width: "50%", display: "flex", justifyContent: "flex-end" }}
                             >
-                                <CustomTag color={colors.tagRed} text={"Backlog"} />
-                                <CustomTag color={colors.tagBlue} text={"User Story"} />
+                                <CustomTag variant="outlined" color={colors.tagRed} text={ticketData.type} />
+                                <CustomTag variant="outlined" color={colors.tagBlue} text={ticketData.status} />
                             </div>
                         </div>
                         {/* <CustomDivider/> */}
@@ -79,6 +84,19 @@ function Ticket({ onClick,index,ticketData }) {
                                             // onChange={handleAssigneeChange}
                                             value={"sprint_1"}
                                             options={ticketConstants.sprints}
+                                        />
+                                    }
+                                />
+                            </div>
+                            <div className={styles.listItem}>
+                                <TicketListItem
+                                    label="Priority"
+                                    Component={
+                                        <AppSelect
+                                            style={{ width: "60%" }}
+                                            // onChange={handleAssigneeChange}
+                                            value={ticketData.priority}
+                                            options={ticketConstants.priority}
                                         />
                                     }
                                 />
