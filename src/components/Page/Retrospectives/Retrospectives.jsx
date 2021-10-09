@@ -3,12 +3,27 @@ import React from "react";
 import AppButton from "src/components/Common/AppButton/AppButton";
 import Retrocard from "src/components/Page/Retrospectives/Retrocard/Retrocard";
 import styles from "src/components/Page/Retrospectives/Retrospectives.module.less";
+import { useRouting } from "src/util/hooks";
+
 function Retrospectives() {
+    const { navigate, path, url } = useRouting();
     return (
         <>
             <div className={styles.container}>
                 <div className={styles.actions}>
-                    <AppButton loading={false} size={"middle"} style={{ marginRight: "8px" }}>
+                    <AppButton
+                        loading={false}
+                        size={"middle"}
+                        style={{ marginRight: "8px" }}
+                        onClick={() => {
+                            const paths = url.split("/");
+                            // const trimmedPath = ;
+                            // console.log(trimmedPath);
+                            const route = `${paths.slice(0, -1).join("/")}/meet`;
+                            // window.open(route, "_blank")?.focus();
+                            navigate(route, true);
+                        }}
+                    >
                         <>
                             <PhoneFilled /> Join Call
                         </>
