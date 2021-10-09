@@ -1,10 +1,11 @@
-import Backlogs from "src/components/Page/Backlogs";
-import Home from "src/components/Page/Home/Home";
-import Retrospectives from "src/components/Page/Retrospectives/Retrospectives";
-import Scrumboard from "src/components/Page/Scrumboard/Scrumboard"
-import Subscription from "src/components/Page/Subscription";
-import UserProfile from "src/components/Page/UserProfile/UserProfile";
-import roles from "src/config/roles";
+import { lazy } from "react";
+import roles from "../config/roles";
+
+const Subscription = lazy(() => import("../components/Page/Subscription"));
+const Home = lazy(() => import("../components/Page/Home/Home"));
+const Backlogs = lazy(() => import("../components/Page/Backlogs"));
+const UserProfile = lazy(() => import("../components/Page/UserProfile/UserProfile"));
+const Retrospectives = lazy(() => import("../components/Page/Retrospectives/Retrospectives"));
 
 const PrivateRoutes = [
     {

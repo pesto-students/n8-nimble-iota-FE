@@ -4,7 +4,6 @@ import { Select } from "antd";
 import styles from "src/components/Common/AppSelect/AppSelect.module.less";
 
 function AppSelect({ options, defaultValue, onChange, ...props }) {
-    console.log(options);
     return (
         <Select defaultValue={defaultValue} onChange={onChange} className={styles.slct} {...props}>
             {options.map((item, index) => (

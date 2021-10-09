@@ -1,6 +1,6 @@
 import React from "react";
-import styles from "src/components/Common/Landing/Features/Features.module.less";
-import landingFeaturesImage from "src/assets/LandingFeatures.svg";
+import styles from "./Features.module.less";
+import assetMap from "../../../../assets";
 import classNames from "classnames";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 
@@ -18,7 +18,7 @@ const Features = () => {
         <>
             <section className={styles.features}>
                 <div className={styles.imageContainer}>
-                    <img src={landingFeaturesImage} alt="More Features" />
+                    <img src={assetMap("LandingFeatures")} alt="More Features" />
                 </div>
                 <div>
                     <h1 className={titleClassName}>Nimble Provides</h1>
