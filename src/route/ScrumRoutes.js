@@ -1,10 +1,11 @@
 import Retrospectives from "src/components/Page/Retrospectives/Retrospectives";
+import Poker from "src/components/Page/Poker/Poker";
 import roles from "src/config/roles";
 
 const ScrumRoutes = [
     {
         path: "/poker",
-        component: null,
+        component: Poker,
         exact: false,
         requiredRoles: roles.all,
         name: "Poker",

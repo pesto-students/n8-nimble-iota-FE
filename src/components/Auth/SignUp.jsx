@@ -32,7 +32,7 @@ function RegisterView(props) {
     }, [dispatch]);
     const register = () => {
         if (Object.keys(errors).length === 0) {
-            dispatch(RegisterUser(values.name, values.email, values.password, { _id: values.role }));
+            dispatch(RegisterUser(values.name, values.email, values.password, JSON.parse(values.role)));
         }
     };
     return (
