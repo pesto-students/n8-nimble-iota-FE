@@ -6,7 +6,7 @@ import classNames from "classnames";
 import { DeleteFilled } from "@ant-design/icons";
 import CardCustom from "src/components/Common/Card/Card";
 
-function Retrocard({ type }) {
+function Retrocard({ type,text }) {
     const { TextArea } = Input;
 
     return (
@@ -39,7 +39,7 @@ function Retrocard({ type }) {
                             [styles.neutral]: type == "neutral",
                             [styles.actionItem]: type == "actionItem",
                         })}
-                        value={"The sprint was well planned and clear on the requirements and effort estimation."}
+                        value={text}
                         // onChange={handleTextChange}
                     />
                     <div className={styles.actionCont}>
@@ -53,6 +53,7 @@ function Retrocard({ type }) {
 
 Retrocard.propTypes = {
     type: PropTypes.string,
+    text : PropTypes.string
 };
 
 export default Retrocard;

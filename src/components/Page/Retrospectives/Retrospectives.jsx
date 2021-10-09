@@ -1,34 +1,44 @@
 import { CheckCircleFilled, PhoneFilled, PlusCircleFilled } from "@ant-design/icons";
-import React from "react";
+import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
 import AppButton from "src/components/Common/AppButton/AppButton";
 import Retrocard from "src/components/Page/Retrospectives/Retrocard/Retrocard";
+import RetrospectiveModal from "src/components/Page/Retrospectives/RetrospectiveModal";
 import styles from "src/components/Page/Retrospectives/Retrospectives.module.less";
-import { useRouting } from "src/util/hooks";
 
 function Retrospectives() {
-    const { navigate, path, url } = useRouting();
+    const [openModal, setOpenModal] = useState(false);
+    const [operation, setOperation] = useState();
+    const { user } = useSelector((state) => state.user);
+    console.log(user);
+
+    const handleAdd = () => {
+        setOpenModal(true);
+    };
+
+    const handleCancel = () => {
+        setOpenModal(false);
+    };
+
+    useEffect(() => {
+        console.log("yes");
+    }, [openModal]);
+
     return (
         <>
             <div className={styles.container}>
                 <div className={styles.actions}>
-                    <AppButton
-                        loading={false}
-                        size={"middle"}
-                        style={{ marginRight: "8px" }}
-                        onClick={() => {
-                            const paths = url.split("/");
-                            // const trimmedPath = ;
-                            // console.log(trimmedPath);
-                            const route = `${paths.slice(0, -1).join("/")}/meet`;
-                            // window.open(route, "_blank")?.focus();
-                            navigate(route, true);
-                        }}
-                    >
+                    <AppButton onClick={handleAdd} size={"middle"} style={{ marginRight: "8px" }}>
+                        <>
+                            <PlusCircleFilled /> Add Retrospective
+                        </>
+                    </AppButton>
+                    <AppButton disabled={false} size={"middle"} style={{ marginRight: "8px" }}>
                         <>
                             <PhoneFilled /> Join Call
                         </>
                     </AppButton>
-                    <AppButton loading={false} size={"middle"}>
+                    <AppButton disabled={false} size={"middle"}>
                         <>
                             <CheckCircleFilled /> Mark as Complete
                         </>
@@ -71,6 +81,20 @@ function Retrospectives() {
                     </div>
                 </div>
             </div>
+
+            {openModal && (
+                <RetrospectiveModal
+                    cancelButtonProps={{ style: { display: "none" } }}
+                    onCancel={handleCancel}
+                    visible={openModal}
+                    width="400px"
+                    operation={"ADD"}
+                    text={"This is dummy"}
+                    projectId={"61546b7864bccbe191f15977"}
+                    srpintId=""
+                    userId={user["email"]}
+                />
+            )}
         </>
     );
 }

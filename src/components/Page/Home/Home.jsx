@@ -19,6 +19,8 @@ import Project from "src/components/Page/Project/Project";
 import { Redirect } from "react-router-dom";
 import { useRouteMatch } from "react-router-dom";
 
+
+
 function Home() {
     const { Text } = Typography;
     const { email, img } = useSelector((state) => state.user.user);
