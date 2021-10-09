@@ -11,6 +11,7 @@ import { Redirect } from "react-router-dom";
 import Retrospectives from "src/components/Page/Retrospectives/Retrospectives";
 import { useSelector } from "react-redux";
 import Meeting from "src/components/Page/Meeting/Meeting";
+import Backlogs from "src/components/Page/Backlog/Backlogs";
 
 const Project = () => {
     const { projectId } = useParams();
@@ -28,6 +29,14 @@ const Project = () => {
     return (
         <>
             <Switch>
+                <Route path={`${path}/meet`}>
+                    <Meeting
+                        roomName={currentProject?.meetingRoom?.roomName}
+                        meetingId={currentProject?.meetingRoom?.roomId}
+                        user={userForMeeting}
+                    />
+                </Route>
+                <Route path={`${path}/backlogs`} component={Backlogs} />
                 <Tabs
                     defaultActiveKey={`${url}${initialRoute}`}
                     onChange={(key) => {
@@ -41,13 +50,6 @@ const Project = () => {
                         </TabPane>
                     ))}
                 </Tabs>
-                <Route path={`${path}/meet`}>
-                    <Meeting
-                        roomName={currentProject?.meetingRoom?.roomName}
-                        meetingId={currentProject?.meetingRoom?.roomId}
-                        user={userForMeeting}
-                    />
-                </Route>
             </Switch>
         </>
     );

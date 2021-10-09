@@ -1,7 +1,7 @@
 import Backlogs from "src/components/Page/Backlog/Backlogs";
 import Home from "src/components/Page/Home/Home";
 import Retrospectives from "src/components/Page/Retrospectives/Retrospectives";
-import Scrumboard from "src/components/Page/Scrumboard/Scrumboard"
+import Scrumboard from "src/components/Page/Scrumboard/Scrumboard";
 import Subscription from "src/components/Page/Subscription";
 import UserProfile from "src/components/Page/UserProfile/UserProfile";
 import roles from "src/config/roles";
@@ -20,12 +20,12 @@ const PrivateRoutes = [
         requiredRoles: roles.all,
     },
 
-    {
-        path: "/backlogs",
-        component: Backlogs,
-        exact: true,
-        requiredRoles: roles.all,
-    },
+    // {
+    //     path: "/backlogs",
+    //     component: Backlogs,
+    //     exact: true,
+    //     requiredRoles: roles.all,
+    // },
     {
         path: "/user",
         component: UserProfile,
