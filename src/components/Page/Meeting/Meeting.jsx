@@ -28,16 +28,20 @@ const Meeting = ({ roomName, meetingId, user }) => {
 
         // eslint-disable-next-line no-undef
         axios
-            .post(`${process.env.DYTE_BASE_URL}/v1/organizations/${orgId}/meetings/${meetingId}/participant`, {
-                userDetails: { name, picture },
-                clientSpecificId: email,
-                presetName: "nimble",
-                roleName: "host",
+            .post("/participant", {
+                meetingData: {
+                    userDetails: { name, picture },
+                    clientSpecificId: email,
+                    // presetName: "nimble",
+                    roleName: "host",
+                },
+                orgId,
+                meetingId,
             })
             .then((res) => {
                 const { data } = res;
                 if (data.success) {
-                    setAuthToken(data.data.authToken);
+                    setAuthToken(data.authToken);
                 } else {
                     // setError("Could not authenticate user!");
                 }
@@ -50,11 +54,16 @@ const Meeting = ({ roomName, meetingId, user }) => {
         roomName,
         showSetupScreen: true,
     };
+    console.log(meetingConfig);
 
     return (
         <>
             {authToken ? (
-                <DyteMeeting clientId={orgId} meetingConfig={meetingConfig} />
+                <DyteMeeting
+                    onInit={() => {}}
+                    clientId={"0ebfa506-b771-4d4a-a469-063bf2844e3d"}
+                    meetingConfig={meetingConfig}
+                />
             ) : (
                 <Loader>
                     <Loading3QuartersOutlined />
