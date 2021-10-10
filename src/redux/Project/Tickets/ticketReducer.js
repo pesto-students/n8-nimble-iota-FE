@@ -96,17 +96,20 @@ const ticketReducer = (state = initialState, action) => {
                 draft.msg = action.payload;
                 return;
             case FILTER_UPDATED_TICKET_LIST:
-                draft.filters[action.data.filter] = action.data.isActive;
-
-                if (!(draft.filters.bug && draft.filters.userStory)) {
+                draft.filters[action.data.filter] = action.data.isAdded;
+                console.log(draft.filters.bug);
+                if (!(draft.filters.bug || draft.filters.userStory)) {
+                    console.log("f");
                     draft.filteredTicketList = draft.ticketList.slice();
                     return;
                 }
+                console.log("s");
                 draft.filteredTicketList = draft.ticketList.filter(
                     (e) =>
-                        e.type ===
-                        ((draft.filters.bug ? "BUG" : "USER_STORY") || (draft.filters.userStory ? "USER_STORY" : "BUG"))
+                        e.type === (draft.filters.bug ? "BUG" : "USER_STORY") ||
+                        e.type === (draft.filters.userStory ? "USER_STORY" : "BUG")
                 );
+                console.log(draft.filters);
                 return;
             case SORT_UPDATED_TICKET_LIST:
                 if (action.data.sortBy === "") {

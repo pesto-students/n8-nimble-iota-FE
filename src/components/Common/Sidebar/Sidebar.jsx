@@ -18,23 +18,26 @@ const Sidebar = (props) => {
     const projectUrl = `${url}/${projectId}`;
     const projects = useSelector((state) => state.projectList.projects);
     const currentProject = projects.find((e) => e._id === projectId);
-
+    console.log("curr", currentProject);
     const isBacklogs = pathname.endsWith("backlogs");
+    const isProjectList = pathname.endsWith("backlogs");
     const backlogsUrl = `${url}/${projectId}/backlogs`;
     const isProject = !!projectId;
     return (
         <section className={styles.sidebar}>
             <div className={styles.main}>
-                <div className={styles.common}>
-                    <Link to={projectUrl} className={styles.name}>
-                        <div>{currentProject?.projectName}</div>
-                        {!isBacklogs && <ActiveMark />}
-                    </Link>
-                    <Link to={backlogsUrl} className={styles.btnBacklogs}>
-                        <div>Backlogs</div>
-                        {isBacklogs && <ActiveMark />}
-                    </Link>
-                </div>
+                {isProject && (
+                    <div className={styles.common}>
+                        <Link to={projectUrl} className={styles.name}>
+                            <div>{currentProject?.projectName}</div>
+                            {!isBacklogs && <ActiveMark />}
+                        </Link>
+                        <Link to={backlogsUrl} className={styles.btnBacklogs}>
+                            <div>Backlogs</div>
+                            {isBacklogs && <ActiveMark />}
+                        </Link>
+                    </div>
+                )}
                 {isProject ? (
                     isBacklogs ? (
                         <BacklogsControls />

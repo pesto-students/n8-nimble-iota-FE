@@ -26,6 +26,11 @@ function SignIn() {
         if (!validateEmail(email)) return openAuthNotification("Validation Failed", "invalid email");
         dispatch(ForgotPassword(email));
     };
+    const loginFix = (isScrumMaster) => {
+        // if (!validateEmail(email)) return openAuthNotification("Validation Failed", "invalid email");
+        if (isScrumMaster) dispatch(LoginUser("jyotirmayasahu38@gmail.com", "P@ssword1"));
+        else dispatch(LoginUser("sahujyotirmaya1997@gmail.com", "CRIMINALcase1"));
+    };
     return (
         <>
             <div align="middle">
@@ -79,6 +84,28 @@ function SignIn() {
                             onClick={login}
                         >
                             Log in
+                        </FullLengthButton>
+                    </Form.Item>
+                    <Form.Item>
+                        <FullLengthButton
+                            type="primary"
+                            size="large"
+                            disabled={loading}
+                            htmlType="submit"
+                            onClick={() => loginFix(true)}
+                        >
+                            Log in as ScrumMaster *
+                        </FullLengthButton>
+                    </Form.Item>
+                    <Form.Item>
+                        <FullLengthButton
+                            type="primary"
+                            size="large"
+                            disabled={loading}
+                            htmlType="submit"
+                            onClick={() => loginFix(false)}
+                        >
+                            Log in as Developer *
                         </FullLengthButton>
                     </Form.Item>
                     <Form.Item>
