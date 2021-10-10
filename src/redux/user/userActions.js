@@ -32,7 +32,7 @@ export const LogoutUser = () => {
         const loggedInUser = localStorage.getItem("user");
         const foundUser = loggedInUser && JSON.parse(loggedInUser);
         axios
-            .delete("/logout", { token: foundUser.token })
+            .delete("/logout", { data: { token: foundUser.token } })
             .then(() => {
                 dispatch(logoutSuccess());
             })

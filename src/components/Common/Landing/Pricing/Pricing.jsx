@@ -1,6 +1,6 @@
 import React from "react";
-import styles from "src/components/Common/Landing/Pricing/Pricing.module.less";
-import landingPricingImage from "src/assets/LandingPricing.svg";
+import styles from "./Pricing.module.less";
+import assetMap from "../../../../assets";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import classNames from "classnames";
 
@@ -38,7 +38,7 @@ const Pricing = () => {
                 </div>
             </div>
             <div className={styles.imageContainer}>
-                <img src={landingPricingImage} alt="Flexible Pricing" />
+                <img src={assetMap("LandingPricing")} alt="Flexible Pricing" />
             </div>
         </section>
     );

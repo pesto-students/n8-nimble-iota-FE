@@ -45,7 +45,7 @@ const ticketReducer = (state = initialState, action) => {
             case FETCH_UPDATED_TICKET_LIST_FAILURE:
                 draft.loading = false;
                 draft.error = action.payload;
-                draft.msg = action.payload.msg;
+                draft.msg = action.payload?.msg;
                 return;
             case DELETE_TICKET_REQUEST:
                 draft.loading = true;
