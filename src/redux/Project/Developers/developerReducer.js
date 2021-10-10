@@ -26,7 +26,7 @@ const developerReducer = (state = initialState, action) => {
             case FETCH_DEVELOPERS_PROJECT_FAILURE:
                 draft.loadingDevelopers = false;
                 draft.error = action.payload;
-                draft.msg = action.payload.msg;
+                draft.msg = action.payload?.msg;
                 return;
             default:
                 return;
