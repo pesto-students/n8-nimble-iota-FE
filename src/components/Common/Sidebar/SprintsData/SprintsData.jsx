@@ -58,7 +58,7 @@ export default SprintsData;
 
 const SprintListItem = ({ sprint }) => {
     const selectedSprint = useSelector((state) => state.sprint.selectedSprint);
-    const { name } = sprint;
+    const { name, startdate, enddate } = sprint;
     const isCurrent = sprint.status === sprintStatus?.active;
     const isActive = sprint._id === selectedSprint?._id;
     const dispatch = useDispatch();
@@ -70,7 +70,7 @@ const SprintListItem = ({ sprint }) => {
         <li onClick={handleClick} className={styles.sprintListItem}>
             <div className={styles.content}>
                 <div>{name}</div>
-                <div className={styles.sprintRange}>19 Jun - 230 Jun</div>
+                <div className={styles.sprintRange}>{`${startdate ?? ""} - ${enddate ?? ""}`}</div>
             </div>
             {isCurrent && (
                 <div className={styles.checkIcon}>
