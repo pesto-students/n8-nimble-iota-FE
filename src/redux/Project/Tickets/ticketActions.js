@@ -15,6 +15,8 @@ import {
     FETCH_UPDATED_TICKET_LIST_REQUEST,
     FETCH_UPDATED_TICKET_LIST_SUCCESS,
     FETCH_UPDATED_TICKET_LIST_FAILURE,
+    FILTER_UPDATED_TICKET_LIST,
+    SORT_UPDATED_TICKET_LIST,
 } from "src/redux/Project/Tickets/ticketActionTypes";
 
 export const addTicketRequest = () => {
@@ -117,6 +119,15 @@ export const updateTicketStatusFailure = (obj) => {
     };
 };
 
+export const filterTickets = ({ filter, isAdded }) => ({
+    type: FILTER_UPDATED_TICKET_LIST,
+    data: { filter, isAdded },
+});
+export const sortTickets = ({ sortBy, order }) => ({
+    type: SORT_UPDATED_TICKET_LIST,
+    data: { sortBy, order },
+});
+
 export const addTicket = (projectId, ticketDetails) => {
     return (dispatch) => {
         dispatch(addTicketRequest());
@@ -198,8 +209,7 @@ export const deleteTicket = (projectId, ticketId) => {
     };
 };
 
-
-export const updateTicketStatus = (projectId, ticketId,status) => {
+export const updateTicketStatus = (projectId, ticketId, status) => {
     return (dispatch) => {
         dispatch(updateTicketStatusRequest());
         axios

@@ -9,7 +9,7 @@ import { colors } from "src/config/constants";
 import { deleteTicket, fetchAllDevlopersProject, fetchAllTickets } from "src/redux";
 
 function Backlogs() {
-    const { loading, ticketList } = useSelector((state) => state.project.ticket);
+    const { loading, ticketList, filteredTicketList } = useSelector((state) => state.project.ticket);
     const { developerList } = useSelector((state) => state.project.developer);
 
     const dispatch = useDispatch();
@@ -109,20 +109,19 @@ function Backlogs() {
     ];
 
     const [selectedRowKeys, setSelectedRowsKeys] = useState([]);
-    const [isSelected,setIsSelected] = useState(false)
+    const [isSelected, setIsSelected] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [clickedRow, setClickedRow] = useState(-1);
     const [ticketOperation, setTickearOperation] = useState();
 
     const onSelectChange = (selectedRowKeys) => {
-        console.log(selectedRowKeys)
+        console.log(selectedRowKeys);
         setSelectedRowsKeys(selectedRowKeys);
-        if(selectedRowKeys.length > 0){
-            setIsSelected(true)
-        }else{
-            setIsSelected(false)
+        if (selectedRowKeys.length > 0) {
+            setIsSelected(true);
+        } else {
+            setIsSelected(false);
         }
-        
     };
 
     const rowSelection = {
@@ -134,7 +133,6 @@ function Backlogs() {
         dispatch(fetchAllTickets("61546b7864bccbe191f15977"));
         dispatch(fetchAllDevlopersProject("61546b7864bccbe191f15977"));
     }, []);
-
 
     const handleCancel = () => {
         setOpenModal(false);
@@ -183,7 +181,7 @@ function Backlogs() {
                         }}
                         rowSelection={rowSelection}
                         columns={columns}
-                        dataSource={ticketList}
+                        dataSource={filteredTicketList}
                         rowClassName={(record, index) => styles.row}
                     />
                 </div>
@@ -195,7 +193,7 @@ function Backlogs() {
                     visible={openModal}
                     width="400px"
                     ticketOperation={ticketOperation}
-                    ticketData={ticketList[clickedRow]}
+                    ticketData={filteredTicketList[clickedRow]}
                     projectId={"61546b7864bccbe191f15977"}
                     developerList={developerList}
                 />

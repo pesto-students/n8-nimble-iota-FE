@@ -10,11 +10,10 @@ import { CheckOutlined, SearchOutlined } from "@ant-design/icons";
 import { sprintStatus } from "src/config/constants";
 import { setSelectedSprint } from "src/redux/Project/Sprint/SprintActions";
 import { useRouting } from "src/util/hooks";
+import ActiveMark from "src/components/Common/ActiveMark/ActiveMark";
 
-const SprintsData = ({ projectId }) => {
-    const projects = useSelector((state) => state.projectList.projects);
-    const currentProject = projects.find((e) => e._id === projectId);
-    const sprints = currentProject?.sprints;
+const SprintsData = ({ project }) => {
+    const sprints = project?.sprints;
     const [filteredSprints, setFilteredSprints] = useState(sprints);
     const [searchText, setSearchText] = useState("");
     useEffect(() => {
@@ -25,20 +24,15 @@ const SprintsData = ({ projectId }) => {
             setFilteredSprints(sprints);
         }
     }, [searchText]);
-    const currentSprint = sprints.find((e) => e.status === sprintStatus.active);
+    const currentSprint = sprints?.find((e) => e.status === sprintStatus.active);
     const dispatch = useDispatch();
     dispatch(setSelectedSprint(currentSprint));
     const { url } = useRouting();
-    const backlogsUrl = `${url}/${projectId}/backlogs`;
 
     const prepareSprintsListJsx = () => filteredSprints.map((e, index) => <SprintListItem key={index} sprint={e} />);
     return (
         <>
             <div className={styles.projectDetails}>
-                <div className={styles.name}>{currentProject?.projectName}</div>
-                <div className={styles.btnBacklogs}>
-                    <Link to={backlogsUrl}>Backlogs</Link>
-                </div>
                 <div className={styles.searchSprints}>
                     <AppInput
                         allowClear
@@ -57,7 +51,7 @@ const SprintsData = ({ projectId }) => {
 };
 
 SprintsData.propTypes = {
-    projectId: PropTypes.string,
+    project: PropTypes.object,
 };
 
 export default SprintsData;
@@ -83,7 +77,7 @@ const SprintListItem = ({ sprint }) => {
                     <CheckOutlined />
                 </div>
             )}
-            {isActive && <div className={styles.activeMark}></div>}
+            {isActive && <ActiveMark />}
         </li>
     );
 };
