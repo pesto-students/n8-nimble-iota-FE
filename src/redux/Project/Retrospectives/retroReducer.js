@@ -7,7 +7,7 @@ import {
     FETCH_RETROSPECTIVES_DEVELOPER,
     FETCH_ALL_RETROSPECTIVES,
     MARK_RETROSPECTIVES_COMPLETE
-} from "src/redux/Project/Retrospectives/retroActionTypes";
+} from "src/redux/Project/Reports/reportActionTypes";
 import { produce } from "immer";
 
 const initialState = {

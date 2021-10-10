@@ -18,3 +18,46 @@ export const getDateFromString = (dateString) => new Date(dateString).toLocaleDa
 export const filterTicketList = (ticketList,columnId )=>{
     return ticketList.filter((ticket)=>ticket.status == columnId);
 }
+
+export const generatePieChartData = (ticketList,developerList) =>{
+    console.log("test",ticketList,developerList)
+    const map = {}
+    ticketList.forEach((ticket)=>{
+        const assignee = getAssigneeName(ticket,developerList);
+        if(map[assignee]){
+            map[assignee] = map[assignee] + 1
+        }else{
+            map[assignee] = 1
+        }
+    })
+    return map
+}
+
+export const getAssigneeName = (ticket,userList)=>{
+  return userList.find((user)=>user["_id"] == ticket.assignee).name
+}
+
+export const generatePointsVsDate = (reportData) =>{
+    const map = {}
+    Object.keys(reportData).forEach((date)=>{
+        map[date] = sumListOfObjectsBasisStoryPoints(reportData[date])
+    })
+    return map
+}
+
+
+export const generateIssuesVsDate = (reportData) =>{
+    const map = {}
+    Object.keys(reportData).forEach((date)=>{
+        map[date] = reportData[date].length
+    })
+    return map
+}
+
+export const sumListOfObjectsBasisStoryPoints = (list)=>{
+    let sum = 0
+    list.forEach((obj)=>{
+        sum = sum + obj.storyPoints
+    })
+    return sum
+}

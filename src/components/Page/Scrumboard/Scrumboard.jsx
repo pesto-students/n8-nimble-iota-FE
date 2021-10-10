@@ -1,7 +1,7 @@
 import { CheckCircleFilled, PhoneFilled, PlusCircleFilled } from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteTicket, fetchAllDevlopersProject, fetchAllTickets, updateTicketStatus } from "src/redux";
+import { deleteTicket, fetchAllDevlopersProject, fetchAllTickets, incrementStroyPoints, updateTicketStatus } from "src/redux";
 import styles from "src/components/Page/Scrumboard/Scrumboard.module.less";
 import { DragDropContext } from "react-beautiful-dnd";
 import { Droppable } from "react-beautiful-dnd";
@@ -54,10 +54,14 @@ function Scrumboard() {
 
         if (!result.destination) return;
         const { source, destination,draggableId } = result;
+        if(source.droppableId == "COMPLETE") return;
 
         if (source.droppableId !== destination.droppableId) {
             const draggedTicket = ticketList.find((ticket)=>ticket["_id"] === draggableId)
             dispatch(updateTicketStatus("61546b7864bccbe191f15977",draggedTicket.ticketId,result.destination.droppableId))
+            if(destination.droppableId == "COMPLETE"){
+                dispatch(incrementStroyPoints("dsffd",draggedTicket["_id"],draggedTicket["storyPoints"]))
+            }
         }
     };
 

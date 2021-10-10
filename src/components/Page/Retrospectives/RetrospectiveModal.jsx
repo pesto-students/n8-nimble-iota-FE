@@ -8,7 +8,7 @@ import AppModal from "src/components/Common/AppModal/AppModal";
 import AppSelect from "src/components/Common/AppSelect/AppSelect";
 import TicketListItem from "src/components/TicketModal/TicketListItem";
 import retroConstants from "src/config/Retrospective";
-import { addRetrospective } from "src/redux";
+import { addRetrospective } from "src/redux/Project/Retrospectives/retroActions";
 
 
 
