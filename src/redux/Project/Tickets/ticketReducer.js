@@ -14,11 +14,18 @@ import {
     FETCH_UPDATED_TICKET_LIST_REQUEST,
     FETCH_UPDATED_TICKET_LIST_SUCCESS,
     FETCH_UPDATED_TICKET_LIST_FAILURE,
+    FILTER_UPDATED_TICKET_LIST,
+    SORT_UPDATED_TICKET_LIST,
 } from "src/redux/Project/Tickets/ticketActionTypes";
 import { produce } from "immer";
 
 const initialState = {
     ticketList: [],
+    filteredTicketList: [],
+    filters: {
+        bug: false,
+        userStory: false,
+    },
     loading: true,
     error: "",
     msg: "",
@@ -33,6 +40,7 @@ const ticketReducer = (state = initialState, action) => {
             case FETCH_UPDATED_TICKET_LIST_SUCCESS:
                 draft.loading = false;
                 draft.ticketList = action.payload;
+                draft.filteredTicketList = action.payload;
                 return;
             case FETCH_UPDATED_TICKET_LIST_FAILURE:
                 draft.loading = false;
@@ -86,6 +94,30 @@ const ticketReducer = (state = initialState, action) => {
                 draft.loading = false;
                 draft.error = action.payload;
                 draft.msg = action.payload;
+                return;
+            case FILTER_UPDATED_TICKET_LIST:
+                draft.filters[action.data.filter] = action.data.isActive;
+
+                if (!(draft.filters.bug && draft.filters.userStory)) {
+                    draft.filteredTicketList = draft.ticketList.slice();
+                    return;
+                }
+                draft.filteredTicketList = draft.ticketList.filter(
+                    (e) =>
+                        e.type ===
+                        ((draft.filters.bug ? "BUG" : "USER_STORY") || (draft.filters.userStory ? "USER_STORY" : "BUG"))
+                );
+                return;
+            case SORT_UPDATED_TICKET_LIST:
+                if (action.data.sortBy === "") {
+                    draft.filteredTicketList = draft.ticketList.slice();
+                    return;
+                }
+                draft.filteredTicketList = draft.filteredTicketList.sort((a, b) => {
+                    if (a[action.data.sortBy] < b[action.data.sortBy]) return -1;
+                    if (a[action.data.sortBy] > b[action.data.sortBy]) return 1;
+                    return 0;
+                });
                 return;
             default:
                 return;
