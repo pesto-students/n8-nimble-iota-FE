@@ -9,15 +9,34 @@ import ScrumRoutes from "src/route/ScrumRoutes";
 import { useRouting } from "src/util/hooks";
 import { Redirect } from "react-router-dom";
 import Retrospectives from "src/components/Page/Retrospectives/Retrospectives";
+import { useSelector } from "react-redux";
+import Meeting from "src/components/Page/Meeting/Meeting";
+import Backlogs from "src/components/Page/Backlog/Backlogs";
 
 const Project = () => {
     const { projectId } = useParams();
+    const { user } = useSelector((state) => state.user);
     const { TabPane } = Tabs;
     const initialRoute = "/scrum_board";
     const { navigate, path, url } = useRouting();
+    const userForMeeting = {
+        name: user.name,
+        picture: user.img,
+        email: user.email,
+    };
+    const projects = useSelector((state) => state.projectList.projects);
+    const currentProject = projects.find((e) => e._id === projectId);
     return (
         <>
             <Switch>
+                <Route path={`${path}/meet`}>
+                    <Meeting
+                        roomName={currentProject?.meetingRoom?.roomName}
+                        meetingId={currentProject?.meetingRoom?.roomId}
+                        user={userForMeeting}
+                    />
+                </Route>
+                <Route path={`${path}/backlogs`} component={Backlogs} />
                 <Tabs
                     defaultActiveKey={`${url}${initialRoute}`}
                     onChange={(key) => {

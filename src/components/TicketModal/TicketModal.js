@@ -24,6 +24,7 @@ function TicketModal(props) {
     const [type, setType] = useState("");
     const [sprint, setSprint] = useState("");
     const [points, setPoints] = useState(0);
+    const [status,setStatus] = useState()
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -71,7 +72,7 @@ function TicketModal(props) {
             type: type,
             storyPoints: points,
             sprint: sprint,
-            status: "COMPLETE",
+            status: status
         };
 
         if (ticketOperation == "CREATE") {
@@ -108,6 +109,7 @@ function TicketModal(props) {
                     return ticketData.sprint == sprint.name;
                 })?.name ?? ""
             );
+            setStatus(ticketData.status ?? "")
         } else {
             setTitle("");
             setTicketId(generateTicketNumber());
@@ -116,6 +118,7 @@ function TicketModal(props) {
             setPriority(ticketConstants.priority[0].name);
             setType(ticketConstants.ticketType[0].name);
             setSprint(ticketConstants.sprints[0].name);
+            setStatus("");
         }
     }, [developerList]);
 

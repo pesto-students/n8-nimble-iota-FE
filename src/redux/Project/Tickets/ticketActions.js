@@ -97,6 +97,26 @@ export const deleteTicketRequestFailure = (obj) => {
     };
 };
 
+export const updateTicketStatusRequest = () => {
+    return {
+        type: UPDATE_TICKET_STATUS_REQUEST,
+    };
+};
+
+export const updateTicketStatusSuccess = (obj) => {
+    return {
+        type: UPDATE_TICKET_STATUS_SUCCESS,
+        payload: obj,
+    };
+};
+
+export const updateTicketStatusFailure = (obj) => {
+    return {
+        type: UPDATE_TICKET_STATUS_FAILURE,
+        payload: obj,
+    };
+};
+
 export const addTicket = (projectId, ticketDetails) => {
     return (dispatch) => {
         dispatch(addTicketRequest());
@@ -173,6 +193,27 @@ export const deleteTicket = (projectId, ticketId) => {
                     dispatch(deleteTicketRequestFailure(error.response.data.message));
                 } else {
                     dispatch(deleteTicketRequestFailure(error.message));
+                }
+            });
+    };
+};
+
+
+export const updateTicketStatus = (projectId, ticketId,status) => {
+    return (dispatch) => {
+        dispatch(updateTicketStatusRequest());
+        axios
+            .post("/changeTicketStatus", { projectId, ticketId, status })
+            .then((response) => {
+                const resMessage = response.data.message;
+                dispatch(updateTicketStatusSuccess(resMessage));
+                dispatch(fetchAllTickets(projectId));
+            })
+            .catch((error) => {
+                if (error.response) {
+                    dispatch(updateTicketStatusFailure(error.response.data.message));
+                } else {
+                    dispatch(updateTicketStatusFailure(error.message));
                 }
             });
     };

@@ -54,7 +54,7 @@ const ticketReducer = (state = initialState, action) => {
             case UPDATE_TICKET_REQUEST:
                 draft.loading = true;
                 return;
-            case UPDATE_TICKET_STATUS_SUCCESS:
+            case UPDATE_TICKET_SUCCESS:
                 draft.loading = false;
                 draft.msg = action.payload;
                 return;
@@ -71,6 +71,18 @@ const ticketReducer = (state = initialState, action) => {
                 draft.msg = action.payload;
                 return;
             case ADD_TICKET_FAILURE:
+                draft.loading = false;
+                draft.error = action.payload;
+                draft.msg = action.payload;
+                return;
+            case UPDATE_TICKET_STATUS_REQUEST:
+                draft.loading = true;
+                return;
+            case UPDATE_TICKET_STATUS_SUCCESS:
+                draft.loading = false;
+                draft.msg = action.payload;
+                return;
+            case UPDATE_TICKET_STATUS_FAILURE:
                 draft.loading = false;
                 draft.error = action.payload;
                 draft.msg = action.payload;

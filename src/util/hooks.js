@@ -9,6 +9,7 @@ export const useRouting = () => {
                 if (exact) history.replace(to);
                 else history.replace(`${path}/${to}`);
             } else {
+                console.log(to);
                 if (exact) history.push(to);
                 else history.push(`${path}/${to}`);
             }

@@ -1,11 +1,12 @@
 import { lazy } from "react";
 import roles from "../config/roles";
 
-const Subscription = lazy(() => import("../components/Page/Subscription"));
-const Home = lazy(() => import("../components/Page/Home/Home"));
-const Backlogs = lazy(() => import("../components/Page/Backlogs"));
-const UserProfile = lazy(() => import("../components/Page/UserProfile/UserProfile"));
-const Retrospectives = lazy(() => import("../components/Page/Retrospectives/Retrospectives"));
+const Backlogs = lazy(()=> import("src/components/Page/Backlog/Backlogs"));
+const Home = lazy(()=> import("src/components/Page/Home/Home"));
+const Retrospectives = lazy(()=> import("src/components/Page/Retrospectives/Retrospectives"));
+const Scrumboard = lazy(()=> import("src/components/Page/Scrumboard/Scrumboard"));
+const Subscription = lazy(()=> import("src/components/Page/Subscription"));
+const UserProfile = lazy(()=> import("src/components/Page/UserProfile/UserProfile"));
 
 const PrivateRoutes = [
     {
@@ -21,12 +22,12 @@ const PrivateRoutes = [
         requiredRoles: roles.all,
     },
 
-    {
-        path: "/backlogs",
-        component: Backlogs,
-        exact: true,
-        requiredRoles: roles.all,
-    },
+    // {
+    //     path: "/backlogs",
+    //     component: Backlogs,
+    //     exact: true,
+    //     requiredRoles: roles.all,
+    // },
     {
         path: "/user",
         component: UserProfile,

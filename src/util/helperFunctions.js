@@ -14,3 +14,7 @@ export const extractInitials = (/**@type{String} */ name) => {
 };
 
 export const getDateFromString = (dateString) => new Date(dateString).toLocaleDateString();
+
+export const filterTicketList = (ticketList,columnId )=>{
+    return ticketList.filter((ticket)=>ticket.status == columnId);
+}
