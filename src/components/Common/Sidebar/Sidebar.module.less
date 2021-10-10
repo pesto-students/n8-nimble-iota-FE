@@ -1,0 +1,34 @@
+@import "../../themes/themes.less";
+
+.sidebar {
+    background-color: @primary-color;
+    height: calc(100vh - 4em);
+    width: 21vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .footer {
+        padding: 1em 0.75em;
+        background-color: @primary-1;
+        color: white;
+    }
+
+    .main {
+        .common {
+            padding: 1em 1em 0 1em;
+            .name,
+            .btnBacklogs {
+                padding-top: 0.75em;
+                color: white;
+                // font-weight: 600;
+                > a {
+                    color: inherit;
+                }
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+    }
+}
