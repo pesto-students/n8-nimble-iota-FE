@@ -3,6 +3,7 @@ import Reports from "src/components/Page/Reports/Reports";
 import Retrospectives from "src/components/Page/Retrospectives/Retrospectives";
 import Poker from "src/components/Page/Poker/Poker";
 import Scrumboard from "src/components/Page/Scrumboard/Scrumboard";
+import Standup from "src/components/Page/Standup/Standup";
 import roles from "src/config/roles";
 
 const ScrumRoutes = [
@@ -23,7 +24,7 @@ const ScrumRoutes = [
 
     {
         path: "/standups",
-        component: Backlogs,
+        component: Standup,
         exact: false,
         requiredRoles: roles.all,
         name: "Standups",

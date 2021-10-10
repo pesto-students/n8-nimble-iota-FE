@@ -68,7 +68,6 @@ function Poker() {
     useEffect(() => {
         if (!sprintList.length)
             Axios.get("/sprints/" + projectId).then((res) => {
-                console.log(res.data);
                 setSprintList(res.data);
             });
         if (!ticketList.length) dispatch(fetchAllTickets(projectId));
@@ -134,6 +133,7 @@ function Poker() {
         ticketObj.storyPoints = String(avg);
         dispatch(updateTicket(projectId, ticketObj));
         await deleteDoc(doc(fbfirestore, "poker", selected));
+        setSelectedVote(null);
     };
     const editStorypoints = (e) => setAvg(e.target.value);
     const floatAdd = Mounter(FloatingAdd, { onClick: openAddTicket })(roles.scrummastersandadmins);

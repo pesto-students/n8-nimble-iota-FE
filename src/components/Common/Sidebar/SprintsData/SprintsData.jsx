@@ -29,7 +29,7 @@ const SprintsData = ({ project }) => {
     dispatch(setSelectedSprint(currentSprint));
     const { url } = useRouting();
 
-    const prepareSprintsListJsx = () => filteredSprints.map((e, index) => <SprintListItem key={index} sprint={e} />);
+    const prepareSprintsListJsx = () => filteredSprints?.map((e, index) => <SprintListItem key={index} sprint={e} />);
     return (
         <>
             <div className={styles.projectDetails}>
