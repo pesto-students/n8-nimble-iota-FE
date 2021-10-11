@@ -21,7 +21,9 @@ function Retrospectives() {
     const dispatch = useDispatch();
 
     const handleAdd = () => {
+        setOperation("ADD")
         setOpenModal(true);
+        
     };
 
     const handleCancel = () => {
@@ -34,9 +36,7 @@ function Retrospectives() {
         setOpenModal(true)
     }
 
-    const handleAddRetro = ()=>{
-        setOperation("ADD")
-    }
+  
 
     const { url } = useRouting();
     let splits = url.split("/");
@@ -53,7 +53,7 @@ function Retrospectives() {
                 <div className={styles.actions}>
                     <AppButton onClick={handleAdd} size={"middle"} style={{ marginRight: "8px" }}>
                         <>
-                            <PlusCircleFilled onClick={handleAddRetro} /> Add Retrospective
+                            <PlusCircleFilled/> Add Retrospective
                         </>
                     </AppButton>
                     <Link to={meetUrl}>
@@ -122,11 +122,11 @@ function Retrospectives() {
                     visible={openModal}
                     width="400px"
                     operation={operation}
-                    retroType = {clickedRetro.type}
+                    retroType = {clickedRetro?.type??""}
                     retroText={clickedRetro?.text?? ""}
                     sprintId="sprint1"
                     id={clickedRetro?.id??"6153dd3cecbd2470d2322728"}
-                    index = {clickedRetro.index}
+                    index = {clickedRetro?.index??""}
                 />
             )}
         </>

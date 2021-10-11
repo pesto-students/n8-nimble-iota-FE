@@ -120,6 +120,7 @@ export const addRetrospective = (sprintId, type, id,text) => {
                   [fireStoreKeys.actions]: [],
               };
         data[type].push({text,id});
+        console.log(data)
         try {
             setDoc(doc(fbfirestore, fireStoreKeys.collections.retrospectives, sprintId), data);
             dispatch(
@@ -143,7 +144,7 @@ export const addRetrospective = (sprintId, type, id,text) => {
 
 export const updateRetroSpective = (sprintId,type,id,text,index) => {
     return async (dispatch) => {
-        dispatch(updateTicketStatusRequest());
+        dispatch(updateRetrospectiveRequest());
         const retros = doc(fbfirestore, fireStoreKeys.collections.retrospectives, sprintId);
         const ref = await getDoc(retros);
         let data = ref.data();

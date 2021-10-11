@@ -71,13 +71,6 @@ export function debounce(func, timeout = 300) {
     };
 }
 
-export const sumListOfObjectsBasisStoryPoints = (list)=>{
-    let sum = 0
-    list.forEach((obj)=>{
-        sum = sum + obj.storyPoints
-    })
-    return sum
-}
 
 export const equalsIgnoreCase = (str1,str2)=>{
     return str1.toLowerCase() === str2.toLowerCase()

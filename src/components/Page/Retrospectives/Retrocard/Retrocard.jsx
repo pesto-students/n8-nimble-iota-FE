@@ -13,7 +13,8 @@ function Retrocard({ type,text,id,sprint,onClick,index }) {
     const { TextArea } = Input;
 
     const dispatch = useDispatch();
-    const handleDelete = ()=>{
+    const handleDelete = (e)=>{
+        e.stopPropagation()
         dispatch(deleteRetro(sprint,id,type))
     }
     const handleOnClick = ()=>{
