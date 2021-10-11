@@ -14,39 +14,22 @@ const { TextArea } = Input;
 
 function Standup() {
     const dispatch = useDispatch();
-    const [form, setForm] = useState({
-        yesterday: "",
-        today: "",
-        blocker: "",
-    });
-    const onChange = (event) => {
-        setForm({ ...form, [event.target.name]: event.target.value });
-    };
     const today = new Date().toLocaleDateString();
     const { url } = useRouting();
     const projectId = url.split("/")[2];
     const [member, setMember] = useState(null);
     const [date, setDate] = useState(null);
-    const user = useSelector((state) => state.user.user);
     const { projects } = useSelector((state) => state.projectList);
     const { developerList } = useSelector((state) => state.project.developer);
     const currentProject = projects.find((project) => project._id === projectId);
     const [standups, setStandups] = useState(currentProject?.members);
+    const nameMap = {};
+    developerList.forEach((item) => (nameMap[item._id] = item.name));
     useEffect(() => {
         setDate(today);
         if (!projects?.length) dispatch(loadProjects(projectId));
         if (!developerList.length) dispatch(fetchAllDevlopersProject(projectId));
     }, []);
-    const AddStandUp = () => {
-        const standup = { ...form, date: today };
-        Axios.post("/addStandup", { projectId, userId: user.id, standup })
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
     const reset = () => {
         setMember(null);
     };
@@ -100,7 +83,7 @@ function Standup() {
                 <>
                     <Row key={index}>
                         <Col flex={2} align="left">
-                            {item.userId}
+                            {nameMap[item.userId]}
                         </Col>
                         <Col flex={4} align="middle">
                             {item.standups.find((obj) => obj.date === date)?.yesterday || "-"}
