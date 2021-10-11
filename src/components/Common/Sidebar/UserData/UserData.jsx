@@ -9,9 +9,12 @@ import { extractInitials } from "src/util/helperFunctions";
 const UserData = (props) => {
     const { user } = useSelector((state) => state.user);
 
-    const name = user ? user.name : "";
-    const role = user ? user.role.name : "";
-    const email = user ? user.email : "";
+    const name = user?.name ?? "-";
+    const role = user?.role.name ?? "-";
+    const email = user?.email ?? "-";
+    const location = user?.location ?? "-";
+    const phone = user?.phone ?? "-";
+    const selfintro = user?.selfintro ?? "-";
 
     return (
         <div className={styles.userData}>
@@ -37,13 +40,13 @@ const UserData = (props) => {
                             <div className={styles.icon}>
                                 <EnvironmentFilled />
                             </div>
-                            <div className={styles.text}>Location</div>
+                            <div className={styles.text}>{location}</div>
                         </li>
                         <li>
                             <div className={styles.icon}>
                                 <PhoneFilled />
                             </div>
-                            <div className={styles.text}>+9999999999</div>
+                            <div className={styles.text}>{phone}</div>
                         </li>
                         <li>
                             <div className={styles.icon}>
@@ -53,9 +56,7 @@ const UserData = (props) => {
                         </li>
                     </ul>
                 </div>
-                <div className={styles.description}>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, exercitationem.
-                </div>
+                <div className={styles.description}>{selfintro}</div>
             </div>
         </div>
     );
