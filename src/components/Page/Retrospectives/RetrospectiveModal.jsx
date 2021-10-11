@@ -7,17 +7,19 @@ import AppButton from "src/components/Common/AppButton/AppButton";
 import AppModal from "src/components/Common/AppModal/AppModal";
 import AppSelect from "src/components/Common/AppSelect/AppSelect";
 import TicketListItem from "src/components/TicketModal/TicketListItem";
+import { fireStoreKeys, retroTypes } from "src/config/constants";
 import retroConstants from "src/config/Retrospective";
-import { addRetrospective } from "src/redux/Project/Retrospectives/retroActions";
+import { addRetrospective,updateRetroSpective } from "src/redux/Project/Retrospectives/retroActions";
+import { equalsIgnoreCase } from "src/util/helperFunctions";
 
 
 
 function RetrospectiveModal(props) {
-    const { projectId, userId, sprintId, text ,retroType,operation } = props;
+    const {id, sprintId, retroText ,retroType,operation,index } = props;
     const dispatch = useDispatch();
 
     const [type, setType] = useState("");
-    const [retroText, setText] = useState("");
+    const [text, setText] = useState("");
    
 
     const handleTextChange = (event) => {
@@ -25,27 +27,25 @@ function RetrospectiveModal(props) {
     };
    
     const handleTypeChange = (value) => {
-        setType(retroConstants.retroType.find((rType)=> rType["_id"] == value))
+        setType(JSON.parse(value)?.name??"" )
     };
 
 
     const handleRetro = ()=>{
+        console.log(sprintId,type,id,text)
         if (operation == "ADD") {
-            console.log(type)
-            dispatch(addRetrospective(sprintId,userId,type.name,text));
+            dispatch(addRetrospective(sprintId,type,id,text));
         } else {
-            dispatch(addRetrospective(sprintId,userId,type,text));
+            dispatch(updateRetroSpective(sprintId,type,id,text,index));
         }
     }
 
     useEffect(() => {
         if (operation == "UPDATE") {
-            setText(text)
-            setType(retroConstants.retroType.find((rtype)=>{
-                rtype.name === retroType
-            }))
+            setText(retroText)
+            setType(retroTypes.find((ele)=>equalsIgnoreCase(ele.name,retroType))?.name??"")
         }else{
-            setType(retroConstants.retroType[0])
+            setType(retroTypes[0].name)
         } 
     }, []);
 
@@ -62,8 +62,9 @@ function RetrospectiveModal(props) {
                         <AppSelect
                             style={{ width: "60%" }}
                             onChange={handleTypeChange}
-                            value={type?.name ?? ""}
-                            options={retroConstants.retroType}
+                            value={type}
+                            options={retroTypes}
+                            disabled = {operation == "UPDATE"}
                         />
                     }
                 />
@@ -96,11 +97,11 @@ function RetrospectiveModal(props) {
 
 RetrospectiveModal.propTypes = {
     operation: PropTypes.string,
-    text: PropTypes.string,
+    retroText: PropTypes.string,
     retroType: PropTypes.string,
     sprintId: PropTypes.array,
-    projectId: PropTypes.string,
-    userId: PropTypes.string,
+    id: PropTypes.string,
+    index : PropTypes.number
     
 };
 

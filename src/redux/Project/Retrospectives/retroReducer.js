@@ -2,17 +2,22 @@ import {
     ADD_RETROSPECTIVE_REQUEST,
     ADD_RETROSPECTIVE_SUCCESS,
     ADD_RETROSPECTIVE_FAILURE,
-    UPDATE_RETROSPECTIVE,
-    DELETE_RETROSPECTIVE,
-    FETCH_RETROSPECTIVES_DEVELOPER,
-    FETCH_ALL_RETROSPECTIVES,
-    MARK_RETROSPECTIVES_COMPLETE
-} from "src/redux/Project/Reports/reportActionTypes";
+    UPDATE_RETROSPECTIVE_REQUEST,
+    UPDATE_RETROSPECTIVE_SUCCESS,
+    UPDATE_RETROSPECTIVE_FAILURE,
+    DELETE_RETROSPECTIVE_REQUEST,
+    DELETE_RETROSPECTIVE_SUCCESS,
+    DELETE_RETROSPECTIVE_FAILURE,
+    FETCH_RETROSPECTIVES_REQUEST,
+    FETCH_RETROSPECTIVES_SUCCESS,
+    FETCH_RETROSPECTIVES_FAILURE,
+    MARK_RETROSPECTIVES_COMPLETE,
+} from "src/redux/Project/Retrospectives/retroActionTypes";
 import { produce } from "immer";
 
 const initialState = {
-    retroList: [],
-    loading: true,
+    retros: {},
+    retroLoading: true,
     error: "",
     msg: "",
 };
@@ -21,17 +26,30 @@ const retroReducer = (state = initialState, action) => {
     return produce(state, (draft) => {
         switch (action.type) {
             case ADD_RETROSPECTIVE_REQUEST:
-                draft.loading = true;
+                draft.retroLoading = true;
                 return;
             case ADD_RETROSPECTIVE_SUCCESS:
-                draft.loading = false;
-                draft.retroList = action.payload;
+                draft.retroLoading = false;
+                draft.retros = action.payload;
                 return;
             case ADD_RETROSPECTIVE_FAILURE:
-                draft.loading = false;
+                draft.retroLoading = false;
                 draft.error = action.payload;
                 draft.msg = action.payload;
                 return;
+            case FETCH_RETROSPECTIVES_REQUEST:
+                draft.retroLoading = true;
+                return;
+            case FETCH_RETROSPECTIVES_SUCCESS:
+                draft.retroLoading = false;
+                draft.retros = action.payload
+                return;
+            case FETCH_RETROSPECTIVES_FAILURE:
+                draft.retroLoading = false;
+                draft.msg = action.payload
+                return;
+
+
             default:
                 return;
         }

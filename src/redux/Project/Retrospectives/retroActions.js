@@ -9,13 +9,14 @@ import {
     DELETE_RETROSPECTIVE_REQUEST,
     DELETE_RETROSPECTIVE_SUCCESS,
     DELETE_RETROSPECTIVE_FAILURE,
-    FETCH_RETROSPECTIVES_DEVELOPER,
-    FETCH_ALL_RETROSPECTIVES,
+    FETCH_RETROSPECTIVES_REQUEST,
+    FETCH_RETROSPECTIVES_SUCCESS,
+    FETCH_RETROSPECTIVES_FAILURE,
     MARK_RETROSPECTIVES_COMPLETE,
 } from "src/redux/Project/Retrospectives/retroActionTypes";
 
 import { fbfirestore } from "../../../service/firebase";
-import { doc, setDoc, collection, getDoc } from "firebase/firestore";
+import { doc, setDoc, collection, getDoc, getDocs,updateDoc } from "firebase/firestore";
 import retroConstants from "src/config/Retrospective";
 import { fireStoreKeys } from "src/config/constants";
 import { updateTicketStatusRequest } from "src/redux";
@@ -74,6 +75,24 @@ export const deleteRetrospectiveFailure = (obj) => {
     };
 };
 
+export const fetchRetrospectiveRequest = () => {
+    return {
+        type: FETCH_RETROSPECTIVES_REQUEST,
+    };
+};
+export const fetchRetrospectiveSuccess = (obj) => {
+    return {
+        type: FETCH_RETROSPECTIVES_SUCCESS,
+        payload: obj,
+    };
+};
+export const fetchRetrospectiveFailure = (obj) => {
+    return {
+        type: FETCH_RETROSPECTIVES_FAILURE,
+        payload: obj,
+    };
+};
+
 const getType = (type) => {
     switch (type) {
         case retroConstants.retroTypeEnum.positive:
@@ -87,11 +106,11 @@ const getType = (type) => {
     }
 };
 
-export const addRetrospective = (sprintId, userId, type, text) => {
+export const addRetrospective = (sprintId, type, id,text) => {
     return async (dispatch) => {
         dispatch(addRetrospectiveRequest());
-        const userRetroRef = doc(fbfirestore, fireStoreKeys.collections.retrospectives, userId);
-        const ref = await getDoc(userRetroRef);
+        const retros = doc(fbfirestore, fireStoreKeys.collections.retrospectives, sprintId);
+        const ref = await getDoc(retros);
         const data = ref.exists()
             ? ref.data()
             : {
@@ -100,63 +119,112 @@ export const addRetrospective = (sprintId, userId, type, text) => {
                   [fireStoreKeys.negative]: [],
                   [fireStoreKeys.actions]: [],
               };
-        data[getType(type)].push(text)
+        data[type].push({text,id});
         try {
-            setDoc(doc(fbfirestore,fireStoreKeys.collections.retrospectives, userId), data);
-            dispatch(addRetrospectiveSuccess({
-                success : true,
-                message : "Added successfully"
-            }))
+            setDoc(doc(fbfirestore, fireStoreKeys.collections.retrospectives, sprintId), data);
+            dispatch(
+                addRetrospectiveSuccess({
+                    success: true,
+                    message: "Added successfully",
+                })
+                
+            );
+            dispatch(fetchRetrospectives(sprintId));
         } catch (exception) {
-            dispatch(addRetrospectiveFailure({
-                success : false,
-                message : "Coudn't add feedback. Please try again later"
-            }))
+            dispatch(
+                addRetrospectiveFailure({
+                    success: false,
+                    message: "Coudn't add feedback. Please try again later",
+                })
+            );
         }
     };
 };
 
-
-export const updateRetroSpective = (sprintId, userId, type,text,index) => {
+export const updateRetroSpective = (sprintId,type,id,text,index) => {
     return async (dispatch) => {
         dispatch(updateTicketStatusRequest());
-        const userRetroRef = doc(fbfirestore, fireStoreKeys.collections.retrospectives, userId);
-        const ref = await getDoc(userRetroRef);
-        const data = ref.data()
-        data[getType(type)][index] = text
+        const retros = doc(fbfirestore, fireStoreKeys.collections.retrospectives, sprintId);
+        const ref = await getDoc(retros);
+        let data = ref.data();
+        data[type].splice(index,1,{text,id});
+       
         try {
-            setDoc(doc(fbfirestore,fireStoreKeys.collections.retrospectives, userId), data);
-            dispatch(updateRetrospectiveSuccess({
-                success : true,
-                message : "Updated successfully"
-            }))
+            updateDoc(doc(fbfirestore, fireStoreKeys.collections.retrospectives, sprintId), data);
+            dispatch(
+                updateRetrospectiveSuccess({
+                    success: true,
+                    message: "Updated successfully",
+                })
+            );
+            dispatch(fetchRetrospectives(sprintId));
+
         } catch (exception) {
-            dispatch(updateRetrospectiveFailure({
-                success : false,
-                message : "Coudn't update feedback. Please try again later"
-            }))
+            console.log(exception)
+            dispatch(
+                updateRetrospectiveFailure({
+                    success: false,
+                    message: "Coudn't update feedback. Please try again later",
+                })
+            );
         }
     };
 };
 
-export const deleteRetro = (sprintId,userId,type,index) => {
+export const deleteRetro = (sprintId, id, type) => {
     return async (dispatch) => {
-        dispatch(dele());
-        const userRetroRef = doc(fbfirestore, fireStoreKeys.collections.retrospectives, userId);
-        const ref = await getDoc(userRetroRef);
-        const data = ref.data()
-        data[getType(type)].slice(index,1)
+        dispatch(deleteRetrospectiveRequest());
+        const retos = doc(fbfirestore, fireStoreKeys.collections.retrospectives, sprintId);
+        const ref = await getDoc(retos);
+        let data = ref.data();
+        console.log("data", data);
+        data[type].splice(
+            data[type].findIndex((r) => r.id === id),
+            1
+        );
         try {
-            setDoc(doc(fbfirestore,fireStoreKeys.collections.retrospectives, userId), data);
-            dispatch(updateRetrospectiveSuccess({
-                success : true,
-                message : "Deleted successfully"
-            }))
+            setDoc(doc(fbfirestore, fireStoreKeys.collections.retrospectives, sprintId), data);
+            dispatch(
+                deleteRetrospectiveSuccess({
+                    success: true,
+                    message: "Deleted successfully",
+                })
+            );
+            dispatch(fetchRetrospectives(sprintId));
         } catch (exception) {
-            dispatch(updateRetrospectiveFailure({
-                success : false,
-                message : "Coudn't Delete feedback. Please try again later"
-            }))
+            dispatch(
+                deleteRetrospectiveFailure({
+                    success: false,
+                    message: "Coudn't Delete feedback. Please try again later",
+                })
+            );
+        }
+    };
+};
+
+export const fetchRetrospectives = (sprintId) => {
+    return async (dispatch) => {
+        dispatch(fetchRetrospectiveRequest());
+        try {
+            const docRef = doc(fbfirestore, fireStoreKeys.collections.retrospectives, sprintId);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                dispatch(fetchRetrospectiveSuccess(docSnap.data()));
+            } else {
+                dispatch(
+                    fetchRetrospectiveFailure({
+                        success: false,
+                        message: "Coudn't Delete feedback. Please try again later",
+                    })
+                );
+            }
+        } catch (exception) {
+            dispatch(
+                fetchRetrospectiveFailure({
+                    success: false,
+                    message: "Coudn't Delete feedback. Please try again later",
+                })
+            );
         }
     };
 };
