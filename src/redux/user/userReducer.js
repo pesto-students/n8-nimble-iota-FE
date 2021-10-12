@@ -22,6 +22,12 @@ import {
     CHANGE_IMAGE_FAILURE,
     CHANGE_IMAGE_REQUEST,
     CHANGE_IMAGE_SUCCESS,
+    GET_USER_DATA_REQUEST,
+    GET_USER_DATA_FAILURE,
+    GET_USER_DATA_SUCCESS,
+    UPDATE_USER_DATA_REQUEST,
+    UPDATE_USER_DATA_SUCCESS,
+    UPDATE_USER_DATA_FAILURE
 } from "src/redux/user/userActionTypes";
 import { produce } from "immer";
 
@@ -29,6 +35,7 @@ const initialState = {
     loading: false,
     error: "",
     user: null,
+    userProfile : {},
     isAuthenticated: false,
     message: "",
     img: "",
@@ -126,6 +133,28 @@ const userReducer = (state = initialState, action) => {
                 draft.img = action.payload;
                 return;
             case CHANGE_IMAGE_FAILURE:
+                draft.loading = false;
+                draft.error = action.payload;
+                return;
+            case GET_USER_DATA_REQUEST:
+                draft.loading = true;
+                return;
+            case GET_USER_DATA_SUCCESS:
+                draft.loading = false;
+                draft.userProfile = action.payload;
+                return;
+            case GET_USER_DATA_FAILURE:
+                draft.loading = false;
+                draft.error = action.payload;
+                return;
+            case UPDATE_USER_DATA_REQUEST:
+                draft.loading = true;
+                return;
+            case UPDATE_USER_DATA_SUCCESS:
+                draft.loading = false;
+                draft.message = action.payload;
+                return;
+            case UPDATE_USER_DATA_FAILURE:
                 draft.loading = false;
                 draft.error = action.payload;
                 return;

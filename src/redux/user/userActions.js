@@ -25,6 +25,12 @@ import {
     LOGOUT_USER_REQUEST,
     LOGOUT_USER_SUCCESS,
     LOGOUT_USER_FAILURE,
+    GET_USER_DATA_REQUEST,
+    GET_USER_DATA_FAILURE,
+    GET_USER_DATA_SUCCESS,
+    UPDATE_USER_DATA_REQUEST,
+    UPDATE_USER_DATA_SUCCESS,
+    UPDATE_USER_DATA_FAILURE
 } from "src/redux/user/userActionTypes";
 export const LogoutUser = () => {
     return (dispatch) => {
@@ -50,12 +56,11 @@ export const ChangeImage = (image, email, id) => {
             .then(() => {
                 getDownloadURL(ref(fbstorage, `profile-images/${email}`))
                     .then((url) => {
-                        const img = document.getElementById(id);
-                        img.setAttribute("src", url);
                         axios
                             .put("/user", { imgurl: url })
                             .then(() => {
                                 dispatch(changeImageSuccess(url));
+                                dispatch(getUserData(id))
                             })
                             .catch((error) => {
                                 dispatch(changeImageFailure(error));
@@ -164,6 +169,66 @@ export const ResetPassword = (oldpassword, newpassword) => {
             });
     };
 };
+
+
+export const getUserData = (id) => {
+    return (dispatch) => {
+        dispatch(getUserDataRequest());
+        axios
+            .post("/getUserData", {id})
+            .then((response) => {
+                dispatch(getUserDataSuccess(response.data.data));
+            })
+            .catch((error) => {
+                if (error.response) {
+                    dispatch(getUserDataFailure(error.response.data.message));
+                } else {
+                    dispatch(getUserDataFailure(error.message));
+                }
+            });
+    };
+};
+
+export const updateUserData = (name,phone,location,selfintro,id) => {
+    return (dispatch) => {
+        dispatch(updateUserDataRequest());
+        axios
+            .put("/user", {name,phone,location,selfintro})
+            .then((response) => {
+                dispatch(updateUserDataSuccess(response.data.message));
+                dispatch(getUserData(id))
+            })
+            .catch((error) => {
+                if (error.response) {
+                    dispatch(updateUserDataFailure(error.response));
+                } else {
+                    dispatch(updateUserDataFailure(error.response));
+                }
+            });
+    };
+};
+
+export const getUserDataRequest = () => {
+    return {
+        type: GET_USER_DATA_REQUEST,
+    };
+};
+
+export const getUserDataSuccess = (obj) => {
+    return {
+        type: GET_USER_DATA_SUCCESS,
+        payload: obj,
+    };
+};
+
+export const getUserDataFailure = (error) => {
+    return {
+        type: GET_USER_DATA_FAILURE,
+        payload: error,
+    };
+};
+
+
 
 export const forgotPasswordRequest = () => {
     return {
@@ -312,6 +377,27 @@ export const changeImageSuccess = (obj) => {
 export const changeImageFailure = (error) => {
     return {
         type: CHANGE_IMAGE_FAILURE,
+        payload: error,
+    };
+};
+
+
+export const updateUserDataRequest = () => {
+    return {
+        type: UPDATE_USER_DATA_REQUEST,
+    };
+};
+
+export const updateUserDataSuccess = (obj) => {
+    return {
+        type: UPDATE_USER_DATA_SUCCESS,
+        payload: obj,
+    };
+};
+
+export const updateUserDataFailure = (error) => {
+    return {
+        type: UPDATE_USER_DATA_FAILURE,
         payload: error,
     };
 };
