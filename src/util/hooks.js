@@ -18,3 +18,11 @@ export const useRouting = () => {
         url,
     };
 };
+
+export const useMeeting = () => {
+    const { url } = useRouting();
+    let splits = url.split("/");
+    splits = splits.slice(0, -1);
+    const meetUrl = `${splits.join("/")}/meet`;
+    return meetUrl;
+};

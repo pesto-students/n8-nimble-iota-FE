@@ -6,7 +6,7 @@ import Retrocard from "src/components/Page/Retrospectives/Retrocard/Retrocard";
 import RetrospectiveModal from "src/components/Page/Retrospectives/RetrospectiveModal";
 import styles from "src/components/Page/Retrospectives/Retrospectives.module.less";
 import { Link } from "react-router-dom";
-import { useRouting } from "src/util/hooks";
+import { useMeeting, useRouting } from "src/util/hooks";
 
 function Retrospectives() {
     const [openModal, setOpenModal] = useState(false);
@@ -26,10 +26,7 @@ function Retrospectives() {
         console.log("yes");
     }, [openModal]);
 
-    const { url } = useRouting();
-    let splits = url.split("/");
-    splits = splits.slice(0, -1);
-    const meetUrl = `${splits.join("/")}/meet`;
+    const meetUrl = useMeeting();
 
     return (
         <>

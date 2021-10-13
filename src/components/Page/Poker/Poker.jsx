@@ -10,7 +10,7 @@ import FloatingAdd from "../../Common/FloatingAdd/FloatingAdd";
 import "intersection-observer";
 import { useIsVisible } from "react-is-visible";
 import AppSelect from "../../Common/AppSelect/AppSelect";
-import { useRouting } from "src/util/hooks";
+import { useMeeting, useRouting } from "src/util/hooks";
 import { onSnapshot, collection, addDoc, doc, updateDoc, arrayUnion, arrayRemove, deleteDoc } from "firebase/firestore";
 import { fbfirestore } from "../../../service/firebase";
 import styles from "./Poker.module.less";
@@ -18,6 +18,7 @@ import Axios from "../../../service/Axios";
 import AppInput from "../../Common/AppInput/AppInput";
 import Mounter from "../../Common/Mounter/Mounter";
 import roles from "../../../config/roles";
+import { Link } from "react-router-dom";
 
 function Poker() {
     const [form] = Form.useForm();
@@ -143,6 +144,7 @@ function Poker() {
         </AppButton>
     );
     const flipMove = Mounter(flipOrMove, { flipped })(roles.scrummastersandadmins);
+    const meetUrl = useMeeting();
     return (
         <Layout>
             <Content>
@@ -152,11 +154,13 @@ function Poker() {
                             {selectedItem && <>Ticket Number: {selectedItem.ticketId}</>}
                         </Col>
                         <Col flex={1} align="middle">
-                            <AppButton loading={false} size={"middle"}>
-                                <>
-                                    <PhoneFilled /> Join Call
-                                </>
-                            </AppButton>
+                            <Link to={meetUrl}>
+                                <AppButton loading={false} size={"middle"}>
+                                    <>
+                                        <PhoneFilled /> Join Call
+                                    </>
+                                </AppButton>
+                            </Link>
                         </Col>
                     </Row>
                 </Header>
