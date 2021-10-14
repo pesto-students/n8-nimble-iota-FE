@@ -1,7 +1,13 @@
 import { CheckCircleFilled, PhoneFilled, PlusCircleFilled } from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteTicket, fetchAllDevlopersProject, fetchAllTickets, incrementStroyPoints, updateTicketStatus } from "src/redux";
+import {
+    deleteTicket,
+    fetchAllDevlopersProject,
+    fetchAllTickets,
+    incrementStroyPoints,
+    updateTicketStatus,
+} from "src/redux";
 import styles from "src/components/Page/Scrumboard/Scrumboard.module.less";
 import { DragDropContext } from "react-beautiful-dnd";
 import { Droppable } from "react-beautiful-dnd";
@@ -10,6 +16,8 @@ import Ticket from "src/components/Page/Scrumboard/Ticket/Ticket";
 import TicketModal from "src/components/TicketModal/TicketModal";
 import { filterTicketList } from "src/util/helperFunctions";
 import { colors } from "src/config/constants";
+import { Link } from "react-router-dom";
+import { useMeeting } from "src/util/hooks";
 
 function Scrumboard() {
     const [openModal, setOpenModal] = useState(false);
@@ -24,7 +32,7 @@ function Scrumboard() {
         },
         {
             id: "COMPLETE",
-        }
+        },
         // ,
         // {
         //     id: "DEPLOY",
@@ -37,7 +45,7 @@ function Scrumboard() {
 
     const onTicketClicked = (ticketData) => {
         setOpenModal(true);
-        setClickedTicekt(ticketData)
+        setClickedTicekt(ticketData);
     };
 
     const handleCancel = () => {
@@ -50,20 +58,24 @@ function Scrumboard() {
     }, []);
 
     const onDragEnd = (result) => {
-        console.log(result)
+        console.log(result);
 
         if (!result.destination) return;
-        const { source, destination,draggableId } = result;
-        if(source.droppableId == "COMPLETE") return;
+        const { source, destination, draggableId } = result;
+        if (source.droppableId == "COMPLETE") return;
 
         if (source.droppableId !== destination.droppableId) {
-            const draggedTicket = ticketList.find((ticket)=>ticket["_id"] === draggableId)
-            dispatch(updateTicketStatus("61546b7864bccbe191f15977",draggedTicket.ticketId,result.destination.droppableId))
-            if(destination.droppableId == "COMPLETE"){
-                dispatch(incrementStroyPoints("dsffd",draggedTicket["_id"],draggedTicket["storyPoints"]))
+            const draggedTicket = ticketList.find((ticket) => ticket["_id"] === draggableId);
+            dispatch(
+                updateTicketStatus("61546b7864bccbe191f15977", draggedTicket.ticketId, result.destination.droppableId)
+            );
+            if (destination.droppableId == "COMPLETE") {
+                dispatch(incrementStroyPoints("dsffd", draggedTicket["_id"], draggedTicket["storyPoints"]));
             }
         }
     };
+
+    const meetUrl = useMeeting();
 
     return (
         <>
@@ -71,9 +83,11 @@ function Scrumboard() {
             {!loading && (
                 <div className={styles.container}>
                     <div className={styles.actions}>
-                        <AppButton loading={false} size={"middle"} style={{ marginRight: "8px" }}>
-                            <PhoneFilled /> Join Call
-                        </AppButton>
+                        <Link to={meetUrl}>
+                            <AppButton loading={false} size={"middle"} style={{ marginRight: "8px" }}>
+                                <PhoneFilled /> Join Call
+                            </AppButton>
+                        </Link>
                         <AppButton loading={false} size={"middle"}>
                             <CheckCircleFilled /> Mark as Complete
                         </AppButton>
@@ -111,9 +125,10 @@ function Scrumboard() {
                                                 ref={provided.innerRef}
                                                 {...provided.droppableProps}
                                                 style={{
-                                                    background: snapshot.isDraggingOver ? colors.dragEventBackground : colors.droppableColumnBackground,
-                                                    border: snapshot.isDraggingOver ? '2px dashed' : 'none'
-                                                    
+                                                    background: snapshot.isDraggingOver
+                                                        ? colors.dragEventBackground
+                                                        : colors.droppableColumnBackground,
+                                                    border: snapshot.isDraggingOver ? "2px dashed" : "none",
                                                 }}
                                             >
                                                 {filterTicketList(ticketList, column.id).map((ticket, index) => {
