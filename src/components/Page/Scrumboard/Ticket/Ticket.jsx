@@ -13,15 +13,14 @@ import AppSelect from "src/components/Common/AppSelect/AppSelect";
 import ticketConstants from "src/config/Ticket";
 import classNames from "classnames";
 
-function Ticket({ onClick,index,ticketData }) {
-
+function Ticket({ onClick, index, ticketData }) {
     const { TextArea } = Input;
 
-    const handleClick = ()=>{
-        onClick(ticketData)
-    }
+    const handleClick = () => {
+        onClick(ticketData);
+    };
     return (
-        <Draggable draggableId={ticketData._id} index={index}  key={ticketData._id}>
+        <Draggable draggableId={ticketData._id} index={index} key={ticketData._id}>
             {(provided) => (
                 <div
                     className={styles.container}
@@ -29,14 +28,21 @@ function Ticket({ onClick,index,ticketData }) {
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
                 >
-                    <CardCustom disabled={true} onClick={handleClick} style={{border:`2px solid ${classNames({
-                        [colors.ticketBorderRed] : ticketData.status === "TODO",
-                        [colors.ticketBorderOrange] : ticketData.status === "INPROGRESS",
-                        [colors.ticketBorderGreen] : ticketData.status === "COMPLETE",
-                    })}`}} bodyStyle={{ height: "100%", padding: "8px"}}>
+                    <CardCustom
+                        disabled={true}
+                        onClick={handleClick}
+                        style={{
+                            border: `2px solid ${classNames({
+                                [colors.ticketBorderRed]: ticketData.status === "TODO",
+                                [colors.ticketBorderOrange]: ticketData.status === "INPROGRESS",
+                                [colors.ticketBorderGreen]: ticketData.status === "COMPLETE",
+                            })}`,
+                        }}
+                        bodyStyle={{ height: "100%", padding: "8px" }}
+                    >
                         <div className={styles.ticketHeader}>
-                            <div className="ticketTitle" style={{ width: "50%"}}>
-                                <b style={{color: `${colors.tagBlue}` }}>Ticket No:</b> {ticketData.ticketId}
+                            <div className="ticketTitle" style={{ width: "50%" }}>
+                                <b style={{ color: `${colors.tagBlue}` }}>Ticket No:</b> {ticketData.ticketId}
                             </div>
 
                             <div
@@ -51,7 +57,6 @@ function Ticket({ onClick,index,ticketData }) {
 
                         <TextArea
                             placeholder="The ticket Description goes here."
-                            isPassword={false}
                             size="large"
                             style={{
                                 width: "100%",
@@ -125,8 +130,8 @@ function Ticket({ onClick,index,ticketData }) {
 Ticket.propTypes = {
     text: PropTypes.string,
     index: PropTypes.number,
-    onClick : PropTypes.func,
-    ticketData : PropTypes.object
+    onClick: PropTypes.func,
+    ticketData: PropTypes.object,
 };
 
 export default Ticket;

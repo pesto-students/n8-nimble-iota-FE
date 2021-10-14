@@ -8,23 +8,33 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ActiveMark from "src/components/Common/ActiveMark/ActiveMark";
 import BacklogsControls from "src/components/Common/Sidebar/BacklogsControls/BacklogsControls";
+import classnames from "classnames";
 
 const Sidebar = (props) => {
     const { pathname } = useLocation();
     const { path, url } = useRouteMatch();
 
-    const match = matchPath(pathname, { path: `${path}/:projectId` });
+    const match = matchPath(pathname, { path: `${path}/:projectId/*` });
     const projectId = match?.params?.projectId;
+    console.log("projectId", projectId);
     const projectUrl = `${url}/${projectId}`;
     const projects = useSelector((state) => state.projectList.projects);
     const currentProject = projects.find((e) => e._id === projectId);
     console.log("curr", currentProject);
     const isBacklogs = pathname.endsWith("backlogs");
-    const isProjectList = pathname.endsWith("backlogs");
+    const isProjectList = pathname.endsWith("projects");
     const backlogsUrl = `${url}/${projectId}/backlogs`;
     const isProject = !!projectId;
+    const isMeet = pathname.endsWith("meet");
+
+    const sideBarClassNames = classnames([
+        styles.sidebar,
+        {
+            [styles.hidden]: isMeet,
+        },
+    ]);
     return (
-        <section className={styles.sidebar}>
+        <section className={sideBarClassNames}>
             <div className={styles.main}>
                 {isProject && (
                     <div className={styles.common}>
@@ -42,7 +52,7 @@ const Sidebar = (props) => {
                     isBacklogs ? (
                         <BacklogsControls />
                     ) : (
-                        <SprintsData project={currentProject} />
+                        <>{currentProject && <SprintsData project={currentProject} />}</>
                     )
                 ) : (
                     <UserData />

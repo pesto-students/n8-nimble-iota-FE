@@ -13,7 +13,7 @@ import { useRouting } from "src/util/hooks";
 import ActiveMark from "src/components/Common/ActiveMark/ActiveMark";
 
 const SprintsData = ({ project }) => {
-    const sprints = project?.sprints;
+    const { sprints } = project;
     const [filteredSprints, setFilteredSprints] = useState(sprints);
     const [searchText, setSearchText] = useState("");
     useEffect(() => {
@@ -27,8 +27,6 @@ const SprintsData = ({ project }) => {
     const currentSprint = sprints?.find((e) => e.status === sprintStatus.active);
     const dispatch = useDispatch();
     dispatch(setSelectedSprint(currentSprint));
-    const { url } = useRouting();
-
     const prepareSprintsListJsx = () => filteredSprints?.map((e, index) => <SprintListItem key={index} sprint={e} />);
     return (
         <>

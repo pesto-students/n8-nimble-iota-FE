@@ -7,6 +7,6 @@ function CardCustom({ children, ...props }) {
 }
 
 CardCustom.propTypes = {
-    children: PropTypes.element,
+    children: PropTypes.any,
 };
 export default CardCustom;

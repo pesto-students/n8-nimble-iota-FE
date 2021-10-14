@@ -16,7 +16,7 @@ const AppModal = ({ visible, handleCancel, children, ...props }) => {
 AppModal.propTypes = {
     visible: PropTypes.bool,
     handleCancel: PropTypes.func,
-    children: PropTypes.element,
+    children: PropTypes.any,
 };
 
 export default AppModal;
