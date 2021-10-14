@@ -12,10 +12,6 @@ const Projects = (props) => {
     const dispatch = useDispatch();
     const projects = useSelector((state) => state.projectList.projects);
 
-    useEffect(() => {
-        dispatch(loadProjects());
-    }, []);
-
     // const history = useHistory();
     // const { path, url } = useRouteMatch();
     const router = useRouting();

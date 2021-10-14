@@ -36,19 +36,21 @@ const Project = () => {
                 </Route>
                 <Route path={`${path}/backlogs`} component={Backlogs} />
 
-                <Tabs
-                    defaultActiveKey={`${url}${initialRoute}`}
-                    onChange={(key) => {
-                        console.log(key, "key");
-                        navigate(key, true, true);
-                    }}
-                >
-                    {ScrumRoutes.map((route, index) => (
-                        <TabPane key={`${url}${route.path}`} tab={route.name}>
-                            <Route component={route.component} path={`${path}${route.path}`} />
-                        </TabPane>
-                    ))}
-                </Tabs>
+                <Route path={path}>
+                    <Tabs
+                        defaultActiveKey={`${url}${initialRoute}`}
+                        onChange={(key) => {
+                            console.log(key, "key");
+                            navigate(key, true, true);
+                        }}
+                    >
+                        {ScrumRoutes.map((route, index) => (
+                            <TabPane key={`${url}${route.path}`} tab={route.name}>
+                                <Route component={route.component} path={`${path}${route.path}`} />
+                            </TabPane>
+                        ))}
+                    </Tabs>
+                </Route>
             </Switch>
         </>
     );

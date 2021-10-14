@@ -8,7 +8,6 @@ import { Loading3QuartersOutlined } from "@ant-design/icons";
 
 const Meeting = ({ roomName, meetingId, user }) => {
     // eslint-disable-next-line no-undef
-    const orgId = process.env.DYTE_ORG_ID;
     const { name, picture, email } = user;
     const [authToken, setAuthToken] = useState();
     // const [error, setError] = useState();
@@ -35,7 +34,6 @@ const Meeting = ({ roomName, meetingId, user }) => {
                     // presetName: "nimble",
                     roleName: "host",
                 },
-                orgId,
                 meetingId,
             })
             .then((res) => {
@@ -58,16 +56,12 @@ const Meeting = ({ roomName, meetingId, user }) => {
 
     return (
         <>
-            {authToken ? (
+            {authToken && (
                 <DyteMeeting
                     onInit={() => {}}
                     clientId={"0ebfa506-b771-4d4a-a469-063bf2844e3d"}
                     meetingConfig={meetingConfig}
                 />
-            ) : (
-                <Loader>
-                    <Loading3QuartersOutlined />
-                </Loader>
             )}
         </>
     );
