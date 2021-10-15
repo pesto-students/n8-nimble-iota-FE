@@ -19,6 +19,7 @@ function Bar({ map }) {
             plotOptions: {
                 bar: {
                     borderRadius: 10,
+                    width :  "10%",
                     dataLabels: {
                         position: "top", // top, center, bottom
                     },

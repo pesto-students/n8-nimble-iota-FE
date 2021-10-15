@@ -18,7 +18,6 @@ const Sidebar = (props) => {
     const projectUrl = `${url}/${projectId}`;
     const projects = useSelector((state) => state.projectList.projects);
     const currentProject = projects.find((e) => e._id === projectId);
-    console.log("curr", currentProject);
     const isBacklogs = pathname.endsWith("backlogs");
     const isProjectList = pathname.endsWith("backlogs");
     const backlogsUrl = `${url}/${projectId}/backlogs`;

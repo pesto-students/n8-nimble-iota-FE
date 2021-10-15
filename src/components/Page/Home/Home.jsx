@@ -18,8 +18,7 @@ import Projects from "src/components/Page/Projects/Projects";
 import Project from "src/components/Page/Project/Project";
 import { Redirect } from "react-router-dom";
 import { useRouteMatch } from "react-router-dom";
-
-
+import UserProfile from "src/components/Page/UserProfile/UserProfile";
 
 function Home() {
     const { Text } = Typography;
@@ -29,7 +28,6 @@ function Home() {
     const [resetModal, setResetModal] = useState(false);
     const openReset = () => setResetModal(true);
     const closeReset = () => setResetModal(false);
-
 
     const handleLogout = () => dispatch(LogoutUser());
 
@@ -44,6 +42,9 @@ function Home() {
                         <Route exact path={path}>
                             <Projects />
                         </Route>
+                        {/* <Route exact path={`${path}/account`}>
+                            <UserProfile />
+                        </Route> */}
                         <Route path={`${path}/:projectId`}>
                             <Project />
                         </Route>

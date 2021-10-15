@@ -9,11 +9,13 @@ import { Link } from "react-router-dom";
 import { useRouting } from "src/util/hooks";
 import { fetchRetrospectives } from "src/redux";
 import { fireStoreKeys } from "src/config/constants";
+import { OperationEnum } from "src/config/Enums.ts";
 
 function Retrospectives() {
     const [openModal, setOpenModal] = useState(false);
     const [operation, setOperation] = useState();
-    const [clickedRetro,setClickedRetro] = useState();
+    const [clickedRetro, setClickedRetro] = useState();
+    const { selectedSprint } = useSelector((state) => state.project.sprint);
 
     const { user } = useSelector((state) => state.user);
     const { retroLoading, retros } = useSelector((state) => state.project.retrospectives);
@@ -21,22 +23,19 @@ function Retrospectives() {
     const dispatch = useDispatch();
 
     const handleAdd = () => {
-        setOperation("ADD")
+        setOperation(OperationEnum.ADD);
         setOpenModal(true);
-        
     };
 
     const handleCancel = () => {
         setOpenModal(false);
     };
 
-    const handleClick = (retro)=>{
-        setOperation("UPDATE")
-        setClickedRetro(retro)
-        setOpenModal(true)
-    }
-
-  
+    const handleClick = (retro) => {
+        setOperation(OperationEnum.UPDATE);
+        setClickedRetro(retro);
+        setOpenModal(true);
+    };
 
     const { url } = useRouting();
     let splits = url.split("/");
@@ -44,7 +43,7 @@ function Retrospectives() {
     const meetUrl = `${splits.join("/")}/meet`;
 
     useEffect(() => {
-        dispatch(fetchRetrospectives("sprint1"));
+        dispatch(fetchRetrospectives(selectedSprint._id));
     }, []);
 
     return (
@@ -53,7 +52,7 @@ function Retrospectives() {
                 <div className={styles.actions}>
                     <AppButton onClick={handleAdd} size={"middle"} style={{ marginRight: "8px" }}>
                         <>
-                            <PlusCircleFilled/> Add Retrospective
+                            <PlusCircleFilled /> Add Retrospective
                         </>
                     </AppButton>
                     <Link to={meetUrl}>
@@ -93,23 +92,63 @@ function Retrospectives() {
                 </div>
                 <div className={styles.retroContainer}>
                     <div className={styles.retroCardContainer}>
-                        {retros[fireStoreKeys.positive]?.map((retro,index) => {
-                            return<Retrocard onClick={handleClick} sprint={"sprint1"} type={fireStoreKeys.positive} text={retro.text} id={retro.id} key={index} index={index}/>;
+                        {retros[fireStoreKeys.positive]?.map((retro, index) => {
+                            return (
+                                <Retrocard
+                                    onClick={handleClick}
+                                    sprint={selectedSprint?._id??""}
+                                    type={fireStoreKeys.positive}
+                                    text={retro.text}
+                                    id={retro.id}
+                                    key={index}
+                                    index={index}
+                                />
+                            );
                         })}
                     </div>
                     <div className={styles.retroCardContainer}>
-                        {retros[fireStoreKeys.negative]?.map((retro,index) => {
-                            return <Retrocard onClick={handleClick} sprint={"sprint1"} type={fireStoreKeys.negative} text={retro.text} id={retro.id} key={index} index={index}/>;
+                        {retros[fireStoreKeys.negative]?.map((retro, index) => {
+                            return (
+                                <Retrocard
+                                    onClick={handleClick}
+                                    sprint={selectedSprint?._id??""}
+                                    type={fireStoreKeys.negative}
+                                    text={retro.text}
+                                    id={retro.id}
+                                    key={index}
+                                    index={index}
+                                />
+                            );
                         })}
                     </div>
                     <div className={styles.retroCardContainer}>
-                        {retros[fireStoreKeys.neutral]?.map((retro,index) => {
-                           return  <Retrocard onClick={handleClick} sprint={"sprint1"} type={fireStoreKeys.neutral} text={retro.text} id={retro.id} key={index} index={index}/>;
+                        {retros[fireStoreKeys.neutral]?.map((retro, index) => {
+                            return (
+                                <Retrocard
+                                    onClick={handleClick}
+                                    sprint={selectedSprint?._id??""}
+                                    type={fireStoreKeys.neutral}
+                                    text={retro.text}
+                                    id={retro.id}
+                                    key={index}
+                                    index={index}
+                                />
+                            );
                         })}
                     </div>
                     <div className={styles.retroCardContainer}>
-                        {retros[fireStoreKeys.actions]?.map((retro,index) => {
-                           return <Retrocard onClick={handleClick} sprint={"sprint1"} type={fireStoreKeys.actions} text={retro.text} id={retro.id} key={index} index={index}/>;
+                        {retros[fireStoreKeys.actions]?.map((retro, index) => {
+                            return (
+                                <Retrocard
+                                    onClick={handleClick}
+                                    sprint={selectedSprint?._id??""}
+                                    type={fireStoreKeys.actions}
+                                    text={retro.text}
+                                    id={retro.id}
+                                    key={index}
+                                    index={index}
+                                />
+                            );
                         })}
                     </div>
                 </div>
@@ -122,11 +161,11 @@ function Retrospectives() {
                     visible={openModal}
                     width="400px"
                     operation={operation}
-                    retroType = {clickedRetro?.type??""}
-                    retroText={clickedRetro?.text?? ""}
-                    sprintId="sprint1"
-                    id={clickedRetro?.id??"6153dd3cecbd2470d2322728"}
-                    index = {clickedRetro?.index??""}
+                    retroType={clickedRetro?.type ?? ""}
+                    retroText={clickedRetro?.text ?? ""}
+                    sprintId={selectedSprint?._id??""??""}
+                    id={clickedRetro?.id ?? ""}
+                    index={clickedRetro?.index ?? ""}
                 />
             )}
         </>

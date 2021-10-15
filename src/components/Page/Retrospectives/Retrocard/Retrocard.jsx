@@ -8,18 +8,20 @@ import { DeleteFilled } from "@ant-design/icons";
 import CardCustom from "src/components/Common/Card/Card";
 import { fireStoreKeys } from "src/config/constants";
 import { deleteRetro } from "src/redux";
+import { equalsIgnoreCase } from "src/util/helperFunctions";
 
-function Retrocard({ type,text,id,sprint,onClick,index }) {
+function Retrocard({ type, text, id, sprint, onClick, index }) {
     const { TextArea } = Input;
+    const { user } = useSelector((state) => state.user);
 
     const dispatch = useDispatch();
-    const handleDelete = (e)=>{
-        e.stopPropagation()
-        dispatch(deleteRetro(sprint,id,type))
-    }
-    const handleOnClick = ()=>{
-        onClick({id,text,index,type})
-    }
+    const handleDelete = (e) => {
+        e.stopPropagation();
+        dispatch(deleteRetro(sprint, id, type));
+    };
+    const handleOnClick = () => {
+        onClick({ id, text, index, type });
+    };
     return (
         <div className={styles.container}>
             <CardCustom
@@ -31,7 +33,7 @@ function Retrocard({ type,text,id,sprint,onClick,index }) {
                     [styles.retroCard]: true,
                 })}
                 bodyStyle={{ height: "100%", padding: "8px" }}
-                onClick = {handleOnClick}
+                onClick={handleOnClick}
             >
                 <>
                     <TextArea
@@ -39,10 +41,8 @@ function Retrocard({ type,text,id,sprint,onClick,index }) {
                         size="large"
                         style={{
                             width: "100%",
-                            // borderRadius: "8px",
                             height: "90%",
                             border: "none",
-                            // backgroundColor: "transparent",
                             outline: "none",
                         }}
                         className={classNames({
@@ -52,12 +52,13 @@ function Retrocard({ type,text,id,sprint,onClick,index }) {
                             [styles.actionItem]: type == fireStoreKeys.actions,
                         })}
                         value={text}
-                        // onChange={handleTextChange}
                     />
                     {/*/* TODO Add check that render delete only for those retros which belong to user */}
-                    <div className={styles.actionCont}>
-                        <DeleteFilled  onClick={handleDelete}/>
-                    </div>
+                    {equalsIgnoreCase(id, user?.id) && (
+                        <div className={styles.actionCont}>
+                            <DeleteFilled onClick={handleDelete} />
+                        </div>
+                    )}
                 </>
             </CardCustom>
         </div>
@@ -67,10 +68,10 @@ function Retrocard({ type,text,id,sprint,onClick,index }) {
 Retrocard.propTypes = {
     type: PropTypes.string,
     text: PropTypes.string,
-    id : PropTypes.string,
-    sprint : PropTypes.string,
-    onClick : PropTypes.func,
-    index : PropTypes.number
+    id: PropTypes.string,
+    sprint: PropTypes.string,
+    onClick: PropTypes.func,
+    index: PropTypes.number,
 };
 
 export default Retrocard;

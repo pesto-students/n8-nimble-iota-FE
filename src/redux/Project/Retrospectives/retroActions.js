@@ -215,7 +215,7 @@ export const fetchRetrospectives = (sprintId) => {
                 dispatch(
                     fetchRetrospectiveFailure({
                         success: false,
-                        message: "Coudn't Delete feedback. Please try again later",
+                        message: "No Retros for this id",
                     })
                 );
             }
@@ -223,7 +223,7 @@ export const fetchRetrospectives = (sprintId) => {
             dispatch(
                 fetchRetrospectiveFailure({
                     success: false,
-                    message: "Coudn't Delete feedback. Please try again later",
+                    message: "Coudn't Fetch Retros. Please try again later",
                 })
             );
         }

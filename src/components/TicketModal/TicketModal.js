@@ -1,30 +1,38 @@
+import React, { useEffect, useState } from "react";
 import { Divider } from "antd";
 import PropTypes from "prop-types";
 import TextArea from "rc-textarea";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AppButton from "src/components/Common/AppButton/AppButton";
 import AppInput from "src/components/Common/AppInput/AppInput";
 import AppModal from "src/components/Common/AppModal/AppModal";
 import AppSelect from "src/components/Common/AppSelect/AppSelect";
 import TicketListItem from "src/components/TicketModal/TicketListItem";
-import ticketConstants from "src/config/Ticket";
+import { PriorityEnum, OperationEnum, TicketTypeEnum } from "src/config/Enums";
 import { addTicket, updateTicket } from "src/redux";
-import { generateTicketNumber } from "src/util/helperFunctions";
+import { generateTicketNumber, getSprints, transformEnum } from "src/util/helperFunctions";
 
 function TicketModal(props) {
     const { projectId, ticketData, ticketOperation, developerList } = props;
+    const { selectedSprint } = useSelector((state) => state.project.sprint);
+    const { projects } = useSelector((state) => state.projectList);
+
+    const listOfSprints = getSprints(projects, projectId);
+
+    const ticketTypeArray = transformEnum(TicketTypeEnum);
+    const priorityTypeArray = transformEnum(PriorityEnum);
+
     const dispatch = useDispatch();
 
-    const [title, setTitle] = useState("");
-    const [ticketId, setTicketId] = useState("");
-    const [description, setTcketDescription] = useState("");
-    const [assignee, setAssignee] = useState("");
-    const [priority, setPriority] = useState("");
-    const [type, setType] = useState("");
-    const [sprint, setSprint] = useState("");
-    const [points, setPoints] = useState(0);
-    const [status,setStatus] = useState()
+    const [title, setTitle] = useState();
+    const [ticketId, setTicketId] = useState();
+    const [description, setTcketDescription] = useState();
+    const [assignee, setAssignee] = useState();
+    const [priority, setPriority] = useState();
+    const [type, setType] = useState();
+    const [sprint, setSprint] = useState();
+    const [status, setStatus] = useState();
+    const [points, setStoryPoints] = useState();
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -32,50 +40,31 @@ function TicketModal(props) {
     const handleDescriptionChange = (event) => {
         setTcketDescription(event.target.value);
     };
-    const handleTypeChange = (value, obj) => {
-        setType(
-            ticketConstants.ticketType.find((type) => {
-                return type["_id"] == value;
-            })?.name ?? ""
-        );
+    const handleTypeChange = (value) => {
+        setType(JSON.parse(value));
     };
     const handlePriorityChange = (value) => {
-        setPriority(
-            ticketConstants.priority.find((priority) => {
-                return priority["_id"] == value;
-            })?.name ?? ""
-        );
+        setPriority(JSON.parse(value));
     };
     const handleAssigneeChange = (value) => {
-        setAssignee(
-            developerList.length > 0
-                ? developerList.find((developer) => {
-                      return developer["_id"] == value;
-                  })
-                : ""
-        );
+        setAssignee(JSON.parse(value));
     };
     const handleSprintChange = (value) => {
-        setSprint(
-            ticketConstants.sprints.find((sprint) => {
-                return sprint["_id"] == value;
-            })?.name ?? ""
-        );
+        setSprint(JSON.parse(value));
     };
     const handleTicketAction = () => {
         const ticketObject = {
             ticketId: ticketId,
             title: title,
             description: description,
-            assignee: assignee,
-            priority: priority,
-            type: type,
+            assignee: assignee._id,
+            priority: priority.name,
+            type: type.name,
             storyPoints: points,
-            sprint: sprint,
-            status: status
+            sprint: sprint._id,
+            status: status,
         };
-
-        if (ticketOperation == "CREATE") {
+        if (ticketOperation == OperationEnum.CREATE) {
             dispatch(addTicket(projectId, ticketObject));
         } else {
             dispatch(updateTicket(projectId, ticketObject));
@@ -83,7 +72,7 @@ function TicketModal(props) {
     };
 
     useEffect(() => {
-        if (ticketOperation == "UPDATE") {
+        if (ticketOperation == OperationEnum.UPDATE) {
             setTitle(ticketData.title);
             setTicketId(ticketData.ticketId);
             setTcketDescription(ticketData.description);
@@ -95,30 +84,32 @@ function TicketModal(props) {
                     : ""
             );
             setPriority(
-                ticketConstants.priority.find((priority) => {
+                priorityTypeArray.find((priority) => {
                     return ticketData.priority == priority.name;
-                })?.name ?? ""
+                })
             );
             setType(
-                ticketConstants.ticketType.find((type) => {
+                ticketTypeArray.find((type) => {
                     return ticketData.type == type.name;
-                })?.name ?? ""
+                })
             );
             setSprint(
-                ticketConstants.sprints.find((sprint) => {
-                    return ticketData.sprint == sprint.name;
-                })?.name ?? ""
+                listOfSprints.find((sprint) => {
+                    return ticketData.sprint == sprint._id;
+                })
             );
-            setStatus(ticketData.status ?? "")
+            setStatus(ticketData.status ?? "");
+            setStoryPoints(ticketData.storyPoints ?? "");
         } else {
             setTitle("");
             setTicketId(generateTicketNumber());
             setTcketDescription("");
-            setAssignee(developerList[0]);
-            setPriority(ticketConstants.priority[0].name);
-            setType(ticketConstants.ticketType[0].name);
-            setSprint(ticketConstants.sprints[0].name);
+            setAssignee("");
+            setPriority("");
+            setType("");
+            setSprint("");
             setStatus("");
+            setStoryPoints("");
         }
     }, [developerList]);
 
@@ -174,8 +165,8 @@ function TicketModal(props) {
                         <AppSelect
                             style={{ width: "60%" }}
                             onChange={handleTypeChange}
-                            value={type}
-                            options={ticketConstants.ticketType}
+                            value={type?.name ?? ""}
+                            options={ticketTypeArray}
                         />
                     }
                 />
@@ -185,8 +176,8 @@ function TicketModal(props) {
                     Component={
                         <AppSelect
                             style={{ width: "60%" }}
-                            value={priority}
-                            options={ticketConstants.priority}
+                            value={priority?.name ?? ""}
+                            options={priorityTypeArray}
                             onChange={handlePriorityChange}
                         />
                     }
@@ -198,23 +189,23 @@ function TicketModal(props) {
                     Component={
                         <AppSelect
                             style={{ width: "60%" }}
-                            value={sprint}
-                            options={ticketConstants.sprints}
+                            value={sprint?.name ?? ""}
+                            options={listOfSprints}
                             onChange={handleSprintChange}
                         />
                     }
                 />
 
                 <Divider />
-                {ticketOperation == "UPDATE" && (
+                {ticketOperation == OperationEnum.UPDATE && (
                     <>
                         <TicketListItem
                             label="Story Points"
                             Component={
                                 <AppInput
-                                    placeholder={"Ticket title"}
+                                    placeholder={"No. of story points"}
                                     style={{ width: "60%" }}
-                                    value={points}
+                                    value={ticketData.storyPoints}
                                     disabled={true}
                                 />
                             }
@@ -224,7 +215,7 @@ function TicketModal(props) {
                 )}
 
                 <AppButton onClick={handleTicketAction} style={{ width: "100%" }}>
-                    {ticketOperation == "CREATE" ? "Create" : "Update"}
+                    {ticketOperation == OperationEnum.CREATE ? "Create" : "Update"}
                 </AppButton>
             </AppModal>
         </>
