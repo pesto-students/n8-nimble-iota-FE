@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { matchPath, useLocation, useParams, useRouteMatch } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "src/components/Common/Sidebar/SprintsData/SprintsData.module.less";
-import { Link } from "react-router-dom";
-import Searchbox from "src/components/Common/Searchbox/Searchbox";
 import AppInput from "src/components/Common/AppInput/AppInput";
 import { CheckOutlined, SearchOutlined } from "@ant-design/icons";
-import { sprintStatus } from "src/config/constants";
 import { setSelectedSprint } from "src/redux/Project/Sprint/SprintActions";
-import { useRouting } from "src/util/hooks";
 import ActiveMark from "src/components/Common/ActiveMark/ActiveMark";
 import { SprintStatusEnum } from "src/config/Enums";
 
@@ -58,7 +53,7 @@ export default SprintsData;
 const SprintListItem = ({ sprint }) => {
     const selectedSprint = useSelector((state) => state.sprint.selectedSprint);
     const { name, startdate, enddate } = sprint;
-    const isCurrent = sprint.status === sprintStatus?.active;
+    const isCurrent = sprint.status === SprintStatusEnum.ACTIVE;
     const isActive = sprint._id === selectedSprint?._id;
     const dispatch = useDispatch();
     const handleClick = () => {

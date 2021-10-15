@@ -20,6 +20,7 @@ import { doc, setDoc, collection, getDoc, getDocs,updateDoc } from "firebase/fir
 import retroConstants from "src/config/Retrospective";
 import { fireStoreKeys } from "src/config/constants";
 import { updateTicketStatusRequest } from "src/redux";
+import { RetroTypeEnum } from "src/config/Enums";
 
 export const addRetrospectiveRequest = () => {
     return {
@@ -107,6 +108,7 @@ const getType = (type) => {
 };
 
 export const addRetrospective = (sprintId, type, id,text) => {
+   
     return async (dispatch) => {
         dispatch(addRetrospectiveRequest());
         const retros = doc(fbfirestore, fireStoreKeys.collections.retrospectives, sprintId);
@@ -114,13 +116,12 @@ export const addRetrospective = (sprintId, type, id,text) => {
         const data = ref.exists()
             ? ref.data()
             : {
-                  [fireStoreKeys.positive]: [],
-                  [fireStoreKeys.neutral]: [],
-                  [fireStoreKeys.negative]: [],
-                  [fireStoreKeys.actions]: [],
+                  [RetroTypeEnum.POSITIVE]: [],
+                  [RetroTypeEnum.NEUTRAL]: [],
+                  [RetroTypeEnum.NEGATIVE]: [],
+                  [RetroTypeEnum.ACTIONS]: [],
               };
         data[type].push({text,id});
-        console.log(data)
         try {
             setDoc(doc(fbfirestore, fireStoreKeys.collections.retrospectives, sprintId), data);
             dispatch(
@@ -178,7 +179,6 @@ export const deleteRetro = (sprintId, id, type) => {
         const retos = doc(fbfirestore, fireStoreKeys.collections.retrospectives, sprintId);
         const ref = await getDoc(retos);
         let data = ref.data();
-        console.log("data", data);
         data[type].splice(
             data[type].findIndex((r) => r.id === id),
             1

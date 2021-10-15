@@ -1,6 +1,7 @@
 import { CheckCircleFilled, PhoneFilled, PlusCircleFilled } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import AppButton from "src/components/Common/AppButton/AppButton";
 import Retrocard from "src/components/Page/Retrospectives/Retrocard/Retrocard";
 import RetrospectiveModal from "src/components/Page/Retrospectives/RetrospectiveModal";
@@ -10,6 +11,17 @@ import { useMeeting, useRouting } from "src/util/hooks";
 import { fetchRetrospectives } from "src/redux";
 import { fireStoreKeys } from "src/config/constants";
 import { OperationEnum } from "src/config/Enums.ts";
+import { RetroTypeEnum } from "src/config/Enums";
+
+const Heading = ({ text }) => {
+    return (
+        <div className={styles.heading}>
+            <h3>
+                <b>{text}</b>
+            </h3>
+        </div>
+    );
+};
 
 function Retrospectives() {
     const [openModal, setOpenModal] = useState(false);
@@ -66,35 +78,19 @@ function Retrospectives() {
                     </AppButton>
                 </div>
                 <div className={styles.retroHeadingContainer}>
-                    <div className={styles.heading}>
-                        <h3>
-                            <b>Positive</b>
-                        </h3>
-                    </div>
-                    <div className={styles.heading}>
-                        <h3>
-                            <b>Negative</b>
-                        </h3>
-                    </div>
-                    <div className={styles.heading}>
-                        <h3>
-                            <b>Neutral</b>
-                        </h3>
-                    </div>
-                    <div className={styles.heading}>
-                        <h3>
-                            <b>Action Items</b>
-                        </h3>
-                    </div>
+                    <Heading text={"Positive"} />
+                    <Heading text={"Negative"} />
+                    <Heading text={"Neutral"} />
+                    <Heading text={"Action Items"} />
                 </div>
                 <div className={styles.retroContainer}>
                     <div className={styles.retroCardContainer}>
-                        {retros[fireStoreKeys.positive]?.map((retro, index) => {
+                        {retros[RetroTypeEnum.POSITIVE]?.map((retro, index) => {
                             return (
                                 <Retrocard
                                     onClick={handleClick}
-                                    sprint={selectedSprint?._id??""}
-                                    type={fireStoreKeys.positive}
+                                    sprint={selectedSprint?._id ?? ""}
+                                    type={RetroTypeEnum.POSITIVE}
                                     text={retro.text}
                                     id={retro.id}
                                     key={index}
@@ -104,12 +100,12 @@ function Retrospectives() {
                         })}
                     </div>
                     <div className={styles.retroCardContainer}>
-                        {retros[fireStoreKeys.negative]?.map((retro, index) => {
+                        {retros[RetroTypeEnum.NEGATIVE]?.map((retro, index) => {
                             return (
                                 <Retrocard
                                     onClick={handleClick}
-                                    sprint={selectedSprint?._id??""}
-                                    type={fireStoreKeys.negative}
+                                    sprint={selectedSprint?._id ?? ""}
+                                    type={RetroTypeEnum.NEGATIVE}
                                     text={retro.text}
                                     id={retro.id}
                                     key={index}
@@ -119,12 +115,12 @@ function Retrospectives() {
                         })}
                     </div>
                     <div className={styles.retroCardContainer}>
-                        {retros[fireStoreKeys.neutral]?.map((retro, index) => {
+                        {retros[RetroTypeEnum.NEUTRAL]?.map((retro, index) => {
                             return (
                                 <Retrocard
                                     onClick={handleClick}
-                                    sprint={selectedSprint?._id??""}
-                                    type={fireStoreKeys.neutral}
+                                    sprint={selectedSprint?._id ?? ""}
+                                    type={RetroTypeEnum.NEUTRAL}
                                     text={retro.text}
                                     id={retro.id}
                                     key={index}
@@ -134,12 +130,12 @@ function Retrospectives() {
                         })}
                     </div>
                     <div className={styles.retroCardContainer}>
-                        {retros[fireStoreKeys.actions]?.map((retro, index) => {
+                        {retros[RetroTypeEnum.ACTIONS]?.map((retro, index) => {
                             return (
                                 <Retrocard
                                     onClick={handleClick}
-                                    sprint={selectedSprint?._id??""}
-                                    type={fireStoreKeys.actions}
+                                    sprint={selectedSprint?._id ?? ""}
+                                    type={RetroTypeEnum.ACTIONS}
                                     text={retro.text}
                                     id={retro.id}
                                     key={index}
@@ -160,7 +156,7 @@ function Retrospectives() {
                     operation={operation}
                     retroType={clickedRetro?.type ?? ""}
                     retroText={clickedRetro?.text ?? ""}
-                    sprintId={selectedSprint?._id??""??""}
+                    sprintId={selectedSprint?._id ?? "" ?? ""}
                     id={clickedRetro?.id ?? ""}
                     index={clickedRetro?.index ?? ""}
                 />
@@ -168,5 +164,9 @@ function Retrospectives() {
         </>
     );
 }
+
+Heading.propTypes = {
+    text: PropTypes.string,
+};
 
 export default Retrospectives;

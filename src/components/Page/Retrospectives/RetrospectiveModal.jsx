@@ -8,16 +8,18 @@ import AppButton from "src/components/Common/AppButton/AppButton";
 import AppModal from "src/components/Common/AppModal/AppModal";
 import AppSelect from "src/components/Common/AppSelect/AppSelect";
 import TicketListItem from "src/components/TicketModal/TicketListItem";
-import { fireStoreKeys, retroTypes } from "src/config/constants";
+import { RetroTypeEnum } from "src/config/Enums";
 import { OperationEnum } from "src/config/Enums.ts";
 import { addRetrospective,updateRetroSpective } from "src/redux/Project/Retrospectives/retroActions";
-import { equalsIgnoreCase } from "src/util/helperFunctions";
+import { equalsIgnoreCase, transformEnum } from "src/util/helperFunctions";
 
 
 
 function RetrospectiveModal(props) {
     const {id, sprintId, retroText ,retroType,operation,index } = props;
     const { user } = useSelector((state) => state.user);
+
+    const retroTypes = transformEnum(RetroTypeEnum)
 
     const dispatch = useDispatch();
 
@@ -30,24 +32,24 @@ function RetrospectiveModal(props) {
     };
    
     const handleTypeChange = (value) => {
-        setType(JSON.parse(value)?.name??"" )
+        setType(JSON.parse(value))
     };
 
 
     const handleRetro = ()=>{
         if (operation == OperationEnum.ADD) {
-            dispatch(addRetrospective(sprintId,type,user.id,text));
+            dispatch(addRetrospective(sprintId,type.name,user.id,text));
         } else {
-            dispatch(updateRetroSpective(sprintId,type,user.id,text,index));
+            dispatch(updateRetroSpective(sprintId,type.name,user.id,text,index));
         }
     }
 
     useEffect(() => {
         if (operation == OperationEnum.UPDATE) {
             setText(retroText)
-            setType(retroTypes.find((ele)=>equalsIgnoreCase(ele.name,retroType))?.name??"")
+            setType(retroTypes.find((ele)=>equalsIgnoreCase(ele.name,retroType)))
         }else{
-            setType(retroTypes[0].name)
+            setType("")
         } 
     }, []);
 
@@ -64,7 +66,7 @@ function RetrospectiveModal(props) {
                         <AppSelect
                             style={{ width: "60%" }}
                             onChange={handleTypeChange}
-                            value={type}
+                            value={type?.name??""}
                             options={retroTypes}
                             disabled = {operation == OperationEnum.UPDATE}
                         />

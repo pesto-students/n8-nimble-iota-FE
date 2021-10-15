@@ -9,6 +9,7 @@ import CardCustom from "src/components/Common/Card/Card";
 import { fireStoreKeys } from "src/config/constants";
 import { deleteRetro } from "src/redux";
 import { equalsIgnoreCase } from "src/util/helperFunctions";
+import { RetroTypeEnum } from "src/config/Enums";
 
 function Retrocard({ type, text, id, sprint, onClick, index }) {
     const { TextArea } = Input;
@@ -26,10 +27,10 @@ function Retrocard({ type, text, id, sprint, onClick, index }) {
         <div className={styles.container}>
             <CardCustom
                 className={classNames({
-                    [styles.positive]: type == fireStoreKeys.positive,
-                    [styles.negitive]: type == fireStoreKeys.negative,
-                    [styles.neutral]: type == fireStoreKeys.neutral,
-                    [styles.actionItem]: type == fireStoreKeys.actions,
+                    [styles.positive]: type == RetroTypeEnum.POSITIVE,
+                    [styles.negitive]: type == RetroTypeEnum.NEGATIVE,
+                    [styles.neutral]: type == RetroTypeEnum.NEUTRAL,
+                    [styles.actionItem]: type == RetroTypeEnum.ACTIONS,
                     [styles.retroCard]: true,
                 })}
                 bodyStyle={{ height: "100%", padding: "8px" }}
@@ -46,14 +47,14 @@ function Retrocard({ type, text, id, sprint, onClick, index }) {
                             outline: "none",
                         }}
                         className={classNames({
-                            [styles.positive]: type == fireStoreKeys.positive,
-                            [styles.negitive]: type == fireStoreKeys.negative,
-                            [styles.neutral]: type == fireStoreKeys.neutral,
-                            [styles.actionItem]: type == fireStoreKeys.actions,
+                            [styles.positive]: type == RetroTypeEnum.POSITIVE,
+                            [styles.negitive]: type == RetroTypeEnum.NEGATIVE,
+                            [styles.neutral]: type == RetroTypeEnum.NEUTRAL,
+                            [styles.actionItem]: type == RetroTypeEnum.ACTIONS,
                         })}
                         value={text}
                     />
-                    {/*/* TODO Add check that render delete only for those retros which belong to user */}
+                    {/*/* TODO Add check that render delete only for those retros which belong to user and also check if sprint is active or complete */}
                     {equalsIgnoreCase(id, user?.id) && (
                         <div className={styles.actionCont}>
                             <DeleteFilled onClick={handleDelete} />
