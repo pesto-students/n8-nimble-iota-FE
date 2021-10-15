@@ -19,7 +19,9 @@ const ProjectItem = ({ project, onClick }) => {
         <>
             {project && (
                 <div onClick={onClick} className={styles.projectItem}>
-                    <div className={`${styles.projectDetail} ${styles.graphs}`}>Graphs</div>
+                    <div className={`${styles.projectDetail} ${styles.graphs}`}>
+                        
+                    </div>
                     <div className={`${styles.projectDetail} ${styles.projectInfo}`}>
                         <>
                             <span className={styles.title}>Project Name</span>

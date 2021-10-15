@@ -43,6 +43,8 @@ const ScrumRoutes = [
         requiredRoles: roles.all,
         name: "Reports",
     },
+   
 ];
+
 
 export default ScrumRoutes;

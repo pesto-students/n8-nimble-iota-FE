@@ -18,6 +18,8 @@ import {
     SORT_UPDATED_TICKET_LIST,
 } from "src/redux/Project/Tickets/ticketActionTypes";
 import { produce } from "immer";
+import ticketConstants from "src/config/Ticket";
+import { TicketStatusEnum } from "src/config/Enums.ts";
 
 const initialState = {
     ticketList: [],
@@ -40,7 +42,7 @@ const ticketReducer = (state = initialState, action) => {
             case FETCH_UPDATED_TICKET_LIST_SUCCESS:
                 draft.loading = false;
                 draft.ticketList = action.payload;
-                draft.filteredTicketList = action.payload;
+                draft.filteredTicketList = draft.ticketList;
                 return;
             case FETCH_UPDATED_TICKET_LIST_FAILURE:
                 draft.loading = false;
@@ -103,11 +105,10 @@ const ticketReducer = (state = initialState, action) => {
                     draft.filteredTicketList = draft.ticketList.slice();
                     return;
                 }
-                console.log("s");
                 draft.filteredTicketList = draft.ticketList.filter(
                     (e) =>
-                        e.type === (draft.filters.bug ? "BUG" : "USER_STORY") ||
-                        e.type === (draft.filters.userStory ? "USER_STORY" : "BUG")
+                        (e.type === (draft.filters.bug ? "BUG" : "USER_STORY") ||
+                        e.type === (draft.filters.userStory ? "USER_STORY" : "BUG"))
                 );
                 console.log(draft.filters);
                 return;

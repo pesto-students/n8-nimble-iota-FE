@@ -28,6 +28,7 @@ function IndexRouting() {
                     <Route exact path="/playarea" component={PlayArea} />
                     <Route exact path="/auth/activate/:token" component={AccountActivate} />
                     <Route exact path="/home" render={() => <Redirect to="/projects" />} />
+                    
                     {PrivateRoutes.map((route, index) => (
                         <ProtectedRoute
                             key={index}

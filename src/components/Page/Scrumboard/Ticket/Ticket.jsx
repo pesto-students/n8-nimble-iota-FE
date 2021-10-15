@@ -12,6 +12,7 @@ import TicketListItem from "src/components/TicketModal/TicketListItem";
 import AppSelect from "src/components/Common/AppSelect/AppSelect";
 import ticketConstants from "src/config/Ticket";
 import classNames from "classnames";
+import { TicketStatusEnum } from "src/config/Enums.ts";
 
 function Ticket({ onClick, index, ticketData }) {
     const { TextArea } = Input;
@@ -28,18 +29,11 @@ function Ticket({ onClick, index, ticketData }) {
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
                 >
-                    <CardCustom
-                        disabled={true}
-                        onClick={handleClick}
-                        style={{
-                            border: `2px solid ${classNames({
-                                [colors.ticketBorderRed]: ticketData.status === "TODO",
-                                [colors.ticketBorderOrange]: ticketData.status === "INPROGRESS",
-                                [colors.ticketBorderGreen]: ticketData.status === "COMPLETE",
-                            })}`,
-                        }}
-                        bodyStyle={{ height: "100%", padding: "8px" }}
-                    >
+                    <CardCustom disabled={true} onClick={handleClick} style={{border:`2px solid ${classNames({
+                        [colors.ticketBorderRed] : ticketData.status === TicketStatusEnum.TODO,
+                        [colors.ticketBorderOrange] : ticketData.status ===  TicketStatusEnum.INPROGRESS,
+                        [colors.ticketBorderGreen] : ticketData.status === TicketStatusEnum.COMPLETE,
+                    })}`}} bodyStyle={{ height: "100%", padding: "8px"}}>
                         <div className={styles.ticketHeader}>
                             <div className="ticketTitle" style={{ width: "50%" }}>
                                 <b style={{ color: `${colors.tagBlue}` }}>Ticket No:</b> {ticketData.ticketId}
