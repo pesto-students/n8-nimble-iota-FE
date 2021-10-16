@@ -19,6 +19,7 @@ import AppInput from "../../Common/AppInput/AppInput";
 import Mounter from "../../Common/Mounter/Mounter";
 import roles from "../../../config/roles";
 import { Link } from "react-router-dom";
+import { fireStoreKeys } from "src/config/constants";
 
 
 function Poker() {
@@ -85,7 +86,7 @@ function Poker() {
     const onChangeSprint = (value) => setSprintID(value);
     const onChangeTicketid = (value) => setTicketID(value);
     const AddTicketToPoker = async () => {
-        const collectionRef = collection(fbfirestore, "poker");
+        const collectionRef = collection(fbfirestore, fireStoreKeys.collections.poker);
         const { ticketId, title } = JSON.parse(ticketid);
         if (list.find((item) => item.ticketId === ticketId)) return;
         await addDoc(collectionRef, { projectId, ticketId, title, flipped: false, votes: [] });

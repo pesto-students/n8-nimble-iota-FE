@@ -19,5 +19,6 @@ export const fireStoreKeys = {
     actions: "actions",
     collections: {
         retrospectives: "retrospectives",
+        poker : "poker"
     },
 };

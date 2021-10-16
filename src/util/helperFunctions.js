@@ -1,5 +1,9 @@
+import { fireStoreKeys } from "src/config/constants";
 import { SprintStatusEnum } from "src/config/Enums.ts";
 import { TicketStatusEnum } from "src/config/Enums.ts";
+import { fbfirestore } from "src/service/firebase";
+import { doc, addDoc,setDoc, collection, getDoc, getDocs, updateDoc } from "firebase/firestore";
+import { async } from "@firebase/util";
 
 export const transformEnum = (enumObject) => {
     // This function converts enum to array of Objects. Eg [HIGH,MEDIUM] ----> [{_id:0,name: HIGH},{_id:1,name: MEDIUM}]
@@ -94,7 +98,6 @@ export const filterBacklogTickets = (ticketList) => {
 };
 
 export const filterScrumboardTickets = (ticketList, sprintId, columnId) => {
-    console.log(sprintId);
     return ticketList.length > 0
         ? ticketList.filter(
               (ticket) =>
@@ -127,4 +130,48 @@ export const getSprints = (projectList, projectId) => {
         }
     }
     return [];
+};
+
+export const getAllDocs = async (collectionName) => {
+    //Get all docs of a collection . Retruns a map --> {id1:document1data,id2:document2data}
+    let map = {};
+    const querySnapshot = await getDocs(collection(fbfirestore, collectionName));
+    querySnapshot.forEach((doc) => {
+        map[doc.id] = doc.data();
+    });
+    return map;
+};
+
+
+export const getPoketTicketList = async ()=>{
+    const docs = await getAllDocs(fireStoreKeys.collections.poker);
+    return Object.values(docs)
+}
+
+export const checkStartSprint = (ticketList, sprintList, selectedSprint) => {
+    /*This method checks whether sprint can be started or not. Returns true if sprint can be started
+ 1 -> Check if there is atleast one ticket in Todo
+ 2 -> Check if there is no active sprint */
+
+    const todoTickets = filterScrumboardTickets(ticketList, selectedSprint._id, TicketStatusEnum.TODO);
+    const isActiveSprint = sprintList.findIndex((sprint) => sprint.status === SprintStatusEnum.ACTIVE);
+    return todoTickets.length > 0 && isActiveSprint == -1;
+};
+
+export const checkEndSprint = (ticketList, selectedSprint) => {
+    /*This method checks whether sprint can be ended or not. Returns true if sprint can be ended
+     1 -> Check if all tickets are complete
+     */
+
+    const todoTickets = filterScrumboardTickets(ticketList, selectedSprint._id, TicketStatusEnum.TODO);
+    const inprogressTickets = filterScrumboardTickets(ticketList, selectedSprint._id, TicketStatusEnum.INPROGRESS);
+    return todoTickets.length == 0 && inprogressTickets.length == 0;
+};
+
+export const addTicketToPoker = async (projectId,ticket) => {
+    const collectionRef = collection(fbfirestore, fireStoreKeys.collections.poker);
+    const { ticketId, title } = ticket
+    const pokerList  = await getPoketTicketList()
+    if (pokerList.find((tckt) => tckt.ticketId === ticketId)) return;
+    await addDoc(collectionRef, { projectId, ticketId, title, flipped: false, votes: [] });
 };
