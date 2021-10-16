@@ -71,11 +71,6 @@ function Retrospectives() {
                             </>
                         </AppButton>
                     </Link>
-                    <AppButton disabled={false} size={"middle"}>
-                        <>
-                            <CheckCircleFilled /> Mark as Complete
-                        </>
-                    </AppButton>
                 </div>
                 <div className={styles.retroHeadingContainer}>
                     <Heading text={"Positive"} />

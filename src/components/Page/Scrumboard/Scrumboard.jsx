@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { CheckCircleFilled, PhoneFilled, PlusCircleFilled } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllDevlopersProject, fetchAllTickets, incrementStroyPoints, updateTicketStatus } from "src/redux";
+import {
+    fetchAllDevlopersProject,
+    fetchAllTickets,
+    incrementStroyPoints,
+    completeSprint,
+    startSprint,
+    updateTicketStatus,
+} from "src/redux";
 import PropTypes from "prop-types";
 import styles from "src/components/Page/Scrumboard/Scrumboard.module.less";
 import { DragDropContext } from "react-beautiful-dnd";
@@ -9,12 +16,14 @@ import { Droppable } from "react-beautiful-dnd";
 import AppButton from "src/components/Common/AppButton/AppButton";
 import Ticket from "src/components/Page/Scrumboard/Ticket/Ticket";
 import TicketModal from "src/components/TicketModal/TicketModal";
-import { filterScrumboardTickets } from "src/util/helperFunctions";
+import { checkEndSprint, checkStartSprint, filterScrumboardTickets } from "src/util/helperFunctions";
 import { colors } from "src/config/constants";
 import { Link } from "react-router-dom";
 import { useMeeting } from "src/util/hooks";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-import { OperationEnum, TicketStatusEnum } from "src/config/Enums";
+import { OperationEnum, SprintStatusEnum, TicketStatusEnum } from "src/config/Enums";
+import Mounter from "src/components/Common/Mounter/Mounter";
+import roles from "src/config/roles";
 
 const Heading = ({ text }) => {
     return (
@@ -30,22 +39,59 @@ function Scrumboard() {
     const [openModal, setOpenModal] = useState(false);
     const [clickedTicket, setClickedTicekt] = useState();
     const { selectedSprint } = useSelector((state) => state.project.sprint);
-
     const { projectId } = useParams();
+    const projects = useSelector((state) => state.projectList.projects);
+    const currentProject = projects.find((e) => e._id === projectId);
 
     const [columns, setColumns] = useState([
         {
-            id: [TicketStatusEnum.TODO],
+            id: TicketStatusEnum.TODO,
         },
         {
-            id: [TicketStatusEnum.INPROGRESS],
+            id: TicketStatusEnum.INPROGRESS,
         },
         {
-            id: [TicketStatusEnum.COMPLETE],
+            id: TicketStatusEnum.COMPLETE,
         },
     ]);
     const { loading, ticketList } = useSelector((state) => state.project.ticket);
     const { developerList } = useSelector((state) => state.project.developer);
+
+    const handleSprint = () => {
+        selectedSprint.status === SprintStatusEnum.ACTIVE
+            ? dispatch(completeSprint(selectedSprint._id))
+            : dispatch(startSprint(projectId, selectedSprint._id));
+    };
+
+    const SprintButtonComponent = () => {
+        return (
+            <AppButton
+                disabled={
+                    selectedSprint.status === SprintStatusEnum.COMPLETED
+                        ? true
+                        : selectedSprint.status === SprintStatusEnum.UPCOMING
+                        ? !checkStartSprint(ticketList, currentProject.sprints, selectedSprint)
+                        : !checkEndSprint(ticketList, selectedSprint)
+                }
+                loading={false}
+                size={"middle"}
+                onClick={handleSprint}
+            >
+                {/* TODO 
+                Start sprint --> previous sprint complete and atleast one ticket in Todo
+                Mark complete --> if last day of sprint || (all tickets complete and retros.length > =1)
+                */}
+                <CheckCircleFilled />
+                { selectedSprint.status == SprintStatusEnum.COMPLETED
+                    ? "Completed"
+                    : selectedSprint.status === SprintStatusEnum.ACTIVE
+                    ? "Finish Sprint ?"
+                    : "Start Sprint"}
+            </AppButton>
+        );
+    };
+
+    const sprintButton = Mounter(SprintButtonComponent, {})(roles.scrummastersandadmins);
 
     const dispatch = useDispatch();
 
@@ -94,13 +140,7 @@ function Scrumboard() {
                                 <PhoneFilled /> Join Call
                             </AppButton>
                         </Link>
-                        <AppButton loading={false} size={"middle"}>
-                            {/* TODO 
-                            Start sprint --> previous sprint complete and atleast one ticket in Todo
-                            Mark complete --> if last day of sprint || (all tickets complete and retros.length > =1)
-                            */}
-                            <CheckCircleFilled /> Mark as Complete
-                        </AppButton>
+                        {sprintButton}
                     </div>
                     <div className={styles.retroHeadingContainer}>
                         <Heading text={"Todo"} />
