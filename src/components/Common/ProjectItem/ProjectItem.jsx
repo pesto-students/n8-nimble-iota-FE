@@ -6,6 +6,7 @@ import { getDateFromString } from "src/util/helperFunctions";
 import AppModal from "src/components/Common/AppModal/AppModal";
 import AddMembers from "src/components/Common/AddMembers/AddMembers";
 import { useState } from "react";
+import { SprintStatusEnum } from "src/config/Enums";
 
 const ProjectItem = ({ project, onClick }) => {
     const prepareMembersListJsx = () =>
@@ -15,13 +16,23 @@ const ProjectItem = ({ project, onClick }) => {
             </div>
         ));
     const [addVisible, setAddVisible] = useState(false);
+    const handleCancel = () => setAddVisible(false);
+    const backlogsCount = project?.tickets.reduce((count, ticket) => {
+        if (ticket.status && ticket.status === "") return count + 1;
+    }, 0);
+    const upcomingSprint = project?.sprints.find((e) => e.status === SprintStatusEnum.UPCOMING);
+    const activeSprint = project?.sprints.find((e) => e.status === SprintStatusEnum.ACTIVE);
+    const ticketsInUpcomingSprintCount = project?.tickets.reduce((count, ticket) => {
+        if (ticket.sprint && ticket.sprint === upcomingSprint?._id) return count + 1;
+    }, 0);
+    const ticketsInActiveSprintCount = project?.tickets.reduce((count, ticket) => {
+        if (ticket.sprint && ticket.sprint === activeSprint?._id) return count + 1;
+    }, 0);
     return (
         <>
             {project && (
                 <div onClick={onClick} className={styles.projectItem}>
-                    <div className={`${styles.projectDetail} ${styles.graphs}`}>
-                        
-                    </div>
+                    <div className={`${styles.projectDetail} ${styles.graphs}`}></div>
                     <div className={`${styles.projectDetail} ${styles.projectInfo}`}>
                         <>
                             <span className={styles.title}>Project Name</span>
@@ -43,21 +54,21 @@ const ProjectItem = ({ project, onClick }) => {
                         </>
                         <>
                             <span className={styles.title}>Active Sprint</span>
-                            <span className={styles.value}>{"-"}</span>
+                            <span className={styles.value}>{activeSprint?.name ?? "-"}</span>
                         </>
                     </div>
                     <div className={`${styles.projectDetail} ${styles.ticketInfo}`}>
                         <>
                             <span className={styles.title}>No of Tickets in Active Sprint</span>
-                            <span className={styles.value}>{"-"}</span>
+                            <span className={styles.value}>{ticketsInActiveSprintCount ?? "-"}</span>
                         </>
                         <>
                             <span className={styles.title}>No of Tickets in upcoming Sprint</span>
-                            <span className={styles.value}>{"-"}</span>
+                            <span className={styles.value}>{ticketsInUpcomingSprintCount ?? "-"}</span>
                         </>
                         <>
                             <span className={styles.title}>No of Backlogs</span>
-                            <span className={styles.value}>{"-"}</span>
+                            <span className={styles.value}>{backlogsCount ?? "-"}</span>
                         </>
                     </div>
                     <div className={`${styles.projectDetail} ${styles.teamInfo}`}>
@@ -77,7 +88,7 @@ const ProjectItem = ({ project, onClick }) => {
                     </div>
                 </div>
             )}
-            <AppModal visible={addVisible}>
+            <AppModal visible={addVisible} handleCancel={handleCancel}>
                 <AddMembers projectId={project._id} />
             </AppModal>
         </>

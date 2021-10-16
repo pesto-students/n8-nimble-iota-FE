@@ -7,10 +7,12 @@ import { useSelector } from "react-redux";
 import { Link as ScrollLink } from "react-scroll";
 import PropTypes from "prop-types";
 import { Avatar } from "antd";
+import { extractInitials } from "src/util/helperFunctions";
 
 const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
     const breakpoints = useBreakpoint();
-    const { isAuthenticated } = useSelector((state) => state.user);
+    const { isAuthenticated, user } = useSelector((state) => state.user);
+    const name = user?.name ?? "-";
     console.log(breakpoints);
     const smSize = !breakpoints.md;
     return (
@@ -69,7 +71,7 @@ const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
                                 Logout
                             </a>
                             <div className={styles.navLink} onClick={onProfileClick}>
-                                <Avatar>SM</Avatar>
+                                <Avatar>{extractInitials(name)}</Avatar>
                             </div>
                         </>
                     )}

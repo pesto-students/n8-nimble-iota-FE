@@ -25,7 +25,6 @@ function LoginView(props) {
         dispatch(ForgotPassword(values.email));
     };
     const loginFix = (isScrumMaster) => {
-        // if (!validateEmail(email)) return openAuthNotification("Validation Failed", "invalid email");
         if (isScrumMaster) dispatch(LoginUser("jyotirmayasahu38@gmail.com", "P@ssword1"));
         else dispatch(LoginUser("sahujyotirmaya1997@gmail.com", "CRIMINALcase1"));
     };
