@@ -58,18 +58,18 @@ function Scrumboard() {
     const { developerList } = useSelector((state) => state.project.developer);
 
     const handleSprint = () => {
-        selectedSprint.status === SprintStatusEnum.ACTIVE
-            ? dispatch(completeSprint(selectedSprint._id))
-            : dispatch(startSprint(projectId, selectedSprint._id));
+        selectedSprint?.status === SprintStatusEnum.ACTIVE
+            ? dispatch(completeSprint(selectedSprint?._id))
+            : dispatch(startSprint(projectId, selectedSprint?._id));
     };
 
     const SprintButtonComponent = () => {
         return (
             <AppButton
                 disabled={
-                    selectedSprint.status === SprintStatusEnum.COMPLETED
+                    selectedSprint?.status === SprintStatusEnum.COMPLETED
                         ? true
-                        : selectedSprint.status === SprintStatusEnum.UPCOMING
+                        : selectedSprint?.status === SprintStatusEnum.UPCOMING
                         ? !checkStartSprint(ticketList, currentProject.sprints, selectedSprint)
                         : !checkEndSprint(ticketList, selectedSprint)
                 }
@@ -82,9 +82,9 @@ function Scrumboard() {
                 Mark complete --> if last day of sprint || (all tickets complete and retros.length > =1)
                 */}
                 <CheckCircleFilled />
-                { selectedSprint.status == SprintStatusEnum.COMPLETED
+                {selectedSprint?.status == SprintStatusEnum.COMPLETED
                     ? "Completed"
-                    : selectedSprint.status === SprintStatusEnum.ACTIVE
+                    : selectedSprint?.status === SprintStatusEnum.ACTIVE
                     ? "Finish Sprint ?"
                     : "Start Sprint"}
             </AppButton>

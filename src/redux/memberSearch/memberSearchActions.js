@@ -27,8 +27,8 @@ export const searchMembers = (searchString) => (dispatch) => {
 
 export const addMember =
     ({ memberId, projectId }) =>
-    (dispatch) => {
-        axios.post("/member", { memberId, projectId }).then((res) => {
-            if (res.status === 201) dispatch(loadProjects());
-        });
-    };
+        (dispatch) => {
+            axios.post("/member", { memberId, projectId }).then((res) => {
+                if (res.status === 201) dispatch(loadProjects());
+            });
+        };

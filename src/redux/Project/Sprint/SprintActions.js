@@ -61,7 +61,7 @@ export const startSprint = (projectId,sprintId) => {
 };
 
 export const completeSprint = (sprintId) => {
-    console.log(sprintId)
+    console.log(sprintId);
     return (dispatch) => {
         axios
             .put("/completesprint", {sprintId })

@@ -5,6 +5,7 @@ import Poker from "src/components/Page/Poker/Poker";
 import Scrumboard from "src/components/Page/Scrumboard/Scrumboard";
 import Standup from "src/components/Page/Standup/Standup";
 import roles from "src/config/roles";
+import { SprintStatusEnum } from "src/config/Enums";
 
 const ScrumRoutes = [
     {
@@ -13,6 +14,7 @@ const ScrumRoutes = [
         exact: false,
         requiredRoles: roles.all,
         name: "Poker",
+        allowedStatus: [SprintStatusEnum.ACTIVE, SprintStatusEnum.UPCOMING],
     },
     {
         path: "/scrum_board",
@@ -20,6 +22,7 @@ const ScrumRoutes = [
         exact: false,
         requiredRoles: roles.all,
         name: "Scrum Board",
+        allowedStatus: [SprintStatusEnum.ACTIVE, SprintStatusEnum.UPCOMING, SprintStatusEnum.COMPLETED],
     },
 
     {
@@ -28,6 +31,7 @@ const ScrumRoutes = [
         exact: false,
         requiredRoles: roles.all,
         name: "Standups",
+        allowedStatus: [SprintStatusEnum.ACTIVE, SprintStatusEnum.COMPLETED],
     },
     {
         path: "/retrospectives",
@@ -35,6 +39,7 @@ const ScrumRoutes = [
         exact: false,
         requiredRoles: roles.all,
         name: "Retrospectives",
+        allowedStatus: [SprintStatusEnum.ACTIVE, SprintStatusEnum.COMPLETED],
     },
     {
         path: "/reports",
@@ -42,9 +47,8 @@ const ScrumRoutes = [
         exact: false,
         requiredRoles: roles.all,
         name: "Reports",
+        allowedStatus: [SprintStatusEnum.ACTIVE, SprintStatusEnum.COMPLETED],
     },
-   
 ];
-
 
 export default ScrumRoutes;

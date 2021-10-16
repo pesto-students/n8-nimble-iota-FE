@@ -89,24 +89,24 @@ export const equalsIgnoreCase = (str1, str2) => {
 export const filterBacklogTickets = (ticketList) => {
     return ticketList.length > 0
         ? ticketList.filter(
-              (ticket) =>
-                  ticket.status !== TicketStatusEnum.TODO &&
+            (ticket) =>
+                ticket.status !== TicketStatusEnum.TODO &&
                   ticket.status !== TicketStatusEnum.INPROGRESS &&
                   ticket.status !== TicketStatusEnum.COMPLETE
-          )
+        )
         : [];
 };
 
 export const filterScrumboardTickets = (ticketList, sprintId, columnId) => {
     return ticketList.length > 0
         ? ticketList.filter(
-              (ticket) =>
-                  ticket.sprint == sprintId &&
+            (ticket) =>
+                ticket.sprint == sprintId &&
                   ticket.status == columnId &&
                   (ticket.status === TicketStatusEnum.TODO ||
                       ticket.status === TicketStatusEnum.INPROGRESS ||
                       ticket.status === TicketStatusEnum.COMPLETE)
-          )
+        )
         : [];
 };
 
@@ -145,8 +145,8 @@ export const getAllDocs = async (collectionName) => {
 
 export const getPoketTicketList = async ()=>{
     const docs = await getAllDocs(fireStoreKeys.collections.poker);
-    return Object.values(docs)
-}
+    return Object.values(docs);
+};
 
 export const checkStartSprint = (ticketList, sprintList, selectedSprint) => {
     /*This method checks whether sprint can be started or not. Returns true if sprint can be started
@@ -170,8 +170,8 @@ export const checkEndSprint = (ticketList, selectedSprint) => {
 
 export const addTicketToPoker = async (projectId,ticket) => {
     const collectionRef = collection(fbfirestore, fireStoreKeys.collections.poker);
-    const { ticketId, title } = ticket
-    const pokerList  = await getPoketTicketList()
+    const { ticketId, title } = ticket;
+    const pokerList  = await getPoketTicketList();
     if (pokerList.find((tckt) => tckt.ticketId === ticketId)) return;
     await addDoc(collectionRef, { projectId, ticketId, title, flipped: false, votes: [] });
 };

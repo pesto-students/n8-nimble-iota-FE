@@ -1,31 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { DyteMeeting } from "dyte-client";
 import axios from "src/service/Axios";
-import Loader from "src/components/Common/Loader/Loader";
-import { Loading3QuartersOutlined } from "@ant-design/icons";
-// const sdk = require("api")("@dyte/v1.0#4xeg4zkszwz5wi");
+import { useSelector } from "react-redux";
+import { useQuery } from "src/util/hooks";
 
-const Meeting = ({ roomName, meetingId, user }) => {
-    // eslint-disable-next-line no-undef
+const Meeting = () => {
+    const query = useQuery();
+    const roomName = query.get("roomName");
+    const meetingId = query.get("meetingId");
+    const { user } = useSelector((state) => state.user);
     const { name, picture, email } = user;
     const [authToken, setAuthToken] = useState();
-    // const [error, setError] = useState();
     useEffect(() => {
-        // sdk.addParticipant(
-        //     {
-        //         userDetails: { name, picture },
-        //         clientSpecificId: _id,
-        //         presetName: "nimble",
-        //         roleName: "host",
-        //     },
-        //     {
-        //         organizationId: orgId,
-        //         meetingId,
-        //     }
-        // )
-
-        // eslint-disable-next-line no-undef
         axios
             .post("/participant", {
                 meetingData: {
@@ -44,7 +32,7 @@ const Meeting = ({ roomName, meetingId, user }) => {
                     // setError("Could not authenticate user!");
                 }
             })
-            .catch((error) => {});
+            .catch((_error) => {});
     }, []);
 
     const meetingConfig = {

@@ -60,7 +60,7 @@ export const ChangeImage = (image, email, id) => {
                             .put("/user", { imgurl: url })
                             .then(() => {
                                 dispatch(changeImageSuccess(url));
-                                dispatch(getUserData(id))
+                                dispatch(getUserData(id));
                             })
                             .catch((error) => {
                                 dispatch(changeImageFailure(error));
@@ -196,7 +196,7 @@ export const updateUserData = (name,phone,location,selfintro,id) => {
             .put("/user", {name,phone,location,selfintro})
             .then((response) => {
                 dispatch(updateUserDataSuccess(response.data.message));
-                dispatch(getUserData(id))
+                dispatch(getUserData(id));
             })
             .catch((error) => {
                 if (error.response) {
