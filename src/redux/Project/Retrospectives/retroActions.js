@@ -1,4 +1,3 @@
-import axios from "../../../service/Axios";
 import {
     ADD_RETROSPECTIVE_REQUEST,
     ADD_RETROSPECTIVE_SUCCESS,
@@ -12,14 +11,12 @@ import {
     FETCH_RETROSPECTIVES_REQUEST,
     FETCH_RETROSPECTIVES_SUCCESS,
     FETCH_RETROSPECTIVES_FAILURE,
-    MARK_RETROSPECTIVES_COMPLETE,
 } from "src/redux/Project/Retrospectives/retroActionTypes";
 
 import { fbfirestore } from "../../../service/firebase";
-import { doc, setDoc, collection, getDoc, getDocs,updateDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 import retroConstants from "src/config/Retrospective";
 import { fireStoreKeys } from "src/config/constants";
-import { updateTicketStatusRequest } from "src/redux";
 import { RetroTypeEnum } from "src/config/Enums";
 
 export const addRetrospectiveRequest = () => {
@@ -107,8 +104,7 @@ const getType = (type) => {
     }
 };
 
-export const addRetrospective = (sprintId, type, id,text) => {
-   
+export const addRetrospective = (sprintId, type, id, text) => {
     return async (dispatch) => {
         dispatch(addRetrospectiveRequest());
         const retros = doc(fbfirestore, fireStoreKeys.collections.retrospectives, sprintId);
@@ -116,12 +112,12 @@ export const addRetrospective = (sprintId, type, id,text) => {
         const data = ref.exists()
             ? ref.data()
             : {
-                  [RetroTypeEnum.POSITIVE]: [],
-                  [RetroTypeEnum.NEUTRAL]: [],
-                  [RetroTypeEnum.NEGATIVE]: [],
-                  [RetroTypeEnum.ACTIONS]: [],
-              };
-        data[type].push({text,id});
+                [RetroTypeEnum.POSITIVE]: [],
+                [RetroTypeEnum.NEUTRAL]: [],
+                [RetroTypeEnum.NEGATIVE]: [],
+                [RetroTypeEnum.ACTIONS]: [],
+            };
+        data[type].push({ text, id });
         try {
             setDoc(doc(fbfirestore, fireStoreKeys.collections.retrospectives, sprintId), data);
             dispatch(
@@ -129,7 +125,6 @@ export const addRetrospective = (sprintId, type, id,text) => {
                     success: true,
                     message: "Added successfully",
                 })
-                
             );
             dispatch(fetchRetrospectives(sprintId));
         } catch (exception) {
@@ -143,14 +138,14 @@ export const addRetrospective = (sprintId, type, id,text) => {
     };
 };
 
-export const updateRetroSpective = (sprintId,type,id,text,index) => {
+export const updateRetroSpective = (sprintId, type, id, text, index) => {
     return async (dispatch) => {
         dispatch(updateRetrospectiveRequest());
         const retros = doc(fbfirestore, fireStoreKeys.collections.retrospectives, sprintId);
         const ref = await getDoc(retros);
         let data = ref.data();
-        data[type].splice(index,1,{text,id});
-       
+        data[type].splice(index, 1, { text, id });
+
         try {
             updateDoc(doc(fbfirestore, fireStoreKeys.collections.retrospectives, sprintId), data);
             dispatch(
@@ -160,9 +155,8 @@ export const updateRetroSpective = (sprintId,type,id,text,index) => {
                 })
             );
             dispatch(fetchRetrospectives(sprintId));
-
         } catch (exception) {
-            console.log(exception)
+            console.log(exception);
             dispatch(
                 updateRetrospectiveFailure({
                     success: false,

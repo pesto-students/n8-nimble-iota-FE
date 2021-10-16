@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styles from "src/components/Common/Sidebar/UserData/UserData.module.less";
 import { useSelector } from "react-redux";
 import { Avatar } from "antd";
@@ -7,7 +6,7 @@ import { EditFilled, SafetyOutlined, EnvironmentFilled, PhoneFilled, MailFilled 
 import { extractInitials } from "src/util/helperFunctions";
 import { Link } from "react-router-dom";
 
-const UserData = (props) => {
+const UserData = () => {
     const { user } = useSelector((state) => state.user);
 
     const name = user?.name ?? "-";

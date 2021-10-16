@@ -21,6 +21,8 @@ const Project = () => {
     };
     const projects = useSelector((state) => state.projectList.projects);
     const currentProject = projects.find((e) => e._id === projectId);
+    const currentSprint = useSelector((state) => state.project.sprint.selectedSprint);
+    const { status } = currentSprint;
     return (
         <>
             <Switch>
@@ -29,9 +31,9 @@ const Project = () => {
                 </Route>
                 <Route path={`${path}/meet`}>
                     <Meeting
-                        roomName={currentProject?.meetingRoom?.roomName}
-                        meetingId={currentProject?.meetingRoom?.roomId}
-                        user={userForMeeting}
+                    // roomName={currentProject?.meetingRoom?.roomName}
+                    // meetingId={currentProject?.meetingRoom?.roomId}
+                    // user={userForMeeting}
                     />
                 </Route>
                 <Route path={`${path}/backlogs`} component={Backlogs} />
@@ -45,9 +47,13 @@ const Project = () => {
                         }}
                     >
                         {ScrumRoutes.map((route, index) => (
-                            <TabPane key={`${url}${route.path}`} tab={route.name}>
-                                <Route component={route.component} path={`${path}${route.path}`} />
-                            </TabPane>
+                            <>
+                                {route.allowedStatus.includes(status) && (
+                                    <TabPane key={`${url}${route.path}`} tab={route.name}>
+                                        <Route component={route.component} path={`${path}${route.path}`} />
+                                    </TabPane>
+                                )}
+                            </>
                         ))}
                     </Tabs>
                 </Route>
