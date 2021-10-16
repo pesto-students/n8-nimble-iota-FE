@@ -11,9 +11,4 @@ Sentry.init({
     tracesSampleRate: 1.0,
 });
 
-ReactDOM.render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>,
-    document.getElementById("root")
-);
+ReactDOM.render(<App />, document.getElementById("root"));

@@ -46,9 +46,9 @@ function Home() {
                         <Route exact path={path}>
                             <Projects />
                         </Route>
-                        {/* <Route exact path={`${path}/account`}>
+                        <Route exact path={`${path}/account`}>
                             <UserProfile />
-                        </Route> */}
+                        </Route>
                         <Route path={`${path}/:projectId`}>
                             <Project />
                         </Route>

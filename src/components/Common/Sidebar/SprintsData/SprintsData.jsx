@@ -20,7 +20,9 @@ const SprintsData = ({ project }) => {
             setFilteredSprints(sprints);
         }
     }, [searchText]);
-    const currentSprint = sprints?.find((e) => e.status === SprintStatusEnum.ACTIVE);
+    const currentSprint =
+        sprints?.find((e) => e.status === SprintStatusEnum.ACTIVE) ??
+        sprints?.find((e) => e.status === SprintStatusEnum.UPCOMING);
     const dispatch = useDispatch();
     dispatch(setSelectedSprint(currentSprint));
     const prepareSprintsListJsx = () => filteredSprints?.map((e, index) => <SprintListItem key={index} sprint={e} />);

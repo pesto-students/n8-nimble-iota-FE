@@ -11,6 +11,8 @@ import AppSelect from "src/components/Common/AppSelect/AppSelect";
 import AppButton from "src/components/Common/AppButton/AppButton";
 import { useState } from "react";
 import { UserSwitchOutlined } from "@ant-design/icons";
+import { Space } from "antd";
+import styles from "src/components/Common/AddMembers/AddMembers.module.less";
 
 const AddMembers = ({ projectId }) => {
     const dispatch = useDispatch();
@@ -22,21 +24,31 @@ const AddMembers = ({ projectId }) => {
         const user = JSON.parse(selectedMember);
         dispatch(addMember({ memberId: user._id, projectId }));
     };
+    const handleChange = (e) => {
+        console.log(e);
+        setSelectedMember(e);
+    };
     return (
-        <div align="middle">
-            <img src={assetMap("roundlogo")} alt="Nimble" />
-            <h3>Add Members</h3>
-            <AppSelect
-                showSearch
-                onSearch={(val) => {
-                    handleSearchDebounced(val);
-                }}
-                placeholder="Search members..."
-                value={selectedMember}
-                onChnage={(e) => setSelectedMember(e)}
-                options={searchReuslt}
-            />
-            <AppButton>Add</AppButton>
+        <div align="middle" className={styles.middle}>
+            <Space size="middle" direction="vertical">
+                <img src={assetMap("roundlogo")} alt="Nimble" />
+                <h3>Add Members</h3>
+                <div>
+                    <AppSelect
+                        showSearch
+                        onSearch={(val) => {
+                            handleSearchDebounced(val);
+                        }}
+                        placeholder="Search members..."
+                        value={selectedMember}
+                        onChange={handleChange}
+                        options={searchReuslt}
+                    />
+                </div>
+                <div>
+                    <AppButton onClick={handleAdd}>Add</AppButton>
+                </div>
+            </Space>
         </div>
     );
 };

@@ -24,6 +24,7 @@ const Sidebar = (props) => {
     const isProjectList = pathname.endsWith("projects");
     const backlogsUrl = `${url}/${projectId}/backlogs`;
     const isProject = !!projectId;
+    console.info("ispro", isProject);
     const isMeet = pathname.endsWith("meet");
 
     const sideBarClassNames = classnames([
@@ -54,7 +55,7 @@ const Sidebar = (props) => {
                         <>{currentProject && <SprintsData project={currentProject} />}</>
                     )
                 ) : (
-                    <UserData />
+                    <>{isProjectList && <UserData />}</>
                 )}
             </div>
             <div className={styles.footer}>Subscription: Basic</div>
