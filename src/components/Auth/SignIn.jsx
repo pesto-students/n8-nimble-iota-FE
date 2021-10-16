@@ -17,6 +17,14 @@ function LoginView(props) {
     const { Text } = Typography;
     const { loading } = useSelector((state) => state.user);
     const dispatch = useDispatch();
+    const scrumMaster = {
+        email: "jyotirmayasahu38@gmail.com",
+        password: "P@ssword1",
+    };
+    const developer = {
+        email: "sahujyotirmaya1997@gmail.com",
+        password: "CRIMINALcase1",
+    };
     const login = () => {
         if (Object.keys(errors).length === 0) dispatch(LoginUser(values.email, values.password));
     };
@@ -25,8 +33,8 @@ function LoginView(props) {
         dispatch(ForgotPassword(values.email));
     };
     const loginFix = (isScrumMaster) => {
-        if (isScrumMaster) dispatch(LoginUser("jyotirmayasahu38@gmail.com", "P@ssword1"));
-        else dispatch(LoginUser("sahujyotirmaya1997@gmail.com", "CRIMINALcase1"));
+        if (isScrumMaster) dispatch(LoginUser(scrumMaster.email, scrumMaster.password));
+        else dispatch(LoginUser(developer.email, developer.password));
     };
     return (
         <>

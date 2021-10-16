@@ -7,6 +7,7 @@ import Backlogs from "src/components/Page/Backlog/Backlogs";
 import Meeting from "src/components/Page/Meeting/Meeting";
 import ScrumRoutes from "src/route/ScrumRoutes";
 import { useRouting } from "src/util/hooks";
+import "src/components/Page/Project/Project.less";
 
 const Project = () => {
     const { projectId } = useParams();
@@ -22,7 +23,7 @@ const Project = () => {
     const projects = useSelector((state) => state.projectList.projects);
     const currentProject = projects.find((e) => e._id === projectId);
     const currentSprint = useSelector((state) => state.project.sprint.selectedSprint);
-    const { status } = currentSprint;
+    const { status } = currentSprint || {};
     return (
         <>
             <Switch>
@@ -47,13 +48,13 @@ const Project = () => {
                         }}
                     >
                         {ScrumRoutes.map((route, index) => (
-                            <>
+                            <React.Fragment key={index}>
                                 {route.allowedStatus.includes(status) && (
                                     <TabPane key={`${url}${route.path}`} tab={route.name}>
                                         <Route component={route.component} path={`${path}${route.path}`} />
                                     </TabPane>
                                 )}
-                            </>
+                            </React.Fragment>
                         ))}
                     </Tabs>
                 </Route>

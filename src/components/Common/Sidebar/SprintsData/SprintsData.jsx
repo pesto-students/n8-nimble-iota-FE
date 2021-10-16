@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "src/components/Common/Sidebar/SprintsData/SprintsData.module.less";
 import AppInput from "src/components/Common/AppInput/AppInput";
 import { CheckOutlined, SearchOutlined } from "@ant-design/icons";
-import { setSelectedSprint,setSprintList } from "src/redux/Project/Sprint/SprintActions";
+import { setSelectedSprint, setSprintList } from "src/redux/Project/Sprint/SprintActions";
 import ActiveMark from "src/components/Common/ActiveMark/ActiveMark";
 import { SprintStatusEnum } from "src/config/Enums";
 
@@ -12,21 +12,27 @@ const SprintsData = ({ project }) => {
     const { sprints } = project;
     const [filteredSprints, setFilteredSprints] = useState(sprints);
     const [searchText, setSearchText] = useState("");
+    let isFirst = true;
+    const dispatch = useDispatch();
     useEffect(() => {
         if (searchText !== "") {
             const filtered = sprints.filter((e) => e.name.includes(searchText));
             setFilteredSprints(filtered);
         } else {
-            setFilteredSprints(sprints);
+            if (!isFirst) setFilteredSprints(sprints);
+            isFirst = false;
         }
     }, [searchText]);
 
-    const currentSprint =
-        sprints?.find((e) => e.status === SprintStatusEnum.ACTIVE) ??
-        sprints?.find((e) => e.status === SprintStatusEnum.UPCOMING);
+    useEffect(() => {
+        dispatch(setSprintList(sprints));
+        const currentSprint =
+            sprints?.find((e) => e.status === SprintStatusEnum.ACTIVE) ??
+            sprints?.find((e) => e.status === SprintStatusEnum.UPCOMING);
 
-    const dispatch = useDispatch();
-    dispatch(setSelectedSprint(currentSprint));
+        dispatch(setSelectedSprint(currentSprint));
+    }, []);
+
     const prepareSprintsListJsx = () => filteredSprints?.map((e, index) => <SprintListItem key={index} sprint={e} />);
     return (
         <>

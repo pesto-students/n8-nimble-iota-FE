@@ -21,7 +21,6 @@ import roles from "../../../config/roles";
 import { Link } from "react-router-dom";
 import { fireStoreKeys } from "src/config/constants";
 
-
 function Poker() {
     const [form] = Form.useForm();
     const { ticketList } = useSelector((state) => state.project.ticket);
@@ -273,7 +272,7 @@ function Poker() {
                         </Form.Item>
                     </Form>
                 </AppModal>
-                <row ref={nodeRef} />
+                <Row ref={nodeRef} />
             </Content>
             <Sider width="30%" className={styles.plain}>
                 <div>
