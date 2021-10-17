@@ -7,6 +7,7 @@ import { CheckOutlined, SearchOutlined } from "@ant-design/icons";
 import { setSelectedSprint, setSprintList } from "src/redux/Project/Sprint/SprintActions";
 import ActiveMark from "src/components/Common/ActiveMark/ActiveMark";
 import { SprintStatusEnum } from "src/config/Enums";
+import { getDateFromString } from "src/util/helperFunctions";
 
 const SprintsData = ({ project }) => {
     const { sprints } = project;
@@ -74,7 +75,9 @@ const SprintListItem = ({ sprint }) => {
         <li onClick={handleClick} className={styles.sprintListItem}>
             <div className={styles.content}>
                 <div>{name}</div>
-                <div className={styles.sprintRange}>{`${startdate ?? ""} - ${enddate ?? ""}`}</div>
+                <div className={styles.sprintRange}>{`${getDateFromString(startdate) ?? "No Date"} - ${
+                    getDateFromString(enddate) ?? "No Date"
+                }`}</div>
             </div>
             {isCurrent && (
                 <div className={styles.checkIcon}>

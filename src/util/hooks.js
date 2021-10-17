@@ -30,7 +30,7 @@ export const useMeeting = () => {
     splits = splits.slice(0, -1);
     const meetUrl = `${splits.join("/")}/meet?roomName=${currentProject?.meetingRoom?.roomName}&meetingId=${
         currentProject?.meetingRoom?.roomId
-    }`;
+    }&referrer=${encodeURI(url)}`;
     return meetUrl;
 };
 

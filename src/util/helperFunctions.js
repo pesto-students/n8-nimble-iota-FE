@@ -2,7 +2,7 @@ import { fireStoreKeys } from "src/config/constants";
 import { SprintStatusEnum } from "src/config/Enums.ts";
 import { TicketStatusEnum } from "src/config/Enums.ts";
 import { fbfirestore } from "src/service/firebase";
-import { doc, addDoc,setDoc, collection, getDoc, getDocs, updateDoc } from "firebase/firestore";
+import { doc, addDoc, setDoc, collection, getDoc, getDocs, updateDoc } from "firebase/firestore";
 import { async } from "@firebase/util";
 
 export const transformEnum = (enumObject) => {
@@ -28,7 +28,7 @@ export const extractInitials = (/**@type{String} */ name) => {
     return initials;
 };
 
-export const getDateFromString = (dateString) => new Date(dateString).toLocaleDateString();
+export const getDateFromString = (dateString) => (dateString ? new Date(dateString).toLocaleDateString() : undefined);
 
 export const generatePieChartData = (ticketList, developerList) => {
     console.log("test", ticketList, developerList);
@@ -89,24 +89,24 @@ export const equalsIgnoreCase = (str1, str2) => {
 export const filterBacklogTickets = (ticketList) => {
     return ticketList.length > 0
         ? ticketList.filter(
-            (ticket) =>
-                ticket.status !== TicketStatusEnum.TODO &&
+              (ticket) =>
+                  ticket.status !== TicketStatusEnum.TODO &&
                   ticket.status !== TicketStatusEnum.INPROGRESS &&
                   ticket.status !== TicketStatusEnum.COMPLETE
-        )
+          )
         : [];
 };
 
 export const filterScrumboardTickets = (ticketList, sprintId, columnId) => {
     return ticketList.length > 0
         ? ticketList.filter(
-            (ticket) =>
-                ticket.sprint == sprintId &&
+              (ticket) =>
+                  ticket.sprint == sprintId &&
                   ticket.status == columnId &&
                   (ticket.status === TicketStatusEnum.TODO ||
                       ticket.status === TicketStatusEnum.INPROGRESS ||
                       ticket.status === TicketStatusEnum.COMPLETE)
-        )
+          )
         : [];
 };
 
@@ -142,8 +142,7 @@ export const getAllDocs = async (collectionName) => {
     return map;
 };
 
-
-export const getPoketTicketList = async ()=>{
+export const getPoketTicketList = async () => {
     const docs = await getAllDocs(fireStoreKeys.collections.poker);
     return Object.values(docs);
 };
@@ -168,10 +167,10 @@ export const checkEndSprint = (ticketList, selectedSprint) => {
     return todoTickets.length == 0 && inprogressTickets.length == 0;
 };
 
-export const addTicketToPoker = async (projectId,ticket) => {
+export const addTicketToPoker = async (projectId, ticket) => {
     const collectionRef = collection(fbfirestore, fireStoreKeys.collections.poker);
     const { ticketId, title } = ticket;
-    const pokerList  = await getPoketTicketList();
+    const pokerList = await getPoketTicketList();
     if (pokerList.find((tckt) => tckt.ticketId === ticketId)) return;
     await addDoc(collectionRef, { projectId, ticketId, title, flipped: false, votes: [] });
 };

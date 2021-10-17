@@ -80,8 +80,8 @@ function Standup() {
                 </Col>
             </Row>
             {standups?.map((item, index) => (
-                <>
-                    <Row key={index}>
+                <React.Fragment key={index}>
+                    <Row>
                         <Col flex={2} align="left">
                             {nameMap[item.userId]}
                         </Col>
@@ -96,7 +96,7 @@ function Standup() {
                         </Col>
                     </Row>
                     <Divider />
-                </>
+                </React.Fragment>
             ))}
         </>
     );

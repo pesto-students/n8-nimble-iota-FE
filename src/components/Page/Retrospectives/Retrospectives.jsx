@@ -64,7 +64,7 @@ function Retrospectives() {
                             <PlusCircleFilled /> Add Retrospective
                         </>
                     </AppButton>
-                    <Link to={meetUrl}>
+                    <Link to={meetUrl} target="_blank">
                         <AppButton disabled={false} size={"middle"} style={{ marginRight: "8px" }}>
                             <>
                                 <PhoneFilled /> Join Call

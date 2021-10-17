@@ -8,6 +8,7 @@ import { Link as ScrollLink } from "react-scroll";
 import PropTypes from "prop-types";
 import { Avatar } from "antd";
 import { extractInitials } from "src/util/helperFunctions";
+import { Link } from "react-router-dom";
 
 const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
     const breakpoints = useBreakpoint();
@@ -22,15 +23,17 @@ const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
                     <MenuOutlined className={styles.menuIcon} />
                 </div>
             )}
-            <div className={styles.brand}>
-                <div className={styles.logo}>
-                    <img src={assetMap("Logo")} alt="Nimble" />
+            <Link to="/home">
+                <div className={styles.brand}>
+                    <div className={styles.logo}>
+                        <img src={assetMap("Logo")} alt="Nimble" />
+                    </div>
+                    <div className={styles.brandName}>
+                        <h1 className={styles.title}>Nimble</h1>
+                        <div className={styles.subTitle}>Quickly, easily & lightly</div>
+                    </div>
                 </div>
-                <div className={styles.brandName}>
-                    <h1 className={styles.title}>Nimble</h1>
-                    <div className={styles.subTitle}>Quickly, easily & lightly</div>
-                </div>
-            </div>
+            </Link>
             <div className={styles.nav}>
                 {!isAuthenticated && !smSize && (
                     <div className={styles.navLinkContainer}>

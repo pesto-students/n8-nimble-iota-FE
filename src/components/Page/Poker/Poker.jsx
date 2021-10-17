@@ -155,7 +155,7 @@ function Poker() {
                             {selectedItem && <>Ticket Number: {selectedItem.ticketId}</>}
                         </Col>
                         <Col flex={1} align="middle">
-                            <Link to={meetUrl}>
+                            <Link to={meetUrl} target="_blank">
                                 <AppButton loading={false} size={"middle"}>
                                     <>
                                         <PhoneFilled /> Join Call
