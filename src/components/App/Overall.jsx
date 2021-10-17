@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { resetErrorAndMessage } from "../../redux";
-import IndexRouting from "../../route/IndexRouting";
-import useNavigatorOnLine from "../Common/NavigatorOnline/NavigatorOnline";
-import Notification from "../Common/Notification/Notification";
-import AppModal from "../Common/AppModal/AppModal";
+
+import { resetErrorAndMessage } from "src/redux";
+import IndexRouting from "src/route/IndexRouting";
+import useNavigatorOnLine from "src/components/Common/NavigatorOnline/NavigatorOnline";
+import Notification from "src/components/Common/Notification/Notification";
+import AppModal from "src/components/Common/AppModal/AppModal";
 
 function Overall() {
     let dispatch = useDispatch();

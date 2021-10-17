@@ -20,6 +20,7 @@ import Mounter from "../../Common/Mounter/Mounter";
 import roles from "../../../config/roles";
 import { Link } from "react-router-dom";
 import { fireStoreKeys } from "src/config/constants";
+import { SprintStatusEnum } from "src/config/Enums";
 
 function Poker() {
     const [form] = Form.useForm();
@@ -131,7 +132,7 @@ function Poker() {
         const sprint = JSON.parse(sprintid);
         const ticketObj = { ...ticketList.find((ticket) => ticket.ticketId === selectedItem.ticketId) };
         ticketObj.status = "TODO";
-        ticketObj.sprint = sprint.name;
+        ticketObj.sprint = sprint._id;
         ticketObj.storyPoints = String(avg);
         dispatch(updateTicket(projectId, ticketObj));
         await deleteDoc(doc(fbfirestore, "poker", selected));
@@ -256,7 +257,10 @@ function Poker() {
                     >
                         <Form.Item label="Sprint No" name="sprintno" type="text">
                             <AppSelect
-                                options={sprintList.slice(-2)}
+                                options={sprintList.filter(
+                                    (e) =>
+                                        e.status === SprintStatusEnum.ACTIVE || e.status === SprintStatusEnum.UPCOMING
+                                )}
                                 placeholder="Sprint"
                                 display="name"
                                 onChange={onChangeSprint}
