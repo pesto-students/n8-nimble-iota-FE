@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
-import styles from "./Standup.module.less";
+import styles from "src/components/Page/Standup/Standup.module.less";
 import { Card, Col, Row } from "antd";
 import { PhoneFilled, PlusCircleFilled } from "@ant-design/icons";
-import { Input, DatePicker, Space } from "antd";
-import AppButton from "../../Common/AppButton/AppButton";
-import AppSelect from "../../Common/AppSelect/AppSelect";
-import Axios from "../../../service/Axios";
+import { Input, Typography } from "antd";
+import AppButton from "src/components/Common/AppButton/AppButton";
+import Axios from "src/service/Axios";
 import { useRouting } from "src/util/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { loadProjects, fetchAllDevlopersProject } from "src/redux";
+import Notification from "src/components/Common/Notification/Notification";
 
 const { TextArea } = Input;
+const { Paragraph } = Typography;
 
 function Standup() {
     const dispatch = useDispatch();
@@ -37,11 +38,11 @@ function Standup() {
     const AddStandUp = () => {
         const standup = { ...form, date: new Date().toLocaleDateString() };
         Axios.post("/addStandup", { projectId, userId: user.id, standup })
-            .then((res) => {
-                console.log(res);
+            .then(() => {
+                return Notification("success", "Stand Up added today");
             })
-            .catch((err) => {
-                console.log(err);
+            .catch(() => {
+                return Notification("warning", "Stand Up was not added for today");
             });
     };
 
@@ -106,17 +107,27 @@ function Standup() {
             </Row>
             {standups?.map((item, index) => (
                 <Row key={index}>
-                    <Col flex={2} align="middle">
-                        {item.date}
+                    <Col flex={2} align="middle" span={3}>
+                        <Paragraph ellipsis={{ rows: 4, expandable: true, symbol: "more" }}>{item.date}</Paragraph>
                     </Col>
-                    <Col flex={4} align="middle">
-                        {item.yesterday}
+                    <Col flex={4} align="middle" span={7}>
+                        <Card>
+                            <Paragraph ellipsis={{ rows: 4, expandable: true, symbol: "more" }}>
+                                {item.yesterday}
+                            </Paragraph>
+                        </Card>
                     </Col>
-                    <Col flex={4} align="middle">
-                        {item.today}
+                    <Col flex={4} align="middle" span={7}>
+                        <Card>
+                            <Paragraph ellipsis={{ rows: 4, expandable: true, symbol: "more" }}>{item.today}</Paragraph>
+                        </Card>
                     </Col>
-                    <Col flex={4} align="middle">
-                        {item.blocker}
+                    <Col flex={4} align="middle" span={7}>
+                        <Card>
+                            <Paragraph ellipsis={{ rows: 4, expandable: true, symbol: "more" }}>
+                                {item.blocker}
+                            </Paragraph>
+                        </Card>
                     </Col>
                 </Row>
             ))}

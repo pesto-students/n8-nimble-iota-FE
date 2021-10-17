@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "antd";
 import { NavLink } from "react-router-dom";
 import styles from "src/components/Page/Home/Home.module.less";
 import { Typography } from "antd";
-import { LogoutUser } from "src/redux";
+import { ChangeImage, loadProjects, LogoutUser } from "src/redux";
 import NavBar from "src/components/Common/NavBar/NavBar";
 import Sidebar from "src/components/Common/Sidebar/Sidebar";
 import AppModal from "src/components/Common/AppModal/AppModal";
@@ -29,6 +29,10 @@ function Home() {
     const openReset = () => setResetModal(true);
     const closeReset = () => setResetModal(false);
 
+    useEffect(() => {
+        dispatch(loadProjects());
+    }, []);
+
     const handleLogout = () => dispatch(LogoutUser());
 
     const { path, url } = useRouteMatch();
@@ -42,9 +46,9 @@ function Home() {
                         <Route exact path={path}>
                             <Projects />
                         </Route>
-                        {/* <Route exact path={`${path}/account`}>
+                        <Route exact path={`${path}/account`}>
                             <UserProfile />
-                        </Route> */}
+                        </Route>
                         <Route path={`${path}/:projectId`}>
                             <Project />
                         </Route>

@@ -1,41 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { DyteMeeting } from "dyte-client";
 import axios from "src/service/Axios";
-import Loader from "src/components/Common/Loader/Loader";
-import { Loading3QuartersOutlined } from "@ant-design/icons";
-// const sdk = require("api")("@dyte/v1.0#4xeg4zkszwz5wi");
+import { useSelector } from "react-redux";
+import { useQuery, useRouting } from "src/util/hooks";
 
-const Meeting = ({ roomName, meetingId, user }) => {
-    // eslint-disable-next-line no-undef
-    const orgId = process.env.DYTE_ORG_ID;
+const Meeting = () => {
+    const query = useQuery();
+    const roomName = query.get("roomName");
+    const meetingId = query.get("meetingId");
+    const referrer = query.get("referrer");
+    const { user } = useSelector((state) => state.user);
     const { name, picture, email } = user;
     const [authToken, setAuthToken] = useState();
-    // const [error, setError] = useState();
+    const router = useRouting();
     useEffect(() => {
-        // sdk.addParticipant(
-        //     {
-        //         userDetails: { name, picture },
-        //         clientSpecificId: _id,
-        //         presetName: "nimble",
-        //         roleName: "host",
-        //     },
-        //     {
-        //         organizationId: orgId,
-        //         meetingId,
-        //     }
-        // )
-
-        // eslint-disable-next-line no-undef
         axios
             .post("/participant", {
                 meetingData: {
                     userDetails: { name, picture },
                     clientSpecificId: email,
-                    // presetName: "nimble",
                     roleName: "host",
                 },
-                orgId,
                 meetingId,
             })
             .then((res) => {
@@ -46,7 +33,7 @@ const Meeting = ({ roomName, meetingId, user }) => {
                     // setError("Could not authenticate user!");
                 }
             })
-            .catch((error) => {});
+            .catch((_error) => {});
     }, []);
 
     const meetingConfig = {
@@ -58,16 +45,16 @@ const Meeting = ({ roomName, meetingId, user }) => {
 
     return (
         <>
-            {authToken ? (
+            {authToken && (
                 <DyteMeeting
-                    onInit={() => {}}
+                    onInit={(meeting) => {
+                        meeting.on(meeting.Events.meetingEnded, () => {
+                            router.navigate(referrer, true, true);
+                        });
+                    }}
                     clientId={"0ebfa506-b771-4d4a-a469-063bf2844e3d"}
                     meetingConfig={meetingConfig}
                 />
-            ) : (
-                <Loader>
-                    <Loading3QuartersOutlined />
-                </Loader>
             )}
         </>
     );

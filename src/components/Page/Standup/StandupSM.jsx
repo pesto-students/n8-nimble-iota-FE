@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from "react";
-import styles from "./Standup.module.less";
-import { Card, Col, Divider, Row } from "antd";
-import { PhoneFilled, PlusCircleFilled } from "@ant-design/icons";
-import { Input, DatePicker, Space } from "antd";
-import AppButton from "../../Common/AppButton/AppButton";
-import AppSelect from "../../Common/AppSelect/AppSelect";
-import Axios from "../../../service/Axios";
-import { useRouting } from "src/util/hooks";
+import styles from "src/components/Page/Standup/Standup.module.less";
+import { Card, Col, Divider, Row, Typography } from "antd";
+import { DatePicker, Space } from "antd";
+import AppButton from "src/components/Common/AppButton/AppButton";
+import AppSelect from "src/components/Common/AppSelect/AppSelect";
 import { useDispatch, useSelector } from "react-redux";
 import { loadProjects, fetchAllDevlopersProject } from "src/redux";
+import moment from "moment";
+import { useParams } from "react-router-dom";
 
-const { TextArea } = Input;
+const { Paragraph } = Typography;
 
 function Standup() {
     const dispatch = useDispatch();
     const today = new Date().toLocaleDateString();
-    const { url } = useRouting();
-    const projectId = url.split("/")[2];
+    const { projectId } = useParams();
     const [member, setMember] = useState(null);
     const [date, setDate] = useState(null);
     const { projects } = useSelector((state) => state.projectList);
@@ -41,7 +39,7 @@ function Standup() {
             setStandups(currentProject?.members);
             return;
         }
-        const filtered = standups?.filter((dev) => dev.userId === memberDetail?._id);
+        const filtered = currentProject?.members.filter((dev) => dev.userId === memberDetail?._id);
         setStandups(filtered);
     }, [date, member]);
     return (
@@ -53,11 +51,15 @@ function Standup() {
                 <Col flex={2} align="middle">
                     Filter:&nbsp;
                     <Space direction="vertical">
-                        <DatePicker allowClear={false} onChange={filterDate} format={"MM/DD/YYYY"} />
+                        <DatePicker
+                            defaultValue={moment(today, "MM/DD/YYYY")}
+                            onChange={filterDate}
+                            format={"MM/DD/YYYY"}
+                        />
                     </Space>
                 </Col>
                 <Col flex={2} align="middle">
-                    <AppSelect value={member} options={developerList} placeholder="Member" onChange={onChangeMember} />
+                    <AppSelect value={member} options={developerList} placeholder="Asignee" onChange={onChangeMember} />
                 </Col>
                 <Col flex={2} align="middle">
                     <AppButton size={"middle"} onClick={reset}>
@@ -67,7 +69,7 @@ function Standup() {
             </Row>
             <Row className={styles.standupTable}>
                 <Col flex={2} align="middle">
-                    Member
+                    {!date && member ? "Date" : "Asignee"}
                 </Col>
                 <Col flex={4} align="middle">
                     A day before
@@ -79,25 +81,71 @@ function Standup() {
                     Blockers for the day
                 </Col>
             </Row>
-            {standups?.map((item, index) => (
-                <>
-                    <Row key={index}>
-                        <Col flex={2} align="left">
-                            {nameMap[item.userId]}
-                        </Col>
-                        <Col flex={4} align="middle">
-                            {item.standups.find((obj) => obj.date === date)?.yesterday || "-"}
-                        </Col>
-                        <Col flex={4} align="middle">
-                            {item.standups.find((obj) => obj.date === date)?.today || "-"}
-                        </Col>
-                        <Col flex={4} align="middle">
-                            {item.standups.find((obj) => obj.date === date)?.blocker || "-"}
-                        </Col>
-                    </Row>
-                    <Divider />
-                </>
-            ))}
+            {date &&
+                standups?.map((item, index) => (
+                    <>
+                        <Row key={index}>
+                            <Col flex={2} align="left" span={3}>
+                                {nameMap[item.userId]}
+                            </Col>
+                            <Col flex={4} align="middle" span={7}>
+                                <Card>
+                                    <Paragraph ellipsis={{ rows: 4, expandable: true, symbol: "more" }}>
+                                        {item.standups.find((obj) => obj.date === date)?.yesterday || "-"}
+                                    </Paragraph>
+                                </Card>
+                            </Col>
+                            <Col flex={4} align="middle" span={7}>
+                                <Card>
+                                    <Paragraph ellipsis={{ rows: 4, expandable: true, symbol: "more" }}>
+                                        {item.standups.find((obj) => obj.date === date)?.today || "-"}
+                                    </Paragraph>
+                                </Card>
+                            </Col>
+                            <Col flex={4} align="middle" span={7}>
+                                <Card>
+                                    <Paragraph ellipsis={{ rows: 4, expandable: true, symbol: "more" }}>
+                                        {item.standups.find((obj) => obj.date === date)?.blocker || "-"}
+                                    </Paragraph>
+                                </Card>
+                            </Col>
+                        </Row>
+                        <Divider />
+                    </>
+                ))}
+            {!date &&
+                member &&
+                standups[0]?.standups?.map((item, index) => (
+                    <>
+                        <Row key={index}>
+                            <Col flex={2} align="left" span={3}>
+                                {item.date}
+                            </Col>
+                            <Col flex={4} align="middle" span={7}>
+                                <Card>
+                                    <Paragraph ellipsis={{ rows: 4, expandable: true, symbol: "more" }}>
+                                        {item?.yesterday || "-"}
+                                    </Paragraph>
+                                </Card>
+                            </Col>
+                            <Col flex={4} align="middle" span={7}>
+                                <Card>
+                                    <Paragraph ellipsis={{ rows: 4, expandable: true, symbol: "more" }}>
+                                        {item?.today || "-"}
+                                    </Paragraph>
+                                </Card>
+                            </Col>
+                            <Col flex={4} align="middle" span={7}>
+                                <Card>
+                                    <Paragraph ellipsis={{ rows: 4, expandable: true, symbol: "more" }}>
+                                        {item?.blocker || "-"}
+                                    </Paragraph>
+                                </Card>
+                            </Col>
+                        </Row>
+                        <Divider />
+                    </>
+                ))}
         </>
     );
 }

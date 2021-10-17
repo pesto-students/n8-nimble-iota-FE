@@ -1,4 +1,4 @@
-import axios from "../../../service/Axios";
+import axios from "src/service/Axios";
 import {
     FETCH_DEVELOPERS_PROJECT_REQUEST,
     FETCH_DEVELOPERS_PROJECT_SUCCESS,

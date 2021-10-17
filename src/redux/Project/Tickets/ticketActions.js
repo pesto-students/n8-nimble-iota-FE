@@ -1,4 +1,4 @@
-import axios from "../../../service/Axios";
+import axios from "src/service/Axios";
 import {
     ADD_TICKET_REQUEST,
     ADD_TICKET_SUCCESS,

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Projects from "../Page/Projects/Projects";
+import Projects from "src/components/Page/Projects/Projects";
 
 function PlayArea() {
     return (

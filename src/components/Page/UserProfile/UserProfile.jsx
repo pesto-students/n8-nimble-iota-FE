@@ -10,14 +10,32 @@ import styles from "src/components/Page/UserProfile/Userprofile.module.less";
 import TicketListItem from "src/components/TicketModal/TicketListItem";
 import { colors } from "src/config/constants";
 import { getUserData, updateUserData, ChangeImage } from "src/redux";
+import { getProjectFromProjectList } from "src/util/helperFunctions";
+import { useRouting } from "src/util/hooks";
+import Mounter from "src/components/Common/Mounter/Mounter";
+import roles from "src/config/roles";
 
 function UserProfile() {
     const { TextArea } = Input;
     const { user, userProfile } = useSelector((state) => state.user);
+    const projects = useSelector((state) => state.projectList.projects);
 
     const inputFile = useRef(null);
     const [locationText, setLocationtext] = useState(userProfile?.location ?? "");
     const [introText, setIntroText] = useState(userProfile?.selfintro ?? "");
+    const router = useRouting();
+
+    const updateSub = () => {
+        return (
+            <div className={styles.action}>
+                <AppButton disabled={true} style={{ width: "100%" }}>
+                    Update Subscption
+                </AppButton>
+            </div>
+        );
+    };
+
+    const updateSubscriptionButton = Mounter(updateSub, {})(roles.scrummastersandadmins);
 
     const openUploadBox = () => {
         inputFile.current.click();
@@ -63,8 +81,8 @@ function UserProfile() {
                         <div className={styles.meta}>{userProfile?.name ?? ""}</div>
                         <div className={styles.role}>{user?.role?.name ?? ""}</div>
                         <div className={styles.action}>
-                            <AppButton style={{ width: "100%",marginTop:"28px" }} onClick={openUploadBox}>
-                               <CloudUploadOutlined/> Update Profile Picture
+                            <AppButton style={{ width: "100%", marginTop: "28px" }} onClick={openUploadBox}>
+                                <CloudUploadOutlined /> Update Profile Picture
                             </AppButton>
                             <input className={styles.inputButton} ref={inputFile} type="file" onChange={handleUpload} />
                         </div>
@@ -141,11 +159,7 @@ function UserProfile() {
                         </div>
                         <div className={styles.meta}>Subscription</div>
                         <div className={styles.role}>Premium</div>
-                        <div className={styles.action}>
-                            <AppButton disabled={true} style={{ width: "100%" }}>
-                                Update Subscption
-                            </AppButton>
-                        </div>
+                        {updateSubscriptionButton}
                     </CardCustom>
                 </Col>
                 <Col xs={{ span: 24 }} lg={{ span: 13, offset: 2 }} style={{ padding: "15px" }}>
@@ -153,15 +167,27 @@ function UserProfile() {
                         <div style={{ display: "flex", flexDirection: "column" }}>
                             <TicketListItem label="View My Projects" Component={<></>} />
                             <Divider className={styles.dividerStyle} />
-                            {/* {userProfile} */}
-                            <TicketListItem
-                                label="Default Project"
-                                Component={
-                                    <>
-                                        <CustomTag color={colors.tagBlue} text={"Click to Open"} />
-                                    </>
-                                }
-                            />
+                            {userProfile.projects?.map((pid, index) => {
+                                const projectItem = getProjectFromProjectList(projects, pid);
+                                projectItem && (
+                                    <TicketListItem
+                                        key={index}
+                                        label={projectItem?.projectName ?? ""}
+                                        Component={
+                                            <>
+                                                <CustomTag
+                                                    color={colors.tagBlue}
+                                                    text={"Click to Open"}
+                                                    onClick={() => {
+                                                        router.navigate(pid);
+                                                    }}
+                                                    click
+                                                />
+                                            </>
+                                        }
+                                    />
+                                );
+                            })}
                         </div>
                     </CardCustom>
                 </Col>

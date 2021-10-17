@@ -1,12 +1,12 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styles from "src/components/Common/Sidebar/UserData/UserData.module.less";
 import { useSelector } from "react-redux";
 import { Avatar } from "antd";
 import { EditFilled, SafetyOutlined, EnvironmentFilled, PhoneFilled, MailFilled } from "@ant-design/icons/lib/icons";
 import { extractInitials } from "src/util/helperFunctions";
+import { Link } from "react-router-dom";
 
-const UserData = (props) => {
+const UserData = () => {
     const { user } = useSelector((state) => state.user);
 
     const name = user?.name ?? "-";
@@ -15,18 +15,19 @@ const UserData = (props) => {
     const location = user?.location ?? "-";
     const phone = user?.phone ?? "-";
     const selfintro = user?.selfintro ?? "-";
+    const imgUrl = user?.img;
 
     return (
         <div className={styles.userData}>
             <div className={styles.avatar}>
-                <Avatar size={64}>{extractInitials(name)}</Avatar>
+                {imgUrl ? <Avatar src={imgUrl} size={64}></Avatar> : <Avatar size={64}>{extractInitials(name)}</Avatar>}
             </div>
             <div className={styles.details}>
                 <div className={styles.header}>
                     <div className={styles.name}>{name}</div>
-                    <div className={styles.edit} onClick={() => {}}>
+                    <Link className={styles.edit} to="/projects/account">
                         <EditFilled />
-                    </div>
+                    </Link>
                 </div>
                 <div className={styles.content}>
                     <ul>

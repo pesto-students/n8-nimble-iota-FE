@@ -14,7 +14,6 @@ import { generateTicketNumber, getSprints, transformEnum } from "src/util/helper
 
 function TicketModal(props) {
     const { projectId, ticketData, ticketOperation, developerList } = props;
-    const { selectedSprint } = useSelector((state) => state.project.sprint);
     const { projects } = useSelector((state) => state.projectList);
 
     const listOfSprints = getSprints(projects, projectId);
@@ -79,8 +78,8 @@ function TicketModal(props) {
             setAssignee(
                 developerList.length > 0
                     ? developerList.find((developer) => {
-                          return developer["_id"] == ticketData.assignee;
-                      })
+                        return developer["_id"] == ticketData.assignee;
+                    })
                     : ""
             );
             setPriority(

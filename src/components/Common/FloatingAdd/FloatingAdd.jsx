@@ -3,7 +3,7 @@ import { Affix } from "antd";
 import AppButton from "src/components/Common/AppButton/AppButton";
 import { PlusCircleFilled } from "@ant-design/icons/lib/icons";
 import PropTypes from "prop-types";
-import styles from "./FloatingAdd.module.less";
+import styles from "src/components/Common/FloatingAdd/FloatingAdd.module.less";
 
 function FloatingAdd({ onClick, loading }) {
     return (

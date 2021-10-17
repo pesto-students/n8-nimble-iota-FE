@@ -1,4 +1,4 @@
-import axios from "../../../service/Axios";
+import axios from "src/service/Axios";
 import {
     INCREMENT_STORY_POINTS_ACHIEVED_REQUEST,
     INCREMENT_STORY_POINTS_ACHIEVED_SUCCESS,
@@ -52,7 +52,7 @@ export const incrementStroyPoints = (sprintId, ticketId, storyPoints) => {
                 sprintId,
                 payload: {
                     ticketId,
-                    storyPoints : parseInt(storyPoints),
+                    storyPoints: parseInt(storyPoints),
                 },
             })
             .then((response) => {

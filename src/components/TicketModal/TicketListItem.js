@@ -34,7 +34,7 @@ const TicketListItem = ({ label, fullWidth, Component }) => {
 
 TicketListItem.propTypes = {
     label: PropTypes.string,
-    Component: PropTypes.Component,
+    Component: PropTypes.any,
     fullWidth: PropTypes.bool,
 };
 

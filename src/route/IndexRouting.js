@@ -1,10 +1,12 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import React, { useEffect, lazy } from "react";
-import { useDispatch, useSelector } from "react-redux";
-const AccountActivate = lazy(() => import("../components/Auth/AccountActivate"));
-const LandingPage = lazy(() => import("../components/Page/LandingPage"));
-const PlayArea = lazy(() => import("../components/PlayArea/PlayArea"));
-const Loader = lazy(() => import("../components/Common/Loader/Loader"));
+import { useDispatch } from "react-redux";
+const AccountActivate = lazy(() => import("src/components/Auth/AccountActivate"));
+const LandingPage = lazy(() => import("src/components/Page/LandingPage"));
+const PlayArea = lazy(() => import("src/components/PlayArea/PlayArea"));
+const Notfound = lazy(() => import("src/components/Page/Error/Notfound"));
+const Servererror = lazy(() => import("src/components/Page/Error/Servererror"));
+const InjectAxiosInterceptors = lazy(() => import("src/service/InjectAxiosInterceptors"));
 import { loginUserSuccess } from "src/redux";
 import PrivateRoutes from "src/route/PrivateRoutes";
 import ProtectedRoute from "src/route/protected.route";
@@ -12,7 +14,6 @@ import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
 function IndexRouting() {
     const dispatch = useDispatch();
-    const loading = useSelector((state) => state.common.loading);
     useEffect(() => {
         const loggedInUser = localStorage.getItem("user");
         if (loggedInUser) {
@@ -21,27 +22,27 @@ function IndexRouting() {
         }
     }, []);
     return (
-        <Loader load={loading}>
-            <BrowserRouter>
-                <Switch>
-                    <Route exact path="/" component={LandingPage} />
-                    <Route exact path="/playarea" component={PlayArea} />
-                    <Route exact path="/auth/activate/:token" component={AccountActivate} />
-                    <Route exact path="/home" render={() => <Redirect to="/projects" />} />
-                    
-                    {PrivateRoutes.map((route, index) => (
-                        <ProtectedRoute
-                            key={index}
-                            exact={route.exact}
-                            path={route.path}
-                            component={route.component}
-                            requiredRoles={route.requiredRoles}
-                        />
-                    ))}
-                    <Route path="*" component={() => "404 NOT FOUND"} />
-                </Switch>
-            </BrowserRouter>
-        </Loader>
+        <BrowserRouter>
+            <InjectAxiosInterceptors />
+            <Switch>
+                <Route exact path="/" component={LandingPage} />
+                <Route exact path="/playarea" component={PlayArea} />
+                <Route exact path="/auth/activate/:token" component={AccountActivate} />
+                <Route exact path="/home" render={() => <Redirect to="/projects" />} />
+                {PrivateRoutes.map((route, index) => (
+                    <ProtectedRoute
+                        key={index}
+                        exact={route.exact}
+                        path={route.path}
+                        component={route.component}
+                        requiredRoles={route.requiredRoles}
+                    />
+                ))}
+                <Route exact path="/500" component={Servererror} />
+                <Route exact path="/404" component={Notfound} />
+                <Route path="*" component={Notfound} />
+            </Switch>
+        </BrowserRouter>
     );
 }
 
