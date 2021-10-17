@@ -1,34 +1,46 @@
-import { CheckCircleFilled, PhoneFilled, PlusCircleFilled } from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
+import { CheckCircleFilled, PhoneFilled, PlusCircleFilled } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteTicket, fetchAllDevlopersProject, fetchAllTickets, updateTicketStatus } from "src/redux";
+import { fetchAllDevlopersProject, fetchAllTickets, incrementStroyPoints, updateTicketStatus } from "src/redux";
+import PropTypes from "prop-types";
 import styles from "src/components/Page/Scrumboard/Scrumboard.module.less";
 import { DragDropContext } from "react-beautiful-dnd";
 import { Droppable } from "react-beautiful-dnd";
 import AppButton from "src/components/Common/AppButton/AppButton";
 import Ticket from "src/components/Page/Scrumboard/Ticket/Ticket";
 import TicketModal from "src/components/TicketModal/TicketModal";
-import { filterTicketList } from "src/util/helperFunctions";
+import { filterScrumboardTickets } from "src/util/helperFunctions";
 import { colors } from "src/config/constants";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { OperationEnum, TicketStatusEnum } from "src/config/Enums";
+
+const Heading = ({ text }) => {
+    return (
+        <div className={styles.heading}>
+            <h3>
+                <b>{text}</b>
+            </h3>
+        </div>
+    );
+};
 
 function Scrumboard() {
     const [openModal, setOpenModal] = useState(false);
     const [clickedTicket, setClickedTicekt] = useState();
+    const { selectedSprint } = useSelector((state) => state.project.sprint);
+
+    const { projectId } = useParams();
 
     const [columns, setColumns] = useState([
         {
-            id: "TODO",
+            id: [TicketStatusEnum.TODO],
         },
         {
-            id: "INPROGRESS",
+            id: [TicketStatusEnum.INPROGRESS],
         },
         {
-            id: "COMPLETE",
-        }
-        // ,
-        // {
-        //     id: "DEPLOY",
-        // },
+            id: [TicketStatusEnum.COMPLETE],
+        },
     ]);
     const { loading, ticketList } = useSelector((state) => state.project.ticket);
     const { developerList } = useSelector((state) => state.project.developer);
@@ -37,7 +49,7 @@ function Scrumboard() {
 
     const onTicketClicked = (ticketData) => {
         setOpenModal(true);
-        setClickedTicekt(ticketData)
+        setClickedTicekt(ticketData);
     };
 
     const handleCancel = () => {
@@ -45,19 +57,25 @@ function Scrumboard() {
     };
 
     useEffect(() => {
-        dispatch(fetchAllTickets("61546b7864bccbe191f15977"));
-        dispatch(fetchAllDevlopersProject("61546b7864bccbe191f15977"));
+        dispatch(fetchAllTickets(projectId));
+        dispatch(fetchAllDevlopersProject(projectId));
     }, []);
 
     const onDragEnd = (result) => {
-        console.log(result)
+        console.log(result);
 
         if (!result.destination) return;
-        const { source, destination,draggableId } = result;
+        const { source, destination, draggableId } = result;
+        if (source.droppableId == TicketStatusEnum.COMPLETE) return;
 
         if (source.droppableId !== destination.droppableId) {
-            const draggedTicket = ticketList.find((ticket)=>ticket["_id"] === draggableId)
-            dispatch(updateTicketStatus("61546b7864bccbe191f15977",draggedTicket.ticketId,result.destination.droppableId))
+            const draggedTicket = ticketList.find((ticket) => ticket["_id"] === draggableId);
+            dispatch(updateTicketStatus(projectId, draggedTicket.ticketId, result.destination.droppableId));
+            if (destination.droppableId == TicketStatusEnum.COMPLETE) {
+                dispatch(
+                    incrementStroyPoints(selectedSprint?._id ?? "", draggedTicket["_id"], draggedTicket["storyPoints"])
+                );
+            }
         }
     };
 
@@ -71,30 +89,17 @@ function Scrumboard() {
                             <PhoneFilled /> Join Call
                         </AppButton>
                         <AppButton loading={false} size={"middle"}>
+                            {/* TODO 
+                            Start sprint --> previous sprint complete and atleast one ticket in Todo
+                            Mark complete --> if last day of sprint || (all tickets complete and retros.length > =1)
+                            */}
                             <CheckCircleFilled /> Mark as Complete
                         </AppButton>
                     </div>
                     <div className={styles.retroHeadingContainer}>
-                        <div className={styles.heading}>
-                            <h3>
-                                <b>ToDO</b>
-                            </h3>
-                        </div>
-                        <div className={styles.heading}>
-                            <h3>
-                                <b>In Progress</b>
-                            </h3>
-                        </div>
-                        <div className={styles.heading}>
-                            <h3>
-                                <b>Done</b>
-                            </h3>
-                        </div>
-                        {/* <div className={styles.heading}>
-                            <h3>
-                                <b>Deployment Ready</b>
-                            </h3>
-                        </div> */}
+                        <Heading text={"Todo"} />
+                        <Heading text={"In Progress"} />
+                        <Heading text={"Complete"} />
                     </div>
                     <div className={styles.retroContainer}>
                         <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
@@ -107,12 +112,17 @@ function Scrumboard() {
                                                 ref={provided.innerRef}
                                                 {...provided.droppableProps}
                                                 style={{
-                                                    background: snapshot.isDraggingOver ? colors.dragEventBackground : colors.droppableColumnBackground,
-                                                    border: snapshot.isDraggingOver ? '2px dashed' : 'none'
-                                                    
+                                                    background: snapshot.isDraggingOver
+                                                        ? colors.dragEventBackground
+                                                        : colors.droppableColumnBackground,
+                                                    border: snapshot.isDraggingOver ? "2px dashed" : "none",
                                                 }}
                                             >
-                                                {filterTicketList(ticketList, column.id).map((ticket, index) => {
+                                                {filterScrumboardTickets(
+                                                    ticketList,
+                                                    selectedSprint?._id ?? "",
+                                                    column.id
+                                                ).map((ticket, index) => {
                                                     return (
                                                         <Ticket
                                                             onClick={onTicketClicked}
@@ -138,14 +148,18 @@ function Scrumboard() {
                     onCancel={handleCancel}
                     visible={openModal}
                     width="400px"
-                    ticketOperation={"UPDATE"}
+                    ticketOperation={OperationEnum.UPDATE}
                     ticketData={clickedTicket}
-                    projectId={"61546b7864bccbe191f15977"}
+                    projectId={projectId}
                     developerList={developerList}
                 />
             )}
         </>
     );
 }
+
+Heading.propTypes = {
+    text: PropTypes.string,
+};
 
 export default Scrumboard;

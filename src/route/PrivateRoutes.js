@@ -22,12 +22,6 @@ const PrivateRoutes = [
         requiredRoles: roles.all,
     },
 
-    // {
-    //     path: "/backlogs",
-    //     component: Backlogs,
-    //     exact: true,
-    //     requiredRoles: roles.all,
-    // },
     {
         path: "/user",
         component: UserProfile,

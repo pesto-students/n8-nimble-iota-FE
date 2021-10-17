@@ -5,7 +5,7 @@ import { Button } from "antd";
 import { NavLink } from "react-router-dom";
 import styles from "src/components/Page/Home/Home.module.less";
 import { Typography } from "antd";
-import { ChangeImage, LogoutUser } from "src/redux";
+import { LogoutUser } from "src/redux";
 import NavBar from "src/components/Common/NavBar/NavBar";
 import Sidebar from "src/components/Common/Sidebar/Sidebar";
 import AppModal from "src/components/Common/AppModal/AppModal";
@@ -18,31 +18,20 @@ import Projects from "src/components/Page/Projects/Projects";
 import Project from "src/components/Page/Project/Project";
 import { Redirect } from "react-router-dom";
 import { useRouteMatch } from "react-router-dom";
-
-
+import UserProfile from "src/components/Page/UserProfile/UserProfile";
 
 function Home() {
     const { Text } = Typography;
     const { email, img } = useSelector((state) => state.user.user);
     const dispatch = useDispatch();
-    const [image, setImage] = useState(null);
 
     const [resetModal, setResetModal] = useState(false);
     const openReset = () => setResetModal(true);
     const closeReset = () => setResetModal(false);
-    const handleChange = (e) => {
-        if (e.target.files[0]) {
-            setImage(e.target.files[0]);
-        }
-    };
-    const handleUpload = () => {
-        dispatch(ChangeImage(image, email, "profile-image"));
-    };
 
     const handleLogout = () => dispatch(LogoutUser());
 
     const { path, url } = useRouteMatch();
-    console.log(path, url, "j");
     return (
         <div>
             <NavBar onLogout={handleLogout} />
@@ -53,6 +42,9 @@ function Home() {
                         <Route exact path={path}>
                             <Projects />
                         </Route>
+                        {/* <Route exact path={`${path}/account`}>
+                            <UserProfile />
+                        </Route> */}
                         <Route path={`${path}/:projectId`}>
                             <Project />
                         </Route>

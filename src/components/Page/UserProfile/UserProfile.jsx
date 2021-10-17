@@ -1,43 +1,72 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { Avatar, Card } from "antd";
-import { Row, Col, Divider } from "antd";
-import { Input } from "antd";
-import styles from "src/components/Page/UserProfile/Userprofile.module.less";
-import CardCustom from "src/components/Common/Card/Card";
-import TicketListItem from "src/components/TicketModal/TicketListItem";
+import React, { useEffect, useState, useRef } from "react";
+import { CloudUploadOutlined, TrophyTwoTone } from "@ant-design/icons";
+import { Avatar, Col, Divider, Input, Row } from "antd";
+import { useDispatch, useSelector } from "react-redux";
 import AppButton from "src/components/Common/AppButton/AppButton";
 import AppInput from "src/components/Common/AppInput/AppInput";
-import { CheckCircleTwoTone, TrophyTwoTone } from "@ant-design/icons";
+import CardCustom from "src/components/Common/Card/Card";
 import CustomTag from "src/components/Common/CustomTag/CustomTag";
+import styles from "src/components/Page/UserProfile/Userprofile.module.less";
+import TicketListItem from "src/components/TicketModal/TicketListItem";
 import { colors } from "src/config/constants";
+import { getUserData, updateUserData, ChangeImage } from "src/redux";
 
 function UserProfile() {
     const { TextArea } = Input;
-    const { user } = useSelector((state) => state.user);
+    const { user, userProfile } = useSelector((state) => state.user);
 
-    const name = user ? user.name : "";
-    const role = user ? user.role.name : "";
-    const email = user ? user.email : "";
-    const selfintro = user ? user.selfintro : "";
-    const location = user ? user.location : ""
-    const phone = user ? user.phone : ""
+    const inputFile = useRef(null);
+    const [locationText, setLocationtext] = useState(userProfile?.location ?? "");
+    const [introText, setIntroText] = useState(userProfile?.selfintro ?? "");
+
+    const openUploadBox = () => {
+        inputFile.current.click();
+    };
+    const handleUpload = (e) => {
+        const imgToUpload = e.target.files[0];
+        dispatch(ChangeImage(imgToUpload, userProfile?.email ?? "", "6152f4685c6326c6388b36c9"));
+    };
+    const dispatch = useDispatch();
+
+    const handleLocationTextChange = (e) => setLocationtext(e.target.value);
+    const handleIntroTextChange = (e) => setIntroText(e.target.value);
+
+    const handleUpdate = () => {
+        console.log(userProfile.name, userProfile.phone, locationText, introText);
+        //TODO remove hardcode
+        dispatch(
+            updateUserData(userProfile.name, userProfile.phone, locationText, introText, "6152f4685c6326c6388b36c9")
+        );
+    };
+
+    useEffect(() => {
+        //TODO remove hardcode
+        dispatch(getUserData("6152f4685c6326c6388b36c9"));
+    }, []);
+
+    useEffect(() => {
+        setIntroText(userProfile?.selfintro ?? "");
+        setLocationtext(userProfile?.location ?? "");
+    }, [userProfile]);
 
     return (
         <CardCustom style={{ width: "100%" }} loading={false}>
+            <div style={{ textAlign: "right" }}>
+                <a href="#">change password ?</a>
+            </div>
             <Row>
                 <Col xs={{ span: 24 }} lg={{ span: 7, offset: 1 }} style={{ padding: "15px" }}>
                     <CardCustom className={styles.cardContainer} loading={false}>
                         <div className={styles.profilePicContainer}>
-                            <Avatar
-                                className={styles.avatar}
-                                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                            />
+                            <Avatar className={styles.avatar} src={userProfile?.imgurl ?? ""} />
                         </div>
-                        <div className={styles.meta}>{name}</div>
-                        <div className={styles.role}>{role}</div>
+                        <div className={styles.meta}>{userProfile?.name ?? ""}</div>
+                        <div className={styles.role}>{user?.role?.name ?? ""}</div>
                         <div className={styles.action}>
-                            <AppButton style={{ width: "100%" }}>Upload Profile Picture</AppButton>
+                            <AppButton style={{ width: "100%",marginTop:"28px" }} onClick={openUploadBox}>
+                               <CloudUploadOutlined/> Update Profile Picture
+                            </AppButton>
+                            <input className={styles.inputButton} ref={inputFile} type="file" onChange={handleUpload} />
                         </div>
                     </CardCustom>
                 </Col>
@@ -52,7 +81,7 @@ function UserProfile() {
                                         isPassword={false}
                                         size="large"
                                         style={{ width: "70%" }}
-                                        value={email}
+                                        value={userProfile?.email ?? ""}
                                         disabled={true}
                                     />
                                 }
@@ -66,7 +95,8 @@ function UserProfile() {
                                         isPassword={false}
                                         size="large"
                                         style={{ width: "70%" }}
-                                        value={phone}
+                                        value={userProfile?.phone ?? ""}
+                                        disabled={true}
                                     />
                                 }
                             />
@@ -79,7 +109,8 @@ function UserProfile() {
                                         isPassword={false}
                                         size="large"
                                         style={{ width: "70%" }}
-                                        value={location}
+                                        value={locationText}
+                                        onChange={handleLocationTextChange}
                                     />
                                 }
                             />
@@ -92,11 +123,15 @@ function UserProfile() {
                                         isPassword={false}
                                         size="large"
                                         style={{ width: "70%" }}
-                                        value={selfintro}
+                                        value={introText}
+                                        onChange={handleIntroTextChange}
                                     />
                                 }
                             />
                         </div>
+                        <AppButton onClick={handleUpdate} style={{ float: "right", marginTop: "8px" }}>
+                            Save
+                        </AppButton>
                     </CardCustom>
                 </Col>
                 <Col xs={{ span: 24 }} lg={{ span: 7, offset: 1 }} style={{ padding: "15px" }}>
@@ -118,11 +153,12 @@ function UserProfile() {
                         <div style={{ display: "flex", flexDirection: "column" }}>
                             <TicketListItem label="View My Projects" Component={<></>} />
                             <Divider className={styles.dividerStyle} />
+                            {/* {userProfile} */}
                             <TicketListItem
                                 label="Default Project"
                                 Component={
                                     <>
-                                        <CustomTag color={colors.tagBlue} text={"Click to Open"}/>
+                                        <CustomTag color={colors.tagBlue} text={"Click to Open"} />
                                     </>
                                 }
                             />

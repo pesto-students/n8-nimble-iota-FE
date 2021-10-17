@@ -19,6 +19,7 @@ import AppInput from "../../Common/AppInput/AppInput";
 import Mounter from "../../Common/Mounter/Mounter";
 import roles from "../../../config/roles";
 
+
 function Poker() {
     const [form] = Form.useForm();
     const { ticketList } = useSelector((state) => state.project.ticket);
@@ -68,7 +69,6 @@ function Poker() {
     useEffect(() => {
         if (!sprintList.length)
             Axios.get("/sprints/" + projectId).then((res) => {
-                console.log(res.data);
                 setSprintList(res.data);
             });
         if (!ticketList.length) dispatch(fetchAllTickets(projectId));
@@ -134,6 +134,7 @@ function Poker() {
         ticketObj.storyPoints = String(avg);
         dispatch(updateTicket(projectId, ticketObj));
         await deleteDoc(doc(fbfirestore, "poker", selected));
+        setSelectedVote(null);
     };
     const editStorypoints = (e) => setAvg(e.target.value);
     const floatAdd = Mounter(FloatingAdd, { onClick: openAddTicket })(roles.scrummastersandadmins);

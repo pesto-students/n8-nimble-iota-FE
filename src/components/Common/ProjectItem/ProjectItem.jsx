@@ -3,13 +3,25 @@ import PropTypes from "prop-types";
 import styles from "src/components/Common/ProjectItem/ProjectItem.module.less";
 import { PlusSquareFilled } from "@ant-design/icons";
 import { getDateFromString } from "src/util/helperFunctions";
+import AppModal from "src/components/Common/AppModal/AppModal";
+import AddMembers from "src/components/Common/AddMembers/AddMembers";
+import { useState } from "react";
 
 const ProjectItem = ({ project, onClick }) => {
+    const prepareMembersListJsx = () =>
+        project.members.map((e, i) => (
+            <div key={i}>
+                <a href="#">{e.user?.name}</a>
+            </div>
+        ));
+    const [addVisible, setAddVisible] = useState(false);
     return (
         <>
             {project && (
                 <div onClick={onClick} className={styles.projectItem}>
-                    <div className={`${styles.projectDetail} ${styles.graphs}`}>Graphs</div>
+                    <div className={`${styles.projectDetail} ${styles.graphs}`}>
+                        
+                    </div>
                     <div className={`${styles.projectDetail} ${styles.projectInfo}`}>
                         <>
                             <span className={styles.title}>Project Name</span>
@@ -51,30 +63,23 @@ const ProjectItem = ({ project, onClick }) => {
                     <div className={`${styles.projectDetail} ${styles.teamInfo}`}>
                         <div>
                             <h3 className={styles.title}>Team Members</h3>
-                            <div className={styles.add} onClick={() => {}}>
+                            <div
+                                className={styles.add}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setAddVisible(true);
+                                }}
+                            >
                                 <PlusSquareFilled />
                             </div>
                         </div>
-                        <div className={styles.scroller}>
-                            <div>
-                                <a href="#">Raghu Datta</a>
-                            </div>
-                            <div>
-                                <a href="#">Vipan Kumar</a>
-                            </div>
-                            <div>
-                                <a href="#">Vishnu Thiyagarajan</a>
-                            </div>
-                            <div>
-                                <a href="#">Jyotirmaya Sahu</a>
-                            </div>
-                            <div>
-                                <a href="#">Pesto Nimble</a>
-                            </div>
-                        </div>
+                        <div className={styles.scroller}>{prepareMembersListJsx()}</div>
                     </div>
                 </div>
             )}
+            <AppModal visible={addVisible}>
+                <AddMembers projectId={project._id} />
+            </AppModal>
         </>
     );
 };

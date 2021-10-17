@@ -71,26 +71,28 @@ function LoginView(props) {
                         </AppButton>
                     </Form.Item>
                     <Form.Item>
-                        <FullLengthButton
+                        <AppButton
                             type="primary"
                             size="large"
                             disabled={loading}
                             htmlType="submit"
                             onClick={() => loginFix(true)}
+                            block
                         >
                             Log in as ScrumMaster *
-                        </FullLengthButton>
+                        </AppButton>
                     </Form.Item>
                     <Form.Item>
-                        <FullLengthButton
+                        <AppButton
                             type="primary"
                             size="large"
                             disabled={loading}
                             htmlType="submit"
                             onClick={() => loginFix(false)}
+                            block
                         >
                             Log in as Developer *
-                        </FullLengthButton>
+                        </AppButton>
                     </Form.Item>
                     <Form.Item>
                         <Text type="secondary">

@@ -11,6 +11,7 @@ import { sprintStatus } from "src/config/constants";
 import { setSelectedSprint } from "src/redux/Project/Sprint/SprintActions";
 import { useRouting } from "src/util/hooks";
 import ActiveMark from "src/components/Common/ActiveMark/ActiveMark";
+import { SprintStatusEnum } from "src/config/Enums";
 
 const SprintsData = ({ project }) => {
     const sprints = project?.sprints;
@@ -24,12 +25,12 @@ const SprintsData = ({ project }) => {
             setFilteredSprints(sprints);
         }
     }, [searchText]);
-    const currentSprint = sprints?.find((e) => e.status === sprintStatus.active);
+    const currentSprint = sprints?.find((e) => e.status === SprintStatusEnum.ACTIVE);
     const dispatch = useDispatch();
     dispatch(setSelectedSprint(currentSprint));
     const { url } = useRouting();
 
-    const prepareSprintsListJsx = () => filteredSprints.map((e, index) => <SprintListItem key={index} sprint={e} />);
+    const prepareSprintsListJsx = () => filteredSprints?.map((e, index) => <SprintListItem key={index} sprint={e} />);
     return (
         <>
             <div className={styles.projectDetails}>
