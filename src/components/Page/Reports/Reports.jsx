@@ -38,7 +38,7 @@ function Reports() {
                         </div> */}
                     </div>
 
-                    <Line map={generateIssuesVsDate(reportData)} />
+                    <Line mapPrevious={generateIssuesVsDate(reportData)} mapCurrent={generateIssuesVsDate(reportData)} />
                     <Donut map={generatePieChartData(ticketList, developerList)} />
                 </>
             )}

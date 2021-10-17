@@ -8,6 +8,7 @@ import {
     completeSprint,
     startSprint,
     updateTicketStatus,
+    fetchRetrospectives,
 } from "src/redux";
 import PropTypes from "prop-types";
 import styles from "src/components/Page/Scrumboard/Scrumboard.module.less";
@@ -16,7 +17,12 @@ import { Droppable } from "react-beautiful-dnd";
 import AppButton from "src/components/Common/AppButton/AppButton";
 import Ticket from "src/components/Page/Scrumboard/Ticket/Ticket";
 import TicketModal from "src/components/TicketModal/TicketModal";
-import { checkEndSprint, checkStartSprint, filterScrumboardTickets } from "src/util/helperFunctions";
+import {
+    checkEndSprint,
+    checkStartSprint,
+    filterScrumboardTickets,
+    isRetrospectiveDone,
+} from "src/util/helperFunctions";
 import { colors } from "src/config/constants";
 import { Link } from "react-router-dom";
 import { useMeeting } from "src/util/hooks";
@@ -25,6 +31,7 @@ import { OperationEnum, SprintStatusEnum, TicketStatusEnum } from "src/config/En
 import Mounter from "src/components/Common/Mounter/Mounter";
 import roles from "src/config/roles";
 import classNames from "classnames";
+import ConfirmCompleteSprint from "src/components/Page/Retrospectives/ConfirmCompleteSprint";
 
 const Heading = ({ text }) => {
     return (
@@ -38,12 +45,13 @@ const Heading = ({ text }) => {
 
 function Scrumboard() {
     const [openModal, setOpenModal] = useState(false);
+    const [retroConfirmBoxOpen, setRetroConfirmBoxOpen] = useState(false);
     const [clickedTicket, setClickedTicekt] = useState();
     const { selectedSprint } = useSelector((state) => state.project.sprint);
     const { projectId } = useParams();
     const projects = useSelector((state) => state.projectList.projects);
     const currentProject = projects.find((e) => e._id === projectId);
-
+    const { retroLoading, retros } = useSelector((state) => state.project.retrospectives);
     const [columns, setColumns] = useState([
         {
             id: TicketStatusEnum.TODO,
@@ -59,9 +67,18 @@ function Scrumboard() {
     const { developerList } = useSelector((state) => state.project.developer);
 
     const handleSprint = () => {
-        selectedSprint?.status === SprintStatusEnum.ACTIVE
-            ? dispatch(completeSprint(selectedSprint?._id))
-            : dispatch(startSprint(projectId, selectedSprint?._id));
+        selectedSprint?.status === SprintStatusEnum.ACTIVE ? handleCompleSprint() : handleStartSprint();
+    };
+
+    const handleCompleSprint = () => {
+        if (!isRetrospectiveDone(retros)) {
+            setRetroConfirmBoxOpen(true);
+        } else {
+            dispatch(completeSprint(selectedSprint));
+        }
+    };
+    const handleStartSprint = () => {
+        dispatch(startSprint(projectId, selectedSprint));
     };
 
     const SprintButtonComponent = () => {
@@ -103,11 +120,13 @@ function Scrumboard() {
 
     const handleCancel = () => {
         setOpenModal(false);
+        setRetroConfirmBoxOpen(false);
     };
 
     useEffect(() => {
         dispatch(fetchAllTickets(projectId));
         dispatch(fetchAllDevlopersProject(projectId));
+        dispatch(fetchRetrospectives(selectedSprint._id));
     }, []);
 
     const onDragEnd = (result) => {
@@ -135,12 +154,11 @@ function Scrumboard() {
                 <div
                     className={classNames({
                         [styles.container]: true,
-                        [styles.containerBlocked]: selectedSprint?.status !== SprintStatusEnum.ACTIVE,
                     })}
                 >
                     <div className={styles.actions}>
                         <Link to={meetUrl} target="_blank">
-                            <AppButton loading={false} size={"middle"} style={{ marginRight: "8px" }}>
+                            <AppButton disabled={selectedSprint.status!== SprintStatusEnum.ACTIVE} loading={false} size={"middle"} style={{ marginRight: "8px" }}>
                                 <PhoneFilled /> Join Call
                             </AppButton>
                         </Link>
@@ -151,7 +169,12 @@ function Scrumboard() {
                         <Heading text={"In Progress"} />
                         <Heading text={"Complete"} />
                     </div>
-                    <div className={styles.retroContainer}>
+                    <div
+                        className={classNames({
+                            [styles.retroContainer]: true,
+                            [styles.containerBlocked]: selectedSprint?.status !== SprintStatusEnum.ACTIVE,
+                        })}
+                    >
                         <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
                             {columns.map((column) => {
                                 return (
@@ -202,6 +225,20 @@ function Scrumboard() {
                     ticketData={clickedTicket}
                     projectId={projectId}
                     developerList={developerList}
+                />
+            )}
+
+            {retroConfirmBoxOpen && (
+                <ConfirmCompleteSprint
+                    cancelButtonProps={{ style: { display: "none" } }}
+                    onCancel={handleCancel}
+                    visible={retroConfirmBoxOpen}
+                    width="700px"
+                    onYes={() => {
+                        dispatch(completeSprint(selectedSprint));
+                        handleCancel();
+                    }}
+                    onNo={handleCancel}
                 />
             )}
         </>

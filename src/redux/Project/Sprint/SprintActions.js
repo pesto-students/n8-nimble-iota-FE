@@ -10,8 +10,6 @@ import {
 } from "src/redux/Project/Sprint/SprintActionTypes";
 import { fetchAllTickets, loadProjects } from "src/redux";
 
-
-
 export const setSelectedSprint = (sprint) => ({
     type: SET_SELECTED_SPRINT,
     data: sprint,
@@ -39,22 +37,21 @@ export const startSprintFailure = (obj) => ({
 
 export const markSprintComplete = (obj) => ({
     type: MARK_SPRINT_COMPLETE,
-    payload : obj
+    payload: obj,
 });
 
-
-export const startSprint = (projectId,sprintId) => {
+export const startSprint = (projectId, selectedSprint) => {
     return (dispatch) => {
         dispatch(startSprintRequest());
         axios
-            .post("/startsprint", { projectId, sprintId })
+            .post("/startsprint", { projectId, sprintId: selectedSprint?._id })
             .then((response) => {
                 dispatch(startSprintSuccess(response.data.message));
+                dispatch(setSelectedSprint(selectedSprint));
             })
             .catch((error) => {
                 if (error.response) {
                     dispatch(startSprintFailure(error.response.data.message));
-                    
                 } else {
                     dispatch(startSprintFailure(error.message));
                 }
@@ -62,14 +59,13 @@ export const startSprint = (projectId,sprintId) => {
     };
 };
 
-export const completeSprint = (sprintId) => {
-    console.log(sprintId);
+export const completeSprint = (selectedSprint) => {
     return (dispatch) => {
         axios
-            .put("/completesprint", {sprintId })
+            .put("/completesprint", { sprintId: selectedSprint._id })
             .then((response) => {
                 dispatch(markSprintComplete(response.data.message));
-                dispatch(loadProjects())
+                dispatch(loadProjects());
             })
             .catch((error) => {
                 if (error.response) {
@@ -80,4 +76,3 @@ export const completeSprint = (sprintId) => {
             });
     };
 };
-

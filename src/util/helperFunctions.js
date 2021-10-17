@@ -4,6 +4,7 @@ import { TicketStatusEnum } from "src/config/Enums.ts";
 import { fbfirestore } from "src/service/firebase";
 import { doc, addDoc, setDoc, collection, getDoc, getDocs, updateDoc } from "firebase/firestore";
 import { async } from "@firebase/util";
+import { RetroTypeEnum } from "src/config/Enums";
 
 export const transformEnum = (enumObject) => {
     // This function converts enum to array of Objects. Eg [HIGH,MEDIUM] ----> [{_id:0,name: HIGH},{_id:1,name: MEDIUM}]
@@ -111,7 +112,7 @@ export const filterScrumboardTickets = (ticketList, sprintId, columnId) => {
 };
 
 export const checkEmptyObject = (obj) => {
-    return Object.keys(obj).length === 0;
+    return obj && Object.keys(obj).length === 0;
 };
 
 export const getProjectFromProjectList = (projectList, projectId) => {
@@ -173,4 +174,15 @@ export const addTicketToPoker = async (projectId, ticket) => {
     const pokerList = await getPoketTicketList();
     if (pokerList.find((tckt) => tckt.ticketId === ticketId)) return;
     await addDoc(collectionRef, { projectId, ticketId, title, flipped: false, votes: [] });
+};
+
+export const isRetrospectiveDone = (retros) => {
+    //This functions cheks whether Retrosepctive is complete for a particular sprint.
+    //If we have atleast one retro persent for a sprint, it will assume that Retro is complete.
+    return retros[RetroTypeEnum.POSITIVE]?.length > 0 ||
+        retros[RetroTypeEnum.NEGATIVE]?.length > 0 ||
+        retros[RetroTypeEnum.NEUTRAL]?.length > 0 ||
+        retros[RetroTypeEnum.ACTIONS]?.length > 0
+        ? true
+        : false;
 };
