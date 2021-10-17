@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styles from "src/components/Common/Sidebar/Sidebar.module.less";
 import UserData from "src/components/Common/Sidebar/UserData/UserData";
 import { matchPath, useLocation, useRouteMatch } from "react-router";
@@ -10,7 +9,7 @@ import ActiveMark from "src/components/Common/ActiveMark/ActiveMark";
 import BacklogsControls from "src/components/Common/Sidebar/BacklogsControls/BacklogsControls";
 import classnames from "classnames";
 
-const Sidebar = (props) => {
+const Sidebar = () => {
     const { pathname } = useLocation();
     const { path, url } = useRouteMatch();
 
