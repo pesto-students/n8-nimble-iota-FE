@@ -11,7 +11,7 @@ import { useMeeting, useRouting } from "src/util/hooks";
 import { fetchRetrospectives } from "src/redux";
 import { fireStoreKeys } from "src/config/constants";
 import { OperationEnum } from "src/config/Enums.ts";
-import { RetroTypeEnum } from "src/config/Enums";
+import { RetroTypeEnum, SprintStatusEnum } from "src/config/Enums";
 
 const Heading = ({ text }) => {
     return (
@@ -59,13 +59,13 @@ function Retrospectives() {
         <>
             <div className={styles.container}>
                 <div className={styles.actions}>
-                    <AppButton onClick={handleAdd} size={"middle"} style={{ marginRight: "8px" }}>
+                    <AppButton onClick={handleAdd} size={"middle"} style={{ marginRight: "8px" }} disabled={selectedSprint?.status !== SprintStatusEnum.ACTIVE} >
                         <>
                             <PlusCircleFilled /> Add Retrospective
                         </>
                     </AppButton>
                     <Link to={meetUrl} target="_blank">
-                        <AppButton disabled={false} size={"middle"} style={{ marginRight: "8px" }}>
+                        <AppButton disabled={selectedSprint?.status !== SprintStatusEnum.ACTIVE} size={"middle"} style={{ marginRight: "8px" }}>
                             <>
                                 <PhoneFilled /> Join Call
                             </>

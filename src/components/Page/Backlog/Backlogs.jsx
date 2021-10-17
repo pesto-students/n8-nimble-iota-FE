@@ -9,7 +9,7 @@ import TicketModal from "src/components/TicketModal/TicketModal";
 import { colors, fireStoreKeys } from "src/config/constants";
 import { OperationEnum } from "src/config/Enums";
 import { PriorityEnum, TicketTypeEnum } from "src/config/Enums.ts";
-import { deleteTicket, fetchAllDevlopersProject, fetchAllTickets } from "src/redux";
+import { deleteTicket, fetchAllDevlopersProject, fetchAllTickets, loadProjects } from "src/redux";
 import { addTicketToPoker, filterBacklogTickets, getAllDocs } from "src/util/helperFunctions";
 
 function Backlogs() {
@@ -112,12 +112,16 @@ function Backlogs() {
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     //TODO use dispatch made by vishnu
-                                    addTicketToPoker(projectId,record).then((res)=>{
-                                        //TODO notify
-                                    },(err)=>{
-                                        console.log(err)
-                                        //TODO notify
-                                    })
+                                    addTicketToPoker(projectId, record).then(
+                                        (res) => {
+                                            ticketInPoker()
+                                            //TODO notify
+                                        },
+                                        (err) => {
+                                            console.log(err);
+                                            //TODO notify
+                                        }
+                                    );
                                 }}
                             />
                         ))
@@ -130,17 +134,17 @@ function Backlogs() {
     const [openModal, setOpenModal] = useState(false);
     const [clickedRow, setClickedRow] = useState(-1);
     const [ticketOperation, setTickearOperation] = useState();
-
-    
+    const ticketInPoker = () => {
+        getAllDocs(fireStoreKeys.collections.poker).then((res) => {
+            setPokerList(Object.values(res));
+        });
+    };
 
     useEffect(() => {
         dispatch(fetchAllTickets(projectId));
         dispatch(fetchAllDevlopersProject(projectId));
-        getAllDocs(fireStoreKeys.collections.poker).then((res) => {
-            setPokerList(Object.values(res));
-        });
+        ticketInPoker()
     }, []);
-
 
     useEffect(() => {
         setbacklogTickets(filterBacklogTickets(filteredTicketList));

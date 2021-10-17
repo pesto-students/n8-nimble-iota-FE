@@ -47,7 +47,7 @@ const ScrumRoutes = [
         exact: false,
         requiredRoles: roles.all,
         name: "Reports",
-        allowedStatus: [SprintStatusEnum.ACTIVE, SprintStatusEnum.COMPLETED],
+        allowedStatus: [SprintStatusEnum.COMPLETED],
     },
 ];
 

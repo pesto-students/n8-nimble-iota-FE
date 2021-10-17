@@ -86,7 +86,7 @@ function LoginView(props) {
                             onClick={() => loginFix(true)}
                             block
                         >
-                            Log in as ScrumMaster *
+                            Scrummaster Dummy Login
                         </AppButton>
                     </Form.Item>
                     <Form.Item>
@@ -98,7 +98,7 @@ function LoginView(props) {
                             onClick={() => loginFix(false)}
                             block
                         >
-                            Log in as Developer *
+                            Developer Dummy Login
                         </AppButton>
                     </Form.Item>
                     <Form.Item>

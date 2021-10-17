@@ -8,6 +8,7 @@ import {
     START_SPRINT_SUCCESS,
     START_SPRINT_FAILURE,
 } from "src/redux/Project/Sprint/SprintActionTypes";
+import { fetchAllTickets, loadProjects } from "src/redux";
 
 
 
@@ -53,6 +54,7 @@ export const startSprint = (projectId,sprintId) => {
             .catch((error) => {
                 if (error.response) {
                     dispatch(startSprintFailure(error.response.data.message));
+                    
                 } else {
                     dispatch(startSprintFailure(error.message));
                 }
@@ -67,6 +69,7 @@ export const completeSprint = (sprintId) => {
             .put("/completesprint", {sprintId })
             .then((response) => {
                 dispatch(markSprintComplete(response.data.message));
+                dispatch(loadProjects())
             })
             .catch((error) => {
                 if (error.response) {

@@ -1,12 +1,15 @@
-import React from "react";
+import React,{useEffect} from "react";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "src/components/Common/ProjectItem/ProjectItem.module.less";
 import { PlusSquareFilled } from "@ant-design/icons";
-import { filterBacklogTickets, getDateFromString } from "src/util/helperFunctions";
+import {filterBacklogTickets, generatePieChartData, getDateFromString } from "src/util/helperFunctions";
 import AppModal from "src/components/Common/AppModal/AppModal";
 import AddMembers from "src/components/Common/AddMembers/AddMembers";
 import { useState } from "react";
 import { SprintStatusEnum } from "src/config/Enums";
+import Donut from "src/components/Page/Reports/Donut/Donut";
+import { fetchAllDevlopersProject, fetchAllTickets } from "src/redux";
 
 const ProjectItem = ({ project, onClick }) => {
     const prepareMembersListJsx = () =>
@@ -26,11 +29,21 @@ const ProjectItem = ({ project, onClick }) => {
 
     const ticketsInActiveSprintCount =
         project?.tickets.filter((ticket) => ticket.sprint === activeSprint?._id).length ?? 0;
+
+    const { loading, ticketList } = useSelector((state) => state.project.ticket);
+    const { developerList, loadingDevelopers } = useSelector((state) => state.project.developer);
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(fetchAllDevlopersProject(project._id))
+        dispatch(fetchAllTickets(project._id))
+    }, [])
     return (
         <>
             {project && (
                 <div onClick={onClick} className={styles.projectItem}>
-                    <div className={`${styles.projectDetail} ${styles.graphs}`}></div>
+                    <div className={`${styles.projectDetail} ${styles.graphs}`}>
+                        {!loading && !loadingDevelopers && <Donut map={generatePieChartData(ticketList, developerList)} />}
+                    </div>
                     <div className={`${styles.projectDetail} ${styles.projectInfo}`}>
                         <>
                             <span className={styles.title}>Project Name</span>

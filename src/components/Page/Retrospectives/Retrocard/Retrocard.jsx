@@ -9,11 +9,12 @@ import CardCustom from "src/components/Common/Card/Card";
 import { fireStoreKeys } from "src/config/constants";
 import { deleteRetro } from "src/redux";
 import { equalsIgnoreCase } from "src/util/helperFunctions";
-import { RetroTypeEnum } from "src/config/Enums";
+import { RetroTypeEnum, SprintStatusEnum } from "src/config/Enums";
 
 function Retrocard({ type, text, id, sprint, onClick, index }) {
     const { TextArea } = Input;
     const { user } = useSelector((state) => state.user);
+    const { selectedSprint } = useSelector((state) => state.project.sprint);
 
     const dispatch = useDispatch();
     const handleDelete = (e) => {
@@ -24,7 +25,12 @@ function Retrocard({ type, text, id, sprint, onClick, index }) {
         onClick({ id, text, index, type });
     };
     return (
-        <div className={styles.container}>
+        <div
+            className={classNames({
+                [styles.container]: true,
+                [styles.containerBlocked]: selectedSprint?.status !== SprintStatusEnum.ACTIVE,
+            })}
+        >
             <CardCustom
                 className={classNames({
                     [styles.positive]: type == RetroTypeEnum.POSITIVE,
@@ -55,7 +61,7 @@ function Retrocard({ type, text, id, sprint, onClick, index }) {
                         value={text}
                     />
                     {/*/* TODO Add check that render delete only for those retros which belong to user and also check if sprint is active or complete */}
-                    {equalsIgnoreCase(id, user?.id) && (
+                    {equalsIgnoreCase(id, user?.id) && selectedSprint?.status === SprintStatusEnum.ACTIVE && (
                         <div className={styles.actionCont}>
                             <DeleteFilled onClick={handleDelete} />
                         </div>

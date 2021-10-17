@@ -24,6 +24,7 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import { OperationEnum, SprintStatusEnum, TicketStatusEnum } from "src/config/Enums";
 import Mounter from "src/components/Common/Mounter/Mounter";
 import roles from "src/config/roles";
+import classNames from "classnames";
 
 const Heading = ({ text }) => {
     return (
@@ -110,8 +111,6 @@ function Scrumboard() {
     }, []);
 
     const onDragEnd = (result) => {
-        console.log(result);
-
         if (!result.destination) return;
         const { source, destination, draggableId } = result;
         if (source.droppableId == TicketStatusEnum.COMPLETE) return;
@@ -133,7 +132,12 @@ function Scrumboard() {
         <>
             {loading && <h3>Loading ...</h3>}
             {!loading && (
-                <div className={styles.container}>
+                <div
+                    className={classNames({
+                        [styles.container]: true,
+                        [styles.containerBlocked]: selectedSprint?.status !== SprintStatusEnum.ACTIVE,
+                    })}
+                >
                     <div className={styles.actions}>
                         <Link to={meetUrl} target="_blank">
                             <AppButton loading={false} size={"middle"} style={{ marginRight: "8px" }}>

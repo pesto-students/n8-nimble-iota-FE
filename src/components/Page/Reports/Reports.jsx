@@ -12,6 +12,7 @@ function Reports() {
     const { loading, ticketList } = useSelector((state) => state.project.ticket);
     const { developerList, loadingDevelopers } = useSelector((state) => state.project.developer);
     const { reportData, reportsLoading } = useSelector((state) => state.project.reports);
+    const { selectedSprint } = useSelector((state) => state.project.sprint);
     const { projectId } = useParams();
 
     const dispatch = useDispatch();
@@ -20,7 +21,7 @@ function Reports() {
         dispatch(fetchAllTickets(projectId));
         dispatch(fetchAllDevlopersProject(projectId));
         //TODO remove harcode sprint
-        dispatch(fetchReportData("dsffd"));
+        dispatch(fetchReportData(selectedSprint._id));
     }, []);
 
     return (
