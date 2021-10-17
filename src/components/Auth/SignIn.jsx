@@ -1,16 +1,16 @@
 import React from "react";
-import { Form } from "antd";
-import { useSelector, useDispatch } from "react-redux";
-import { LoginUser, ForgotPassword } from "../../redux";
-import assetMap from "../../assets";
-import AppButton from "../Common/AppButton/AppButton";
-import AppInput from "../Common/AppInput/AppInput";
-import { Typography } from "antd";
-import { validateEmail } from "../../util/validation";
-import styles from "./Auth.module.less";
-import Notification from "../Common/Notification/Notification";
+import { Form, Typography } from "antd";
 import { withFormik } from "formik";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+
+import assetMap from "src/assets";
+import styles from "src/components/Auth/Auth.module.less";
+import AppButton from "src/components/Common/AppButton/AppButton";
+import AppInput from "src/components/Common/AppInput/AppInput";
+import Notification from "src/components/Common/Notification/Notification";
+import { validateEmail } from "src/util/validation";
+import { ForgotPassword, LoginUser } from "src/redux";
 
 function LoginView(props) {
     const { values, touched, errors, handleChange, handleBlur } = props;

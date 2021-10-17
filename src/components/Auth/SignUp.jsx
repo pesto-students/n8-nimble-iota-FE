@@ -1,21 +1,23 @@
-import { Form } from "antd";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RegisterUser, setLoadingTrue, setLoadingFalse } from "../../redux";
-import assetMap from "../../assets";
-import AppButton from "../Common/AppButton/AppButton";
-import AppInput from "../Common/AppInput/AppInput";
-import AppSelect from "../Common/AppSelect/AppSelect";
-import { validateEmail } from "../../util/validation";
-import Axios from "../../service/Axios";
+import { Form } from "antd";
 import { withFormik } from "formik";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+
+import { RegisterUser, setLoadingFalse, setLoadingTrue } from "src/redux";
+import assetMap from "src/assets";
+import Axios from "src/service/Axios";
+import { validateEmail } from "src/util/validation";
+import AppButton from "src/components/Common/AppButton/AppButton";
+import AppInput from "src/components/Common/AppInput/AppInput";
+import AppSelect from "src/components/Common/AppSelect/AppSelect";
 
 function RegisterView(props) {
-    const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
-    const dispatch = useDispatch();
     const [allroles, setAllRoles] = useState([]);
     const { loading } = useSelector((state) => state.user);
+
+    const { values, touched, errors, handleChange, handleBlur, setFieldValue } = props;
+    const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(setLoadingTrue());

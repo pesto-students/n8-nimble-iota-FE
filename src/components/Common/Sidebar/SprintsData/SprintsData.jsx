@@ -13,15 +13,13 @@ const SprintsData = ({ project }) => {
     const { sprints } = project;
     const [filteredSprints, setFilteredSprints] = useState(sprints);
     const [searchText, setSearchText] = useState("");
-    let isFirst = true;
     const dispatch = useDispatch();
     useEffect(() => {
         if (searchText !== "") {
             const filtered = sprints.filter((e) => e.name.includes(searchText));
             setFilteredSprints(filtered);
         } else {
-            if (!isFirst) setFilteredSprints(sprints);
-            isFirst = false;
+            setFilteredSprints(sprints);
         }
     }, [searchText]);
 

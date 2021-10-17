@@ -54,4 +54,4 @@ const Project = () => {
 
 Project.propTypes = {};
 
-export default withRouter(Project);
+export default Project;

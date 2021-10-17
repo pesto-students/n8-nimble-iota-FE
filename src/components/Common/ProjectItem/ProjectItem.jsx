@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "src/components/Common/ProjectItem/ProjectItem.module.less";
 import { PlusSquareFilled } from "@ant-design/icons";
-import { getDateFromString } from "src/util/helperFunctions";
+import { filterBacklogTickets, getDateFromString } from "src/util/helperFunctions";
 import AppModal from "src/components/Common/AppModal/AppModal";
 import AddMembers from "src/components/Common/AddMembers/AddMembers";
 import { useState } from "react";
@@ -15,19 +15,17 @@ const ProjectItem = ({ project, onClick }) => {
                 <a href="#">{e.user?.name ?? "User"}</a>
             </div>
         ));
+    console.log("project", project);
     const [addVisible, setAddVisible] = useState(false);
     const handleCancel = () => setAddVisible(false);
-    const backlogsCount = project?.tickets.reduce((count, ticket) => {
-        if (ticket.status && ticket.status === "") return count + 1;
-    }, 0);
+    const backlogsCount = filterBacklogTickets(project?.tickets).length ?? 0;
     const upcomingSprint = project?.sprints.find((e) => e.status === SprintStatusEnum.UPCOMING);
     const activeSprint = project?.sprints.find((e) => e.status === SprintStatusEnum.ACTIVE);
-    const ticketsInUpcomingSprintCount = project?.tickets.reduce((count, ticket) => {
-        if (ticket.sprint && ticket.sprint === upcomingSprint?._id) return count + 1;
-    }, 0);
-    const ticketsInActiveSprintCount = project?.tickets.reduce((count, ticket) => {
-        if (ticket.sprint && ticket.sprint === activeSprint?._id) return count + 1;
-    }, 0);
+    const ticketsInUpcomingSprintCount =
+        project?.tickets.filter((ticket) => ticket.sprint === upcomingSprint?._id).length ?? 0;
+
+    const ticketsInActiveSprintCount =
+        project?.tickets.filter((ticket) => ticket.sprint === activeSprint?._id).length ?? 0;
     return (
         <>
             {project && (
