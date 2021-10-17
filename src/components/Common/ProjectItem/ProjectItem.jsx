@@ -12,7 +12,7 @@ const ProjectItem = ({ project, onClick }) => {
     const prepareMembersListJsx = () =>
         project.members.map((e, i) => (
             <div key={i}>
-                <a href="#">{e.user?.name}</a>
+                <a href="#">{e.user?.name ?? "User"}</a>
             </div>
         ));
     const [addVisible, setAddVisible] = useState(false);

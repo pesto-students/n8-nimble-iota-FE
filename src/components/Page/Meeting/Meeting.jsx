@@ -4,22 +4,23 @@ import PropTypes from "prop-types";
 import { DyteMeeting } from "dyte-client";
 import axios from "src/service/Axios";
 import { useSelector } from "react-redux";
-import { useQuery } from "src/util/hooks";
+import { useQuery, useRouting } from "src/util/hooks";
 
 const Meeting = () => {
     const query = useQuery();
     const roomName = query.get("roomName");
     const meetingId = query.get("meetingId");
+    const referrer = query.get("referrer");
     const { user } = useSelector((state) => state.user);
     const { name, picture, email } = user;
     const [authToken, setAuthToken] = useState();
+    const router = useRouting();
     useEffect(() => {
         axios
             .post("/participant", {
                 meetingData: {
                     userDetails: { name, picture },
                     clientSpecificId: email,
-                    // presetName: "nimble",
                     roleName: "host",
                 },
                 meetingId,
@@ -46,7 +47,11 @@ const Meeting = () => {
         <>
             {authToken && (
                 <DyteMeeting
-                    onInit={() => {}}
+                    onInit={(meeting) => {
+                        meeting.on(meeting.Events.meetingEnded, () => {
+                            router.navigate(referrer, true, true);
+                        });
+                    }}
                     clientId={"0ebfa506-b771-4d4a-a469-063bf2844e3d"}
                     meetingConfig={meetingConfig}
                 />

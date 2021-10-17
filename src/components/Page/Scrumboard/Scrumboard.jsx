@@ -135,7 +135,7 @@ function Scrumboard() {
             {!loading && (
                 <div className={styles.container}>
                     <div className={styles.actions}>
-                        <Link to={meetUrl}>
+                        <Link to={meetUrl} target="_blank">
                             <AppButton loading={false} size={"middle"} style={{ marginRight: "8px" }}>
                                 <PhoneFilled /> Join Call
                             </AppButton>

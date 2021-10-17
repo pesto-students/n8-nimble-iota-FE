@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Route, Switch } from "react-router";
+import { Route, Switch, withRouter } from "react-router";
 import { Redirect, useParams } from "react-router-dom";
 import { Tabs } from "antd";
 import Backlogs from "src/components/Page/Backlog/Backlogs";
@@ -11,31 +11,20 @@ import "src/components/Page/Project/Project.less";
 
 const Project = () => {
     const { projectId } = useParams();
-    const { user } = useSelector((state) => state.user);
     const { TabPane } = Tabs;
     const initialRoute = "/scrum_board";
     const { navigate, path, url } = useRouting();
-    const userForMeeting = {
-        name: user.name,
-        picture: user.img,
-        email: user.email,
-    };
     const projects = useSelector((state) => state.projectList.projects);
     const currentProject = projects.find((e) => e._id === projectId);
     const currentSprint = useSelector((state) => state.project.sprint.selectedSprint);
     const { status } = currentSprint || {};
+
     return (
         <>
             <Switch>
-                <Route exact path={path}>
-                    <Redirect to={`${url}${initialRoute}`} />
-                </Route>
+                <Route exact path={path} render={() => <Redirect to={`${url}${initialRoute}`} />} />
                 <Route path={`${path}/meet`}>
-                    <Meeting
-                    // roomName={currentProject?.meetingRoom?.roomName}
-                    // meetingId={currentProject?.meetingRoom?.roomId}
-                    // user={userForMeeting}
-                    />
+                    <Meeting />
                 </Route>
                 <Route path={`${path}/backlogs`} component={Backlogs} />
 
@@ -65,4 +54,4 @@ const Project = () => {
 
 Project.propTypes = {};
 
-export default Project;
+export default withRouter(Project);
