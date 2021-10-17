@@ -1,3 +1,4 @@
+import axios from "src/service/Axios";
 import {
     ADD_RETROSPECTIVE_REQUEST,
     ADD_RETROSPECTIVE_SUCCESS,
@@ -112,11 +113,11 @@ export const addRetrospective = (sprintId, type, id, text) => {
         const data = ref.exists()
             ? ref.data()
             : {
-                [RetroTypeEnum.POSITIVE]: [],
-                [RetroTypeEnum.NEUTRAL]: [],
-                [RetroTypeEnum.NEGATIVE]: [],
-                [RetroTypeEnum.ACTIONS]: [],
-            };
+                  [RetroTypeEnum.POSITIVE]: [],
+                  [RetroTypeEnum.NEUTRAL]: [],
+                  [RetroTypeEnum.NEGATIVE]: [],
+                  [RetroTypeEnum.ACTIONS]: [],
+              };
         data[type].push({ text, id });
         try {
             setDoc(doc(fbfirestore, fireStoreKeys.collections.retrospectives, sprintId), data);

@@ -19,6 +19,14 @@ export const fireStoreKeys = {
     actions: "actions",
     collections: {
         retrospectives: "retrospectives",
-        poker : "poker"
+        poker: "poker",
     },
 };
+
+export const sprintStatus = {
+    closed: "closed",
+    active: "active",
+    upcoming: "upcoming",
+};
+
+export const estimations = ["0.5", "1", "2", "3", "5", "8", "13", "21"];

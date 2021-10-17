@@ -1,6 +1,6 @@
 import React from "react";
-import styles from "./NavBar.module.less";
-import assetMap from "../../../assets";
+import styles from "src/components/Common/NavBar/NavBar.module.less";
+import assetMap from "src/assets";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import { MenuOutlined } from "@ant-design/icons/lib/icons";
 import { useSelector } from "react-redux";

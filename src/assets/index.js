@@ -4,6 +4,7 @@ const assetURI = {
     LandingPricing: "LandingPricing.svg?alt=media&token=9b9913f4-7554-45ea-ad17-4c5c5a87e86d",
     Logo: "Logo.svg?alt=media&token=d3c564b8-651c-4f6e-9273-a662a92aad0c",
     roundlogo: "roundlogo.svg?alt=media&token=d158cff0-ebe7-4c37-9ed5-07ff6dcb4918",
+    comingsoon: "comingsoon.svg?alt=media&token=86067286-39f6-4e8e-93ed-810ef14993e8",
 };
 const assetMap = (imageRefName) => {
     // eslint-disable-next-line no-undef

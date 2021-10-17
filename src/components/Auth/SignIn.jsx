@@ -1,16 +1,16 @@
 import React from "react";
-import { Form, Typography } from "antd";
-import { withFormik } from "formik";
-import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
-
+import { Form } from "antd";
+import { useSelector, useDispatch } from "react-redux";
+import { LoginUser, ForgotPassword } from "src/redux";
 import assetMap from "src/assets";
-import styles from "src/components/Auth/Auth.module.less";
 import AppButton from "src/components/Common/AppButton/AppButton";
 import AppInput from "src/components/Common/AppInput/AppInput";
-import Notification from "src/components/Common/Notification/Notification";
+import { Typography } from "antd";
 import { validateEmail } from "src/util/validation";
-import { ForgotPassword, LoginUser } from "src/redux";
+import styles from "src/components/Auth/Auth.module.less";
+import Notification from "src/components/Common/Notification/Notification";
+import { withFormik } from "formik";
+import PropTypes from "prop-types";
 
 function LoginView(props) {
     const { values, touched, errors, handleChange, handleBlur } = props;
@@ -29,7 +29,7 @@ function LoginView(props) {
         if (Object.keys(errors).length === 0) dispatch(LoginUser(values.email, values.password));
     };
     const resendPassword = () => {
-        if (!validateEmail(values.email)) return Notification("Validation Failed", "invalid email");
+        if (!validateEmail(values.email)) return Notification("info", "Validation Failed", "invalid email");
         dispatch(ForgotPassword(values.email));
     };
     const loginFix = (isScrumMaster) => {

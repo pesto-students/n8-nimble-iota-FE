@@ -1,6 +1,6 @@
 import React from "react";
-import styles from "./Features.module.less";
-import assetMap from "../../../../assets";
+import styles from "src/components/Common/Landing/Features/Features.module.less";
+import assetMap from "src/assets";
 import classNames from "classnames";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 

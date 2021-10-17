@@ -12,7 +12,7 @@ const Mounter = (WrappedComponent, props) => {
         useEffect(() => {
             setPermission(checkPermission(user.role.name, allowedRoles));
         }, [allowedRoles]);
-        return !permission ? <div></div> : <WrappedComponent {...props} />;
+        return permission ? <WrappedComponent {...props} /> : null;
     };
 
     return Loader

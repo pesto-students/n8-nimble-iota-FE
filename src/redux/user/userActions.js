@@ -1,5 +1,5 @@
-import axios from "../../service/Axios";
-import { fbstorage } from "../../service/firebase";
+import axios from "src/service/Axios";
+import { fbstorage } from "src/service/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import {
     LOGIN_USER_REQUEST,
