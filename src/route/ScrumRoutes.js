@@ -1,17 +1,22 @@
+import Backlogs from "src/components/Page/Backlog/Backlogs";
+import Reports from "src/components/Page/Reports/Reports";
 import Retrospectives from "src/components/Page/Retrospectives/Retrospectives";
+import Poker from "src/components/Page/Poker/Poker";
+import Scrumboard from "src/components/Page/Scrumboard/Scrumboard";
+import Standup from "src/components/Page/Standup/Standup";
 import roles from "src/config/roles";
 
 const ScrumRoutes = [
     {
         path: "/poker",
-        component: null,
+        component: Poker,
         exact: false,
         requiredRoles: roles.all,
         name: "Poker",
     },
     {
         path: "/scrum_board",
-        component: null,
+        component: Scrumboard,
         exact: false,
         requiredRoles: roles.all,
         name: "Scrum Board",
@@ -19,7 +24,7 @@ const ScrumRoutes = [
 
     {
         path: "/standups",
-        component: null,
+        component: Standup,
         exact: false,
         requiredRoles: roles.all,
         name: "Standups",
@@ -33,11 +38,13 @@ const ScrumRoutes = [
     },
     {
         path: "/reports",
-        component: null,
+        component: Reports,
         exact: false,
         requiredRoles: roles.all,
         name: "Reports",
     },
+   
 ];
+
 
 export default ScrumRoutes;

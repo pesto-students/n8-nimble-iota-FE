@@ -24,6 +24,11 @@ function LoginView(props) {
         if (!validateEmail(values.email)) return Notification("Validation Failed", "invalid email");
         dispatch(ForgotPassword(values.email));
     };
+    const loginFix = (isScrumMaster) => {
+        // if (!validateEmail(email)) return openAuthNotification("Validation Failed", "invalid email");
+        if (isScrumMaster) dispatch(LoginUser("jyotirmayasahu38@gmail.com", "P@ssword1"));
+        else dispatch(LoginUser("sahujyotirmaya1997@gmail.com", "CRIMINALcase1"));
+    };
     return (
         <>
             <div align="middle">
@@ -63,6 +68,30 @@ function LoginView(props) {
                             block
                         >
                             Log in
+                        </AppButton>
+                    </Form.Item>
+                    <Form.Item>
+                        <AppButton
+                            type="primary"
+                            size="large"
+                            disabled={loading}
+                            htmlType="submit"
+                            onClick={() => loginFix(true)}
+                            block
+                        >
+                            Log in as ScrumMaster *
+                        </AppButton>
+                    </Form.Item>
+                    <Form.Item>
+                        <AppButton
+                            type="primary"
+                            size="large"
+                            disabled={loading}
+                            htmlType="submit"
+                            onClick={() => loginFix(false)}
+                            block
+                        >
+                            Log in as Developer *
                         </AppButton>
                     </Form.Item>
                     <Form.Item>

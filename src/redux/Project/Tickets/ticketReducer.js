@@ -14,11 +14,20 @@ import {
     FETCH_UPDATED_TICKET_LIST_REQUEST,
     FETCH_UPDATED_TICKET_LIST_SUCCESS,
     FETCH_UPDATED_TICKET_LIST_FAILURE,
+    FILTER_UPDATED_TICKET_LIST,
+    SORT_UPDATED_TICKET_LIST,
 } from "src/redux/Project/Tickets/ticketActionTypes";
 import { produce } from "immer";
+import ticketConstants from "src/config/Ticket";
+import { TicketStatusEnum } from "src/config/Enums.ts";
 
 const initialState = {
     ticketList: [],
+    filteredTicketList: [],
+    filters: {
+        bug: false,
+        userStory: false,
+    },
     loading: true,
     error: "",
     msg: "",
@@ -33,11 +42,12 @@ const ticketReducer = (state = initialState, action) => {
             case FETCH_UPDATED_TICKET_LIST_SUCCESS:
                 draft.loading = false;
                 draft.ticketList = action.payload;
+                draft.filteredTicketList = draft.ticketList;
                 return;
             case FETCH_UPDATED_TICKET_LIST_FAILURE:
                 draft.loading = false;
                 draft.error = action.payload;
-                draft.msg = action.payload.msg;
+                draft.msg = action.payload?.msg;
                 return;
             case DELETE_TICKET_REQUEST:
                 draft.loading = true;
@@ -54,7 +64,7 @@ const ticketReducer = (state = initialState, action) => {
             case UPDATE_TICKET_REQUEST:
                 draft.loading = true;
                 return;
-            case UPDATE_TICKET_STATUS_SUCCESS:
+            case UPDATE_TICKET_SUCCESS:
                 draft.loading = false;
                 draft.msg = action.payload;
                 return;
@@ -74,6 +84,44 @@ const ticketReducer = (state = initialState, action) => {
                 draft.loading = false;
                 draft.error = action.payload;
                 draft.msg = action.payload;
+                return;
+            case UPDATE_TICKET_STATUS_REQUEST:
+                draft.loading = true;
+                return;
+            case UPDATE_TICKET_STATUS_SUCCESS:
+                draft.loading = false;
+                draft.msg = action.payload;
+                return;
+            case UPDATE_TICKET_STATUS_FAILURE:
+                draft.loading = false;
+                draft.error = action.payload;
+                draft.msg = action.payload;
+                return;
+            case FILTER_UPDATED_TICKET_LIST:
+                draft.filters[action.data.filter] = action.data.isAdded;
+                console.log(draft.filters.bug);
+                if (!(draft.filters.bug || draft.filters.userStory)) {
+                    console.log("f");
+                    draft.filteredTicketList = draft.ticketList.slice();
+                    return;
+                }
+                draft.filteredTicketList = draft.ticketList.filter(
+                    (e) =>
+                        (e.type === (draft.filters.bug ? "BUG" : "USER_STORY") ||
+                        e.type === (draft.filters.userStory ? "USER_STORY" : "BUG"))
+                );
+                console.log(draft.filters);
+                return;
+            case SORT_UPDATED_TICKET_LIST:
+                if (action.data.sortBy === "") {
+                    draft.filteredTicketList = draft.ticketList.slice();
+                    return;
+                }
+                draft.filteredTicketList = draft.filteredTicketList.sort((a, b) => {
+                    if (a[action.data.sortBy] < b[action.data.sortBy]) return -1;
+                    if (a[action.data.sortBy] > b[action.data.sortBy]) return 1;
+                    return 0;
+                });
                 return;
             default:
                 return;

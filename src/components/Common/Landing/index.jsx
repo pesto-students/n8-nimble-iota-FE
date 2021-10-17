@@ -4,6 +4,7 @@ import styles from "src/components/Common/Landing/index.module.less";
 import LandingMain from "src/components/Common/Landing/Main/LandingMain";
 import Features from "src/components/Common/Landing/Features/Features";
 import Pricing from "src/components/Common/Landing/Pricing/Pricing";
+import About from "src/components/Common/Landing/About/About";
 
 const Landing = () => {
     return (
@@ -17,6 +18,7 @@ const Landing = () => {
             <Element name="pricing">
                 <Pricing />
             </Element>
+            <About />
         </div>
     );
 };
