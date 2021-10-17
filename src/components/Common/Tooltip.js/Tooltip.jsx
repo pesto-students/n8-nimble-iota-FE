@@ -1,14 +1,14 @@
+import React from "react";
+import { Tooltip as AToolTip } from "antd";
+import AppButton from "src/components/Common/AppButton/AppButton";
 
-import React from 'react'
-import {  Tooltip } from 'antd'
-
-function Tooltip({text,color,key}) {
+// eslint-disable-next-line react/prop-types
+function Tooltip({ text, color, key }) {
     return (
-        <Tooltip title={text} color={color} key={key}>
-          <Button>{color}</Button>
-        </Tooltip>
-    )
+        <AToolTip title={text} color={color} key={key}>
+            <AppButton>{color}</AppButton>
+        </AToolTip>
+    );
 }
 
-export default Tooltip
-
+export default Tooltip;
