@@ -2,17 +2,20 @@ import React, { useState, useEffect } from "react";
 import styles from "src/components/Page/Standup/Standup.module.less";
 import { Card, Col, Divider, Row, Typography } from "antd";
 import { DatePicker, Space } from "antd";
+import { PhoneFilled } from "@ant-design/icons";
 import AppButton from "src/components/Common/AppButton/AppButton";
 import AppSelect from "src/components/Common/AppSelect/AppSelect";
 import { useDispatch, useSelector } from "react-redux";
 import { loadProjects, fetchAllDevlopersProject } from "src/redux";
 import moment from "moment";
-import { useParams } from "react-router-dom";
+import { useMeeting } from "src/util/hooks";
+import { Link, useParams } from "react-router-dom";
 
 const { Paragraph } = Typography;
 
 function Standup() {
     const dispatch = useDispatch();
+    const meetUrl = useMeeting();
     const today = new Date().toLocaleDateString();
     const { projectId } = useParams();
     const [member, setMember] = useState(null);
@@ -45,8 +48,15 @@ function Standup() {
     return (
         <>
             <Row className={styles.header}>
-                <Col flex={13} align="left">
+                <Col flex={10} align="left">
                     Standup statements
+                </Col>
+                <Col flex={1} align="middle">
+                    <Link to={meetUrl} target="_blank">
+                        <AppButton loading={false} size={"middle"}>
+                            <PhoneFilled /> Join Call
+                        </AppButton>
+                    </Link>
                 </Col>
                 <Col flex={2} align="middle">
                     Filter:&nbsp;

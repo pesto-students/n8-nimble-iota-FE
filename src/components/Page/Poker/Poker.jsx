@@ -159,9 +159,7 @@ function Poker() {
                         <Col flex={1} align="middle">
                             <Link to={meetUrl} target="_blank">
                                 <AppButton loading={false} size={"middle"}>
-                                    <>
-                                        <PhoneFilled /> Join Call
-                                    </>
+                                    <PhoneFilled /> Join Call
                                 </AppButton>
                             </Link>
                         </Col>
