@@ -1,10 +1,10 @@
-import React from "react";
-import styles from "src/components/Common/Sidebar/UserData/UserData.module.less";
-import { useSelector } from "react-redux";
+import { EditFilled, EnvironmentFilled, MailFilled, PhoneFilled, SafetyOutlined } from "@ant-design/icons/lib/icons";
 import { Avatar } from "antd";
-import { EditFilled, SafetyOutlined, EnvironmentFilled, PhoneFilled, MailFilled } from "@ant-design/icons/lib/icons";
-import { extractInitials } from "src/util/helperFunctions";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import styles from "src/components/Common/Sidebar/UserData/UserData.module.less";
+import { extractInitials } from "src/util/helperFunctions";
 
 const UserData = () => {
     const { user } = useSelector((state) => state.user);

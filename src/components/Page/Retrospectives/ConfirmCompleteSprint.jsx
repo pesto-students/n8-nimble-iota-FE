@@ -1,8 +1,8 @@
-import React from "react";
+import { Divider } from "antd";
 import PropTypes from "prop-types";
+import React from "react";
 import AppButton from "src/components/Common/AppButton/AppButton";
 import AppModal from "src/components/Common/AppModal/AppModal";
-import { Divider } from "antd";
 
 function ConfirmCompleteSprint(props) {
     return (

@@ -1,8 +1,8 @@
-import React from "react";
-import styles from "src/components/Common/Landing/Pricing/Pricing.module.less";
-import assetMap from "src/assets";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import classNames from "classnames";
+import React from "react";
+import assetMap from "src/assets";
+import styles from "src/components/Common/Landing/Pricing/Pricing.module.less";
 
 const Pricing = () => {
     const breakpoints = useBreakpoint();

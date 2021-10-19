@@ -1,11 +1,11 @@
-import React from "react";
 import { DeleteFilled } from "@ant-design/icons";
+import { deleteDoc, doc } from "firebase/firestore";
 import PropTypes from "prop-types";
-import { doc, deleteDoc } from "firebase/firestore";
-import { fbfirestore } from "src/service/firebase";
+import React from "react";
 import Mounter from "src/components/Common/Mounter/Mounter";
-import roles from "src/config/roles";
 import Notification from "src/components/Common/Notification/Notification";
+import roles from "src/config/roles";
+import { fbfirestore } from "src/service/firebase";
 
 function Delticket({ itemid, setSelectedVote }) {
     const removeTicket = async () => {

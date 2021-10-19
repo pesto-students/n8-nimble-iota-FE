@@ -1,18 +1,13 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import { Space } from "antd";
 import PropTypes from "prop-types";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import assetMap from "src/assets";
-import AppInput from "src/components/Common/AppInput/AppInput";
-import AppDropDown from "src/components/Common/AppDropDown/AppDropDown";
+import styles from "src/components/Common/AddMembers/AddMembers.module.less";
+import AppButton from "src/components/Common/AppButton/AppButton";
+import AppSelect from "src/components/Common/AppSelect/AppSelect";
 import { addMember, searchMembers } from "src/redux/memberSearch/memberSearchActions";
 import { debounce } from "src/util/helperFunctions";
-import { useSelector } from "react-redux";
-import AppSelect from "src/components/Common/AppSelect/AppSelect";
-import AppButton from "src/components/Common/AppButton/AppButton";
-import { useState } from "react";
-import { UserSwitchOutlined } from "@ant-design/icons";
-import { Space } from "antd";
-import styles from "src/components/Common/AddMembers/AddMembers.module.less";
 
 const AddMembers = ({ projectId }) => {
     const dispatch = useDispatch();
@@ -25,7 +20,6 @@ const AddMembers = ({ projectId }) => {
         dispatch(addMember({ memberId: user._id, projectId }));
     };
     const handleChange = (e) => {
-        console.log(e);
         setSelectedMember(e);
     };
     return (

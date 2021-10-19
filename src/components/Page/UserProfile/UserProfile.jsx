@@ -1,19 +1,19 @@
-import React, { useEffect, useState, useRef } from "react";
 import { CloudUploadOutlined, TrophyTwoTone } from "@ant-design/icons";
 import { Avatar, Col, Divider, Input, Row } from "antd";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AppButton from "src/components/Common/AppButton/AppButton";
 import AppInput from "src/components/Common/AppInput/AppInput";
 import CardCustom from "src/components/Common/Card/Card";
 import CustomTag from "src/components/Common/CustomTag/CustomTag";
+import Mounter from "src/components/Common/Mounter/Mounter";
 import styles from "src/components/Page/UserProfile/Userprofile.module.less";
 import TicketListItem from "src/components/TicketModal/TicketListItem";
 import { colors } from "src/config/constants";
-import { getUserData, updateUserData, ChangeImage } from "src/redux";
+import roles from "src/config/roles";
+import { ChangeImage, getUserData, updateUserData } from "src/redux";
 import { getProjectFromProjectList } from "src/util/helperFunctions";
 import { useRouting } from "src/util/hooks";
-import Mounter from "src/components/Common/Mounter/Mounter";
-import roles from "src/config/roles";
 
 function UserProfile() {
     const { TextArea } = Input;
@@ -50,7 +50,6 @@ function UserProfile() {
     const handleIntroTextChange = (e) => setIntroText(e.target.value);
 
     const handleUpdate = () => {
-        console.log(userProfile.name, userProfile.phone, locationText, introText);
         //TODO remove hardcode
         dispatch(
             updateUserData(userProfile.name, userProfile.phone, locationText, introText, "6152f4685c6326c6388b36c9")

@@ -1,5 +1,5 @@
-import React from "react";
 import { Tooltip as AToolTip } from "antd";
+import React from "react";
 import AppButton from "src/components/Common/AppButton/AppButton";
 
 // eslint-disable-next-line react/prop-types

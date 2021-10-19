@@ -1,15 +1,14 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import styles from "src/components/Page/Retrospectives/Retrocard/Retrocard.module.less";
-import { Input } from "antd";
-import PropTypes from "prop-types";
-import classNames from "classnames";
 import { DeleteFilled } from "@ant-design/icons";
+import { Input } from "antd";
+import classNames from "classnames";
+import PropTypes from "prop-types";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import CardCustom from "src/components/Common/Card/Card";
-import { fireStoreKeys } from "src/config/constants";
+import styles from "src/components/Page/Retrospectives/Retrocard/Retrocard.module.less";
+import { RetroTypeEnum, SprintStatusEnum } from "src/config/Enums";
 import { deleteRetro } from "src/redux";
 import { equalsIgnoreCase } from "src/util/helperFunctions";
-import { RetroTypeEnum, SprintStatusEnum } from "src/config/Enums";
 
 function Retrocard({ type, text, id, sprint, onClick, index }) {
     const { TextArea } = Input;

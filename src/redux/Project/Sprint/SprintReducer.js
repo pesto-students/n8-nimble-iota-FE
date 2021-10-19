@@ -3,9 +3,9 @@ import {
     GET_SELECTED_SPRINT,
     SET_SELECTED_SPRINT,
     SET_SPRINT_LIST,
+    START_SPRINT_FAILURE,
     START_SPRINT_REQUEST,
     START_SPRINT_SUCCESS,
-    START_SPRINT_FAILURE,
 } from "src/redux/Project/Sprint/SprintActionTypes";
 
 const initialState = {

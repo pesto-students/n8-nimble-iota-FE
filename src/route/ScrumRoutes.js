@@ -1,11 +1,10 @@
-import Backlogs from "src/components/Page/Backlog/Backlogs";
+import Poker from "src/components/Page/Poker/Poker";
 import Reports from "src/components/Page/Reports/Reports";
 import Retrospectives from "src/components/Page/Retrospectives/Retrospectives";
-import Poker from "src/components/Page/Poker/Poker";
 import Scrumboard from "src/components/Page/Scrumboard/Scrumboard";
 import Standup from "src/components/Page/Standup/Standup";
-import roles from "src/config/roles";
 import { SprintStatusEnum } from "src/config/Enums";
+import roles from "src/config/roles";
 
 const ScrumRoutes = [
     {

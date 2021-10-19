@@ -1,24 +1,22 @@
-import axios from "src/service/Axios";
-import {
-    ADD_RETROSPECTIVE_REQUEST,
-    ADD_RETROSPECTIVE_SUCCESS,
-    ADD_RETROSPECTIVE_FAILURE,
-    UPDATE_RETROSPECTIVE_REQUEST,
-    UPDATE_RETROSPECTIVE_SUCCESS,
-    UPDATE_RETROSPECTIVE_FAILURE,
-    DELETE_RETROSPECTIVE_REQUEST,
-    DELETE_RETROSPECTIVE_SUCCESS,
-    DELETE_RETROSPECTIVE_FAILURE,
-    FETCH_RETROSPECTIVES_REQUEST,
-    FETCH_RETROSPECTIVES_SUCCESS,
-    FETCH_RETROSPECTIVES_FAILURE,
-} from "src/redux/Project/Retrospectives/retroActionTypes";
-
-import { fbfirestore } from "../../../service/firebase";
-import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
-import retroConstants from "src/config/Retrospective";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { fireStoreKeys } from "src/config/constants";
 import { RetroTypeEnum } from "src/config/Enums";
+import retroConstants from "src/config/Retrospective";
+import {
+    ADD_RETROSPECTIVE_FAILURE,
+    ADD_RETROSPECTIVE_REQUEST,
+    ADD_RETROSPECTIVE_SUCCESS,
+    DELETE_RETROSPECTIVE_FAILURE,
+    DELETE_RETROSPECTIVE_REQUEST,
+    DELETE_RETROSPECTIVE_SUCCESS,
+    FETCH_RETROSPECTIVES_FAILURE,
+    FETCH_RETROSPECTIVES_REQUEST,
+    FETCH_RETROSPECTIVES_SUCCESS,
+    UPDATE_RETROSPECTIVE_FAILURE,
+    UPDATE_RETROSPECTIVE_REQUEST,
+    UPDATE_RETROSPECTIVE_SUCCESS,
+} from "src/redux/Project/Retrospectives/retroActionTypes";
+import { fbfirestore } from "../../../service/firebase";
 
 export const addRetrospectiveRequest = () => {
     return {
@@ -157,7 +155,6 @@ export const updateRetroSpective = (sprintId, type, id, text, index) => {
             );
             dispatch(fetchRetrospectives(sprintId));
         } catch (exception) {
-            console.log(exception);
             dispatch(
                 updateRetrospectiveFailure({
                     success: false,

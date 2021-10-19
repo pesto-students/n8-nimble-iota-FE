@@ -1,17 +1,16 @@
-import { CheckCircleFilled, PhoneFilled, PlusCircleFilled } from "@ant-design/icons";
-import { useSelector, useDispatch } from "react-redux";
-import React, { useState, useEffect } from "react";
+import { PhoneFilled, PlusCircleFilled } from "@ant-design/icons";
 import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import AppButton from "src/components/Common/AppButton/AppButton";
 import Retrocard from "src/components/Page/Retrospectives/Retrocard/Retrocard";
 import RetrospectiveModal from "src/components/Page/Retrospectives/RetrospectiveModal";
 import styles from "src/components/Page/Retrospectives/Retrospectives.module.less";
-import { Link } from "react-router-dom";
-import { useMeeting, useRouting } from "src/util/hooks";
-import { fetchRetrospectives } from "src/redux";
-import { fireStoreKeys } from "src/config/constants";
-import { OperationEnum } from "src/config/Enums.ts";
 import { RetroTypeEnum, SprintStatusEnum } from "src/config/Enums";
+import { OperationEnum } from "src/config/Enums.ts";
+import { fetchRetrospectives } from "src/redux";
+import { useMeeting } from "src/util/hooks";
 
 const Heading = ({ text }) => {
     return (
@@ -59,13 +58,22 @@ function Retrospectives() {
         <>
             <div className={styles.container}>
                 <div className={styles.actions}>
-                    <AppButton onClick={handleAdd} size={"middle"} style={{ marginRight: "8px" }} disabled={selectedSprint?.status !== SprintStatusEnum.ACTIVE} >
+                    <AppButton
+                        onClick={handleAdd}
+                        size={"middle"}
+                        style={{ marginRight: "8px" }}
+                        disabled={selectedSprint?.status !== SprintStatusEnum.ACTIVE}
+                    >
                         <>
                             <PlusCircleFilled /> Add Retrospective
                         </>
                     </AppButton>
                     <Link to={meetUrl} target="_blank">
-                        <AppButton disabled={selectedSprint?.status !== SprintStatusEnum.ACTIVE} size={"middle"} style={{ marginRight: "8px" }}>
+                        <AppButton
+                            disabled={selectedSprint?.status !== SprintStatusEnum.ACTIVE}
+                            size={"middle"}
+                            style={{ marginRight: "8px" }}
+                        >
                             <>
                                 <PhoneFilled /> Join Call
                             </>

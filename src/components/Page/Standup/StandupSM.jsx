@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import styles from "src/components/Page/Standup/Standup.module.less";
-import { Card, Col, Divider, Row, Typography } from "antd";
-import { DatePicker, Space } from "antd";
 import { PhoneFilled } from "@ant-design/icons";
+import { Card, Col, DatePicker, Divider, Row, Space, Typography } from "antd";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 import AppButton from "src/components/Common/AppButton/AppButton";
 import AppSelect from "src/components/Common/AppSelect/AppSelect";
-import { useDispatch, useSelector } from "react-redux";
-import { loadProjects, fetchAllDevlopersProject } from "src/redux";
-import moment from "moment";
+import styles from "src/components/Page/Standup/Standup.module.less";
+import { dateformat } from "src/config/constants";
+import { fetchAllDevlopersProject, loadProjects } from "src/redux";
 import { useMeeting } from "src/util/hooks";
-import { Link, useParams } from "react-router-dom";
 
 const { Paragraph } = Typography;
 
@@ -62,9 +62,9 @@ function Standup() {
                     Filter:&nbsp;
                     <Space direction="vertical">
                         <DatePicker
-                            defaultValue={moment(today, "MM/DD/YYYY")}
+                            defaultValue={moment(today, dateformat)}
                             onChange={filterDate}
-                            format={"MM/DD/YYYY"}
+                            format={dateformat}
                         />
                     </Space>
                 </Col>

@@ -1,9 +1,8 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { DyteMeeting } from "dyte-client";
-import axios from "src/service/Axios";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import axios from "src/service/Axios";
 import { useQuery, useRouting } from "src/util/hooks";
 
 const Meeting = () => {
@@ -41,7 +40,6 @@ const Meeting = () => {
         roomName,
         showSetupScreen: true,
     };
-    console.log(meetingConfig);
 
     return (
         <>

@@ -1,10 +1,9 @@
+import { produce } from "immer";
 import {
+    FETCH_DEVELOPERS_PROJECT_FAILURE,
     FETCH_DEVELOPERS_PROJECT_REQUEST,
     FETCH_DEVELOPERS_PROJECT_SUCCESS,
-    FETCH_DEVELOPERS_PROJECT_FAILURE,
 } from "src/redux/Project/Developers/developerActionTypes";
-
-import { produce } from "immer";
 
 const initialState = {
     developerList: [],

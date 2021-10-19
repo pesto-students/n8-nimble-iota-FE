@@ -1,20 +1,19 @@
-import React from "react";
-import styles from "src/components/Common/NavBar/NavBar.module.less";
-import assetMap from "src/assets";
-import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import { MenuOutlined } from "@ant-design/icons/lib/icons";
-import { useSelector } from "react-redux";
-import { Link as ScrollLink } from "react-scroll";
-import PropTypes from "prop-types";
 import { Avatar } from "antd";
-import { extractInitials } from "src/util/helperFunctions";
+import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
+import PropTypes from "prop-types";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { Link as ScrollLink } from "react-scroll";
+import assetMap from "src/assets";
+import styles from "src/components/Common/NavBar/NavBar.module.less";
+import { extractInitials } from "src/util/helperFunctions";
 
 const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
     const breakpoints = useBreakpoint();
     const { isAuthenticated, user } = useSelector((state) => state.user);
     const name = user?.name ?? "-";
-    console.log(breakpoints);
     const smSize = !breakpoints.md;
     return (
         <nav className={styles.navbar}>
@@ -23,7 +22,7 @@ const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
                     <MenuOutlined className={styles.menuIcon} />
                 </div>
             )}
-            <Link to="/home">
+            <Link to="/projects">
                 <div className={styles.brand}>
                     <div className={styles.logo}>
                         <img src={assetMap("Logo")} alt="Nimble" />

@@ -1,12 +1,12 @@
-import axios from "src/service/Axios";
 import {
-    INCREMENT_STORY_POINTS_ACHIEVED_REQUEST,
-    INCREMENT_STORY_POINTS_ACHIEVED_SUCCESS,
-    INCREMENT_STORY_POINTS_ACHIEVED_FAILURE,
+    FETCH_REPORTS_DATA_FAILURE,
     FETCH_REPORTS_DATA_REQUEST,
     FETCH_REPORTS_DATA_SUCCESS,
-    FETCH_REPORTS_DATA_FAILURE,
+    INCREMENT_STORY_POINTS_ACHIEVED_FAILURE,
+    INCREMENT_STORY_POINTS_ACHIEVED_REQUEST,
+    INCREMENT_STORY_POINTS_ACHIEVED_SUCCESS,
 } from "src/redux/Project/Reports/reportActionTypes";
+import axios from "src/service/Axios";
 
 export const incrementStroyPointsAchievedRequest = () => {
     return {

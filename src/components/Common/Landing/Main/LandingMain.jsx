@@ -1,9 +1,9 @@
-import React from "react";
-import styles from "src/components/Common/Landing/Main/LandingMain.module.less";
-import assetMap from "src/assets";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import classNames from "classnames";
+import React from "react";
+import assetMap from "src/assets";
 import AppButton from "src/components/Common/AppButton/AppButton";
+import styles from "src/components/Common/Landing/Main/LandingMain.module.less";
 
 const LandingMain = () => {
     const breakpoints = useBreakpoint();

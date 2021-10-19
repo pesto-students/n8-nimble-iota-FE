@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
 import { Modal } from "antd";
+import PropTypes from "prop-types";
+import React from "react";
 import "src/components/Common/AppModal/AppModal.less";
 
 const AppModal = ({ visible, handleCancel, children, ...props }) => {

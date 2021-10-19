@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
-import styles from "src/components/Page/Standup/Standup.module.less";
-import { Card, Col, Row } from "antd";
 import { PhoneFilled, PlusCircleFilled } from "@ant-design/icons";
-import { Input, Typography } from "antd";
-import AppButton from "src/components/Common/AppButton/AppButton";
-import Axios from "src/service/Axios";
+import { Card, Col, Input, Row, Typography } from "antd";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loadProjects, fetchAllDevlopersProject } from "src/redux";
-import Notification from "src/components/Common/Notification/Notification";
-import { useMeeting } from "src/util/hooks";
 import { Link, useParams } from "react-router-dom";
+import AppButton from "src/components/Common/AppButton/AppButton";
+import Notification from "src/components/Common/Notification/Notification";
+import styles from "src/components/Page/Standup/Standup.module.less";
+import { fetchAllDevlopersProject, loadProjects } from "src/redux";
+import Axios from "src/service/Axios";
+import { useMeeting } from "src/util/hooks";
 
 const { TextArea } = Input;
 const { Paragraph } = Typography;

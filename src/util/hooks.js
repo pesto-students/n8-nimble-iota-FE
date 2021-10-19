@@ -1,6 +1,6 @@
-import { useHistory, useRouteMatch } from "react-router-dom";
-import { useLocation, useParams } from "react-router";
 import { useSelector } from "react-redux";
+import { useLocation, useParams } from "react-router";
+import { useHistory, useRouteMatch } from "react-router-dom";
 
 export const useRouting = () => {
     const history = useHistory();
@@ -11,7 +11,6 @@ export const useRouting = () => {
                 if (exact) history.replace(to);
                 else history.replace(`${path}/${to}`);
             } else {
-                console.log(to);
                 if (exact) history.push(to);
                 else history.push(`${path}/${to}`);
             }

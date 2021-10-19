@@ -6,7 +6,6 @@ import SignUp from "src/components/Auth/SignUp";
 import AppModal from "src/components/Common/AppModal/AppModal";
 import Landing from "src/components/Common/Landing";
 import NavBar from "src/components/Common/NavBar/NavBar";
-import Scrumboard from "src/components/Page/Scrumboard/Scrumboard";
 
 function LandingPage() {
     const [loginModal, setLoginModal] = useState(false);
@@ -18,7 +17,7 @@ function LandingPage() {
     const closeRegister = () => setRegisterModal(false);
     return (
         <>
-            {user && isAuthenticated && <Redirect to="/home" />}
+            {user && isAuthenticated && <Redirect to="/projects" />}
             <NavBar onLogin={openLogin} onRegister={openRegister} />
             <AppModal visible={loginModal} handleCancel={closeLogin}>
                 <SignIn />

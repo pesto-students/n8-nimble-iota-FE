@@ -1,13 +1,13 @@
+import classnames from "classnames";
 import React from "react";
-import styles from "src/components/Common/Sidebar/Sidebar.module.less";
-import UserData from "src/components/Common/Sidebar/UserData/UserData";
-import { matchPath, useLocation, useRouteMatch } from "react-router";
-import SprintsData from "src/components/Common/Sidebar/SprintsData/SprintsData";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { matchPath, useLocation, useRouteMatch } from "react-router";
+import { Link } from "react-router-dom";
 import ActiveMark from "src/components/Common/ActiveMark/ActiveMark";
 import BacklogsControls from "src/components/Common/Sidebar/BacklogsControls/BacklogsControls";
-import classnames from "classnames";
+import styles from "src/components/Common/Sidebar/Sidebar.module.less";
+import SprintsData from "src/components/Common/Sidebar/SprintsData/SprintsData";
+import UserData from "src/components/Common/Sidebar/UserData/UserData";
 
 const Sidebar = () => {
     const { pathname } = useLocation();
@@ -15,7 +15,6 @@ const Sidebar = () => {
 
     const match = matchPath(pathname, { path: `${path}/:projectId/*` });
     const projectId = match?.params?.projectId;
-    console.log("projectId", projectId);
     const projectUrl = `${url}/${projectId}`;
     const projects = useSelector((state) => state.projectList.projects);
     const currentProject = projects.find((e) => e._id === projectId);
@@ -23,7 +22,6 @@ const Sidebar = () => {
     const isProjectList = pathname.endsWith("projects");
     const backlogsUrl = `${url}/${projectId}/backlogs`;
     const isProject = !!projectId;
-    console.info("ispro", isProject);
     const isMeet = pathname.endsWith("meet");
 
     const sideBarClassNames = classnames([

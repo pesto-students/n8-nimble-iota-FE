@@ -1,7 +1,7 @@
-import React from "react";
-import { Card } from "antd";
 import { CoffeeOutlined } from "@ant-design/icons";
+import { Card } from "antd";
 import PropTypes from "prop-types";
+import React from "react";
 import styles from "src/components/Page/Poker/Poker.module.less";
 
 function EstimationCard(props) {

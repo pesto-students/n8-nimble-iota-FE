@@ -1,6 +1,6 @@
+import PropTypes from "prop-types";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
-import PropTypes from "prop-types";
 
 function Donut({ map }) {
     const state = {

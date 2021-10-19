@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
 import { Select } from "antd";
+import PropTypes from "prop-types";
+import React from "react";
 import styles from "src/components/Common/AppDropDown/AppDropDown.module.less";
 
 const AppDropDown = ({ options, defaultValue, ...props }) => {

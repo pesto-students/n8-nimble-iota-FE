@@ -91,7 +91,7 @@ function Ticket({ onClick, index, ticketData }) {
                                 [colors.ticketBorderGreen]: ticketData.status === TicketStatusEnum.COMPLETE,
                             })}`,
                         }}
-                        bodyStyle={{ height: "100%", padding: "8px",pointerEvents : 'none' }}
+                        bodyStyle={{ height: "100%", padding: "8px", pointerEvents: "none" }}
                     >
                         <div className={styles.ticketHeader}>
                             <div className="ticketTitle" style={{ width: "50%" }}>

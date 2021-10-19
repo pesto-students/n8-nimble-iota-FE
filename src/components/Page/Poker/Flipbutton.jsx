@@ -1,6 +1,6 @@
+import PropTypes from "prop-types";
 import React from "react";
 import AppButton from "src/components/Common/AppButton/AppButton";
-import PropTypes from "prop-types";
 
 function Flipbutton({ flipped, move, setTicketFlipped }) {
     return (

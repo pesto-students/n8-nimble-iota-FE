@@ -1,9 +1,9 @@
 import axios from "axios";
+import { setLoadingFalse, setLoadingTrue } from "src/redux";
 
 // eslint-disable-next-line no-undef
 axios.defaults.baseURL = process.env.REACT_APP_DBURL;
 axios.defaults.withCredentials = true;
-import { setLoadingTrue, setLoadingFalse } from "src/redux";
 
 export const setupAxios = (history, dispatch) => {
     axios.interceptors.request.use(

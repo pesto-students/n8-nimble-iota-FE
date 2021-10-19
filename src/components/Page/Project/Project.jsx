@@ -1,13 +1,13 @@
+import { Tabs } from "antd";
 import React from "react";
 import { useSelector } from "react-redux";
-import { Route, Switch, withRouter } from "react-router";
+import { Route, Switch } from "react-router";
 import { Redirect, useParams } from "react-router-dom";
-import { Tabs } from "antd";
 import Backlogs from "src/components/Page/Backlog/Backlogs";
 import Meeting from "src/components/Page/Meeting/Meeting";
+import "src/components/Page/Project/Project.less";
 import ScrumRoutes from "src/route/ScrumRoutes";
 import { useRouting } from "src/util/hooks";
-import "src/components/Page/Project/Project.less";
 
 const Project = () => {
     const { projectId } = useParams();
@@ -32,7 +32,6 @@ const Project = () => {
                     <Tabs
                         defaultActiveKey={`${url}${initialRoute}`}
                         onChange={(key) => {
-                            console.log(key, "key");
                             navigate(key, true, true);
                         }}
                     >

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Projects from "src/components/Page/Projects/Projects";
 
 function PlayArea() {

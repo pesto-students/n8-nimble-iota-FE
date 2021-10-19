@@ -1,10 +1,8 @@
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import { fireStoreKeys } from "src/config/constants";
-import { SprintStatusEnum } from "src/config/Enums.ts";
-import { TicketStatusEnum } from "src/config/Enums.ts";
-import { fbfirestore } from "src/service/firebase";
-import { doc, addDoc, setDoc, collection, getDoc, getDocs, updateDoc } from "firebase/firestore";
-import { async } from "@firebase/util";
 import { RetroTypeEnum } from "src/config/Enums";
+import { SprintStatusEnum, TicketStatusEnum } from "src/config/Enums.ts";
+import { fbfirestore } from "src/service/firebase";
 
 export const transformEnum = (enumObject) => {
     // This function converts enum to array of Objects. Eg [HIGH,MEDIUM] ----> [{_id:0,name: HIGH},{_id:1,name: MEDIUM}]
@@ -32,7 +30,6 @@ export const extractInitials = (/**@type{String} */ name) => {
 export const getDateFromString = (dateString) => (dateString ? new Date(dateString).toLocaleDateString() : undefined);
 
 export const generatePieChartData = (ticketList, developerList) => {
-    console.log("test", ticketList, developerList);
     const map = {};
     ticketList.forEach((ticket) => {
         const assignee = getAssigneeName(ticket, developerList);

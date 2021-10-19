@@ -1,18 +1,18 @@
+import { Button } from "antd";
+import { Field, Form, Formik } from "formik";
 import React from "react";
 import { useSelector } from "react-redux";
-import { Button } from "antd";
-import { Formik, Field, Form } from "formik";
-import axios from "axios";
+import Notification from "src/components/Common/Notification/Notification";
+import Axios from "src/service/Axios";
 
 function Subscription() {
     const { email, role } = useSelector((state) => state.user.user);
 
     const handleSubscription = () => {
         const subsObj = { email: email, amount: 1000, role: role };
-        axios
-            .post("/createOrder", subsObj)
+        Axios.post("/createOrder", subsObj)
             .then((response) => {
-                console.log(response.data);
+                return Notification("success", "Subscription Updated", response?.data?.message);
             })
             .catch((error) => {
                 if (error.response) {
@@ -45,12 +45,7 @@ function Subscription() {
                     <Field id="lastName" name="lastName" placeholder="Doe" />
 
                     <label htmlFor="email">Email</label>
-                    <Field
-                        id="email"
-                        name="email"
-                        placeholder="jane@acme.com"
-                        type="email"
-                    />
+                    <Field id="email" name="email" placeholder="jane@acme.com" type="email" />
                     <button type="submit">Submit</button>
                 </Form>
             </Formik>

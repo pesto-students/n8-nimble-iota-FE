@@ -4,12 +4,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import CustomTag from "src/components/Common/CustomTag/CustomTag";
+import Notification from "src/components/Common/Notification/Notification";
 import styles from "src/components/Page/Backlog/Backlog.module.less";
 import TicketModal from "src/components/TicketModal/TicketModal";
 import { colors, fireStoreKeys } from "src/config/constants";
 import { OperationEnum } from "src/config/Enums";
 import { PriorityEnum, TicketTypeEnum } from "src/config/Enums.ts";
-import { deleteTicket, fetchAllDevlopersProject, fetchAllTickets, loadProjects } from "src/redux";
+import { deleteTicket, fetchAllDevlopersProject, fetchAllTickets } from "src/redux";
 import { addTicketToPoker, filterBacklogTickets, getAllDocs } from "src/util/helperFunctions";
 
 function Backlogs() {
@@ -105,26 +106,22 @@ function Backlogs() {
                     {pokerList.find((ticketDetails) => record.ticketId === ticketDetails.ticketId) ? (
                         <h3>-</h3>
                     ) : (
-                        (console.log("plist", pokerList),
-                        (
-                            <RightCircleOutlined
-                                style={{ fontSize: "20px" }}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    //TODO use dispatch made by vishnu
-                                    addTicketToPoker(projectId, record).then(
-                                        (res) => {
-                                            ticketInPoker()
-                                            //TODO notify
-                                        },
-                                        (err) => {
-                                            console.log(err);
-                                            //TODO notify
-                                        }
-                                    );
-                                }}
-                            />
-                        ))
+                        <RightCircleOutlined
+                            style={{ fontSize: "20px" }}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                //TODO use dispatch made by vishnu
+                                addTicketToPoker(projectId, record).then(
+                                    (res) => {
+                                        ticketInPoker();
+                                        //TODO notify
+                                    },
+                                    (err) => {
+                                        return Notification("warning", "Something went wrong", err);
+                                    }
+                                );
+                            }}
+                        />
                     )}
                 </>
             ),
@@ -143,7 +140,7 @@ function Backlogs() {
     useEffect(() => {
         dispatch(fetchAllTickets(projectId));
         dispatch(fetchAllDevlopersProject(projectId));
-        ticketInPoker()
+        ticketInPoker();
     }, []);
 
     useEffect(() => {

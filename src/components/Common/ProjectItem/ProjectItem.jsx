@@ -1,15 +1,14 @@
-import React,{useEffect} from "react";
-import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
-import styles from "src/components/Common/ProjectItem/ProjectItem.module.less";
 import { PlusSquareFilled } from "@ant-design/icons";
-import {filterBacklogTickets, generatePieChartData, getDateFromString } from "src/util/helperFunctions";
-import AppModal from "src/components/Common/AppModal/AppModal";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import AddMembers from "src/components/Common/AddMembers/AddMembers";
-import { useState } from "react";
-import { SprintStatusEnum } from "src/config/Enums";
+import AppModal from "src/components/Common/AppModal/AppModal";
+import styles from "src/components/Common/ProjectItem/ProjectItem.module.less";
 import Donut from "src/components/Page/Reports/Donut/Donut";
+import { SprintStatusEnum } from "src/config/Enums";
 import { fetchAllDevlopersProject, fetchAllTickets } from "src/redux";
+import { filterBacklogTickets, generatePieChartData, getDateFromString } from "src/util/helperFunctions";
 
 const ProjectItem = ({ project, onClick }) => {
     const prepareMembersListJsx = () =>
@@ -18,7 +17,6 @@ const ProjectItem = ({ project, onClick }) => {
                 <a href="#">{e.user?.name ?? "User"}</a>
             </div>
         ));
-    console.log("project", project);
     const [addVisible, setAddVisible] = useState(false);
     const handleCancel = () => setAddVisible(false);
     const backlogsCount = filterBacklogTickets(project?.tickets).length ?? 0;
@@ -32,17 +30,19 @@ const ProjectItem = ({ project, onClick }) => {
 
     const { loading, ticketList } = useSelector((state) => state.project.ticket);
     const { developerList, loadingDevelopers } = useSelector((state) => state.project.developer);
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(fetchAllDevlopersProject(project._id))
-        dispatch(fetchAllTickets(project._id))
-    }, [])
+        dispatch(fetchAllDevlopersProject(project._id));
+        dispatch(fetchAllTickets(project._id));
+    }, []);
     return (
         <>
             {project && (
                 <div onClick={onClick} className={styles.projectItem}>
                     <div className={`${styles.projectDetail} ${styles.graphs}`}>
-                        {!loading && !loadingDevelopers && <Donut map={generatePieChartData(ticketList, developerList)} />}
+                        {!loading && !loadingDevelopers && (
+                            <Donut map={generatePieChartData(ticketList, developerList)} />
+                        )}
                     </div>
                     <div className={`${styles.projectDetail} ${styles.projectInfo}`}>
                         <>
