@@ -44,6 +44,7 @@ export const startSprint = (projectId, selectedSprint) => {
         axios
             .post("/startsprint", { projectId, sprintId: selectedSprint?._id })
             .then((response) => {
+                dispatch(loadProjects());
                 dispatch(startSprintSuccess(response.data.message));
                 dispatch(setSelectedSprint(selectedSprint));
             })
@@ -62,8 +63,8 @@ export const completeSprint = (selectedSprint) => {
         axios
             .put("/completesprint", { sprintId: selectedSprint._id })
             .then((response) => {
-                dispatch(markSprintComplete(response.data.message));
                 dispatch(loadProjects());
+                dispatch(markSprintComplete(response.data.message));
             })
             .catch((error) => {
                 if (error.response) {
