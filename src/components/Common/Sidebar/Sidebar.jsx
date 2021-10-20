@@ -23,7 +23,7 @@ const Sidebar = () => {
     const backlogsUrl = `${url}/${projectId}/backlogs`;
     const isProject = !!projectId;
     const isMeet = pathname.endsWith("meet");
-
+    console.log("projects", projects);
     const sideBarClassNames = classnames([
         styles.sidebar,
         {

@@ -1,6 +1,6 @@
 import { Space } from "antd";
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import assetMap from "src/assets";
 import styles from "src/components/Common/AddMembers/AddMembers.module.less";
@@ -22,6 +22,9 @@ const AddMembers = ({ projectId }) => {
     const handleChange = (e) => {
         setSelectedMember(e);
     };
+    useEffect(() => {
+        dispatch(searchMembers(""));
+    }, []);
     return (
         <div align="middle" className={styles.middle}>
             <Space size="middle" direction="vertical">
