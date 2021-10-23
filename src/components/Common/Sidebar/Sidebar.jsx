@@ -1,5 +1,5 @@
 import classnames from "classnames";
-import React from "react";
+import React,{useEffect} from "react";
 import { useSelector } from "react-redux";
 import { matchPath, useLocation, useRouteMatch } from "react-router";
 import { Link } from "react-router-dom";
@@ -8,11 +8,13 @@ import BacklogsControls from "src/components/Common/Sidebar/BacklogsControls/Bac
 import styles from "src/components/Common/Sidebar/Sidebar.module.less";
 import SprintsData from "src/components/Common/Sidebar/SprintsData/SprintsData";
 import UserData from "src/components/Common/Sidebar/UserData/UserData";
+import { getUserData } from "src/redux";
+import { checkIfPremiumUser } from "src/util/helperFunctions";
 
 const Sidebar = () => {
     const { pathname } = useLocation();
     const { path, url } = useRouteMatch();
-
+    const { user, userProfile } = useSelector((state) => state.user);
     const match = matchPath(pathname, { path: `${path}/:projectId/*` });
     const projectId = match?.params?.projectId;
     const projectUrl = `${url}/${projectId}`;
@@ -30,6 +32,10 @@ const Sidebar = () => {
             [styles.hidden]: isMeet,
         },
     ]);
+
+    useEffect(() => {
+        getUserData(user.id)
+    }, [])
     return (
         <section className={sideBarClassNames}>
             <div className={styles.main}>
@@ -55,7 +61,7 @@ const Sidebar = () => {
                     <>{isProjectList && <UserData />}</>
                 )}
             </div>
-            <div className={styles.footer}>Subscription: Basic</div>
+            <div className={styles.footer}>Subscription : {checkIfPremiumUser(userProfile.subscription) ? "Premium" : "Free Version"}</div>
         </section>
     );
 };
