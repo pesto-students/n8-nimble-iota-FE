@@ -1,6 +1,6 @@
 import classnames from "classnames";
 import React,{useEffect} from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { matchPath, useLocation, useRouteMatch } from "react-router";
 import { Link } from "react-router-dom";
 import ActiveMark from "src/components/Common/ActiveMark/ActiveMark";
@@ -15,6 +15,7 @@ const Sidebar = () => {
     const { pathname } = useLocation();
     const { path, url } = useRouteMatch();
     const { user, userProfile } = useSelector((state) => state.user);
+    const dispatch = useDispatch()
     const match = matchPath(pathname, { path: `${path}/:projectId/*` });
     const projectId = match?.params?.projectId;
     const projectUrl = `${url}/${projectId}`;
@@ -25,7 +26,6 @@ const Sidebar = () => {
     const backlogsUrl = `${url}/${projectId}/backlogs`;
     const isProject = !!projectId;
     const isMeet = pathname.endsWith("meet");
-    console.log("projects", projects);
     const sideBarClassNames = classnames([
         styles.sidebar,
         {
@@ -34,7 +34,7 @@ const Sidebar = () => {
     ]);
 
     useEffect(() => {
-        getUserData(user.id)
+        dispatch(getUserData(user.id))
     }, [])
     return (
         <section className={sideBarClassNames}>

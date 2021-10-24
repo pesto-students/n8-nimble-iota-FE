@@ -2,17 +2,23 @@ import { MenuOutlined } from "@ant-design/icons/lib/icons";
 import { Avatar } from "antd";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useContext } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Link as ScrollLink } from "react-scroll";
 import assetMap from "src/assets";
+import AppButton from "src/components/Common/AppButton/AppButton";
 import styles from "src/components/Common/NavBar/NavBar.module.less";
 import { extractInitials } from "src/util/helperFunctions";
+import { QuestionCircleTwoTone } from "@ant-design/icons";
+import CustomTag from "src/components/Common/CustomTag/CustomTag";
+import { colors } from "src/config/constants";
+import AppTourContext from "src/contexts/AppTourContext";
 
 const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
     const breakpoints = useBreakpoint();
-    const { isAuthenticated, user, userProfile } = useSelector((state) => state.user);
+    const TourContext = useContext(AppTourContext);
+    const { isAuthenticated, user,userProfile } = useSelector((state) => state.user);
     const name = user?.name ?? "-";
     const smSize = !breakpoints.md;
     const imgUrl = userProfile?.imgurl;
@@ -70,6 +76,13 @@ const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
                     )}
                     {isAuthenticated && (
                         <>
+                            <div style={{ display: "flex", alignItems: "center" }}>
+                                <CustomTag
+                                    text="Want to have a tour ?"
+                                    color={colors.priorityLow}
+                                    onClick={() => TourContext.setIsTourOpen(true)}
+                                />
+                            </div>
                             <a className={styles.navLink} onClick={onLogout}>
                                 Logout
                             </a>

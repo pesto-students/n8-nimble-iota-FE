@@ -78,6 +78,7 @@ function UserProfile() {
         if (resp.data.success) {
             //TODO Add Notificaton
             alert(resp.data.message);
+            dispatch(getUserData(user.id));
         } else {
             //TODO Add Notificaton
             console.log("Err", resp);
@@ -121,7 +122,8 @@ function UserProfile() {
                     amount: resp.data.order.amount,
                     email: userProfile?.email,
                 };
-                updatePaymentRequest(updatePaymentObject);
+               updatePaymentRequest(updatePaymentObject);
+               
             },
             prefill: {
                 name: userProfile?.name ?? "",
@@ -234,7 +236,7 @@ function UserProfile() {
                             <Divider className={styles.dividerStyle} />
                             {userProfile.projects?.map((pid, index) => {
                                 const projectItem = getProjectFromProjectList(projects, pid);
-                                projectItem && (
+                                return projectItem && (
                                     <TicketListItem
                                         key={index}
                                         label={projectItem?.projectName ?? ""}
