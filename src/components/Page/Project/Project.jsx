@@ -33,7 +33,7 @@ const Project = () => {
                 </Route>
                 <Route path={`${path}/backlogs`} component={Backlogs} />
             </Switch>
-            {ScrumRoutes.length > 0 && (
+            {path.endsWith(":projectId") && (
                 <Tabs activeKey={initialRoute} onChange={openTab}>
                     {ScrumRoutes.map((route, index) => (
                         <React.Fragment key={index}>
