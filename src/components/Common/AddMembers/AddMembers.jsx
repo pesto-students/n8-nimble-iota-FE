@@ -9,7 +9,7 @@ import AppSelect from "src/components/Common/AppSelect/AppSelect";
 import { addMember, searchMembers } from "src/redux/memberSearch/memberSearchActions";
 import { debounce } from "src/util/helperFunctions";
 
-const AddMembers = ({ projectId }) => {
+const AddMembers = ({ projectId, onAdd }) => {
     const dispatch = useDispatch();
     const handleSearch = (val) => dispatch(searchMembers(val));
     const handleSearchDebounced = debounce(handleSearch);
@@ -18,6 +18,7 @@ const AddMembers = ({ projectId }) => {
     const handleAdd = () => {
         const user = JSON.parse(selectedMember);
         dispatch(addMember({ memberId: user._id, projectId }));
+        onAdd && onAdd();
     };
     const handleChange = (e) => {
         setSelectedMember(e);
@@ -52,6 +53,7 @@ const AddMembers = ({ projectId }) => {
 
 AddMembers.propTypes = {
     projectId: PropTypes.string,
+    onAdd: PropTypes.func,
 };
 
 export default AddMembers;
