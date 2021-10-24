@@ -15,6 +15,9 @@ const SprintsData = ({ project }) => {
     const [searchText, setSearchText] = useState("");
     const dispatch = useDispatch();
     useEffect(() => {
+        setFilteredSprints(sprints);
+    }, [sprints]);
+    useEffect(() => {
         if (searchText !== "") {
             const filtered = sprints.filter((e) => e.name.includes(searchText));
             setFilteredSprints(filtered);
@@ -30,7 +33,7 @@ const SprintsData = ({ project }) => {
             sprints?.find((e) => e.status === SprintStatusEnum.UPCOMING);
 
         dispatch(setSelectedSprint(currentSprint));
-    }, []);
+    }, [sprints]);
 
     const prepareSprintsListJsx = () => filteredSprints?.map((e, index) => <SprintListItem key={index} sprint={e} />);
     return (

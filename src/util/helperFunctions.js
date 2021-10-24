@@ -183,3 +183,8 @@ export const isRetrospectiveDone = (retros) => {
         ? true
         : false;
 };
+
+export const checkIfPremiumUser = (subscriptionArray) => {
+    //This method checks if subscription length is greater than zero then return true meaning user has a subscription
+    return subscriptionArray?.length > 0 ? true : false
+};
