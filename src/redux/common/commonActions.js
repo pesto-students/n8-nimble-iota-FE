@@ -1,8 +1,8 @@
 import {
+    REMOVE_NOTIFICATION,
     SET_LOADER_FALSE,
     SET_LOADER_TRUE,
     SHOW_NOTIFICATION,
-    REMOVE_NOTIFICATION,
 } from "src/redux/common/commonActionTypes";
 
 export const setLoadingTrue = () => {

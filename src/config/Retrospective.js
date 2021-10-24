@@ -11,11 +11,11 @@ const retroTypeEnum = {
     negative : "NEGATIVE",
     neutral : "NEUTRAL",
     action : "ACTION"
-}
+};
 const retroConstants = {
     retroType : retroType,
     retroTypeEnum : retroTypeEnum
   
 };
 
-export default retroConstants
+export default retroConstants;

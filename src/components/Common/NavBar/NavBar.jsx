@@ -1,34 +1,38 @@
-import React from "react";
-import styles from "./NavBar.module.less";
-import assetMap from "../../../assets";
-import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import { MenuOutlined } from "@ant-design/icons/lib/icons";
-import { useSelector } from "react-redux";
-import { Link as ScrollLink } from "react-scroll";
-import PropTypes from "prop-types";
 import { Avatar } from "antd";
+import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
+import PropTypes from "prop-types";
+import React from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { Link as ScrollLink } from "react-scroll";
+import assetMap from "src/assets";
+import styles from "src/components/Common/NavBar/NavBar.module.less";
+import { extractInitials } from "src/util/helperFunctions";
 
 const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
     const breakpoints = useBreakpoint();
-    const { isAuthenticated } = useSelector((state) => state.user);
-    console.log(breakpoints);
+    const { isAuthenticated, user } = useSelector((state) => state.user);
+    const name = user?.name ?? "-";
     const smSize = !breakpoints.md;
     return (
         <nav className={styles.navbar}>
-            {smSize && (
+            {isAuthenticated && smSize && (
                 <div className={styles.menuIconContainer}>
                     <MenuOutlined className={styles.menuIcon} />
                 </div>
             )}
-            <div className={styles.brand}>
-                <div className={styles.logo}>
-                    <img src={assetMap("Logo")} alt="Nimble" />
+            <Link to="/projects">
+                <div className={styles.brand}>
+                    <div className={styles.logo}>
+                        <img src={assetMap("Logo")} alt="Nimble" />
+                    </div>
+                    <div className={styles.brandName}>
+                        <h1 className={styles.title}>Nimble</h1>
+                        {!smSize && <div className={styles.subTitle}>Quickly, easily & lightly</div>}
+                    </div>
                 </div>
-                <div className={styles.brandName}>
-                    <h1 className={styles.title}>Nimble</h1>
-                    <div className={styles.subTitle}>Quickly, easily & lightly</div>
-                </div>
-            </div>
+            </Link>
             <div className={styles.nav}>
                 {!isAuthenticated && !smSize && (
                     <div className={styles.navLinkContainer}>
@@ -54,14 +58,14 @@ const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
                 )}
                 <div className={`${styles.navLinkContainer} ${styles.end}`}>
                     {!isAuthenticated && (
-                        <div className={styles.navLink} onClick={onLogin}>
-                            Login
-                        </div>
-                    )}
-                    {!smSize && !isAuthenticated && (
-                        <div className={styles.navLink} onClick={onRegister}>
-                            Register
-                        </div>
+                        <>
+                            <div className={styles.navLink} onClick={onLogin}>
+                                Login
+                            </div>
+                            <div className={styles.navLink} onClick={onRegister}>
+                                Register
+                            </div>
+                        </>
                     )}
                     {isAuthenticated && (
                         <>
@@ -69,7 +73,7 @@ const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
                                 Logout
                             </a>
                             <div className={styles.navLink} onClick={onProfileClick}>
-                                <Avatar>SM</Avatar>
+                                <Avatar>{extractInitials(name)}</Avatar>
                             </div>
                         </>
                     )}

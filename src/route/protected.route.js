@@ -1,6 +1,6 @@
 import React from "react";
-import { Route, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Redirect, Route } from "react-router-dom";
 import { checkPermission } from "src/components/Common/Mounter/Mounter";
 
 function ProtectedRoute(properties) {
@@ -14,10 +14,8 @@ function ProtectedRoute(properties) {
                 if (user.isAuthenticated && checkPermission(user?.user?.role?.name, properties.requiredRoles)) {
                     return <properties.component {...props} />;
                 }
-                if (!localUser && !user.isAuthenticated) {
-                    return <Redirect to="/" />;
-                }
-                return <Redirect to="/404" />;
+                if (!localUser && !user.isAuthenticated) return <Redirect to="/" />;
+                if (!localUser) return <Redirect to="/404" />;
             }}
         />
     );

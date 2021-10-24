@@ -1,13 +1,12 @@
-import axios from "axios";
 import {
     LOAD_PROJECT_LIST,
     SET_PROJECT_LIST,
     SET_PROJECT_LIST_ERROR,
 } from "src/redux/projectList/projectListActionTypes";
+import Axios from "src/service/Axios";
 
 export const loadProjects = () => (dispatch) => {
-    axios
-        .get("/projects")
+    Axios.get("/projects")
         .then((res) => {
             const projects = res.data;
             dispatch(setProjectsListAction(projects));

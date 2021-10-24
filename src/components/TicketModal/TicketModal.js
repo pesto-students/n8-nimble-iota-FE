@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from "react";
 import { Divider } from "antd";
 import PropTypes from "prop-types";
 import TextArea from "rc-textarea";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AppButton from "src/components/Common/AppButton/AppButton";
 import AppInput from "src/components/Common/AppInput/AppInput";
 import AppModal from "src/components/Common/AppModal/AppModal";
 import AppSelect from "src/components/Common/AppSelect/AppSelect";
 import TicketListItem from "src/components/TicketModal/TicketListItem";
-import { PriorityEnum, OperationEnum, TicketTypeEnum } from "src/config/Enums";
+import { OperationEnum, PriorityEnum, TicketTypeEnum } from "src/config/Enums";
 import { addTicket, updateTicket } from "src/redux";
 import { generateTicketNumber, getSprints, transformEnum } from "src/util/helperFunctions";
 
 function TicketModal(props) {
     const { projectId, ticketData, ticketOperation, developerList } = props;
-    const { selectedSprint } = useSelector((state) => state.project.sprint);
     const { projects } = useSelector((state) => state.projectList);
 
     const listOfSprints = getSprints(projects, projectId);

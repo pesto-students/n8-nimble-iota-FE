@@ -1,6 +1,6 @@
-import React from "react";
 import { Input } from "antd";
 import PropTypes from "prop-types";
+import React from "react";
 
 function Searchbox({ placeholder, loading, ...props }) {
     const { Search } = Input;

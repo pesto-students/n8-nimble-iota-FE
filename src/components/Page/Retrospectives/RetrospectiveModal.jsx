@@ -1,54 +1,51 @@
 import { Divider } from "antd";
-import Operation from "antd/lib/transfer/operation";
 import PropTypes from "prop-types";
 import TextArea from "rc-textarea";
 import React, { useEffect, useState } from "react";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AppButton from "src/components/Common/AppButton/AppButton";
 import AppModal from "src/components/Common/AppModal/AppModal";
 import AppSelect from "src/components/Common/AppSelect/AppSelect";
 import TicketListItem from "src/components/TicketModal/TicketListItem";
-import { fireStoreKeys, retroTypes } from "src/config/constants";
+import { RetroTypeEnum } from "src/config/Enums";
 import { OperationEnum } from "src/config/Enums.ts";
-import { addRetrospective,updateRetroSpective } from "src/redux/Project/Retrospectives/retroActions";
-import { equalsIgnoreCase } from "src/util/helperFunctions";
-
-
+import { addRetrospective, updateRetroSpective } from "src/redux/Project/Retrospectives/retroActions";
+import { equalsIgnoreCase, transformEnum } from "src/util/helperFunctions";
 
 function RetrospectiveModal(props) {
-    const {id, sprintId, retroText ,retroType,operation,index } = props;
+    const { id, sprintId, retroText, retroType, operation, index } = props;
     const { user } = useSelector((state) => state.user);
+
+    const retroTypes = transformEnum(RetroTypeEnum);
 
     const dispatch = useDispatch();
 
     const [type, setType] = useState("");
     const [text, setText] = useState("");
-   
 
     const handleTextChange = (event) => {
         setText(event.target.value);
     };
-   
+
     const handleTypeChange = (value) => {
-        setType(JSON.parse(value)?.name??"" )
+        setType(JSON.parse(value));
     };
 
-
-    const handleRetro = ()=>{
+    const handleRetro = () => {
         if (operation == OperationEnum.ADD) {
-            dispatch(addRetrospective(sprintId,type,user.id,text));
+            dispatch(addRetrospective(sprintId, type.name, user.id, text));
         } else {
-            dispatch(updateRetroSpective(sprintId,type,user.id,text,index));
+            dispatch(updateRetroSpective(sprintId, type.name, user.id, text, index));
         }
-    }
+    };
 
     useEffect(() => {
         if (operation == OperationEnum.UPDATE) {
-            setText(retroText)
-            setType(retroTypes.find((ele)=>equalsIgnoreCase(ele.name,retroType))?.name??"")
-        }else{
-            setType(retroTypes[0].name)
-        } 
+            setText(retroText);
+            setType(retroTypes.find((ele) => equalsIgnoreCase(ele.name, retroType)));
+        } else {
+            setType("");
+        }
     }, []);
 
     return (
@@ -64,9 +61,9 @@ function RetrospectiveModal(props) {
                         <AppSelect
                             style={{ width: "60%" }}
                             onChange={handleTypeChange}
-                            value={type}
+                            value={type?.name ?? ""}
                             options={retroTypes}
-                            disabled = {operation == OperationEnum.UPDATE}
+                            disabled={operation == OperationEnum.UPDATE}
                         />
                     }
                 />
@@ -85,15 +82,17 @@ function RetrospectiveModal(props) {
                         />
                     }
                 />
-                 <Divider />
-              
+                <Divider />
+
                 {/*TODO Check if Retro is complete --> then only add/update*/}
-                <AppButton disabled={operation == OperationEnum.UPDATE && id!==user.id} onClick={handleRetro} style={{ width: "100%" }}>
-                    {operation == OperationEnum.UPDATE  ? "Update" : "Add" }
+                <AppButton
+                    disabled={operation == OperationEnum.UPDATE && id !== user.id}
+                    onClick={handleRetro}
+                    style={{ width: "100%" }}
+                >
+                    {operation == OperationEnum.UPDATE ? "Update" : "Add"}
                 </AppButton>
             </AppModal>
-
-           
         </>
     );
 }
@@ -104,8 +103,7 @@ RetrospectiveModal.propTypes = {
     retroType: PropTypes.string,
     sprintId: PropTypes.array,
     id: PropTypes.string,
-    index : PropTypes.number
-    
+    index: PropTypes.number,
 };
 
 export default RetrospectiveModal;

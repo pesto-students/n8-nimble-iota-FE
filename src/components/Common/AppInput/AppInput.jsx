@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styles from "src/components/Common/AppInput/AppInput.module.less";
-import { Input } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons/lib/icons";
+import { Input } from "antd";
+import PropTypes from "prop-types";
+import React from "react";
+import styles from "src/components/Common/AppInput/AppInput.module.less";
 
 const AppInput = ({ placeholder, isPassword, ...props }) => {
     return (

@@ -1,9 +1,8 @@
+import PropTypes from "prop-types";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
-import PropTypes from "prop-types";
 
 function Bar({ map }) {
-
     const state = {
         series: [
             {
@@ -19,7 +18,7 @@ function Bar({ map }) {
             plotOptions: {
                 bar: {
                     borderRadius: 10,
-                    width :  "10%",
+                    width: "10%",
                     dataLabels: {
                         position: "top", // top, center, bottom
                     },
@@ -30,7 +29,7 @@ function Bar({ map }) {
             },
 
             xaxis: {
-                categories:  Object.keys(map),
+                categories: Object.keys(map),
                 position: "top",
                 axisBorder: {
                     show: false,

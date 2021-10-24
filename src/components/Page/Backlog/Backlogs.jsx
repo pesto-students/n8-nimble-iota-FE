@@ -1,18 +1,17 @@
 import { DeleteFilled, PlusCircleFilled, RightCircleOutlined } from "@ant-design/icons/lib/icons";
-import { Affix, Button, Table } from "antd";
+import { Affix, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import CustomTag from "src/components/Common/CustomTag/CustomTag";
+import Notification from "src/components/Common/Notification/Notification";
 import styles from "src/components/Page/Backlog/Backlog.module.less";
 import TicketModal from "src/components/TicketModal/TicketModal";
-import { colors } from "src/config/constants";
-import { deleteTicket, fetchAllDevlopersProject, fetchAllTickets, updateTicketStatus } from "src/redux";
-import { onSnapshot, collection, addDoc, doc, updateDoc, arrayUnion, arrayRemove, deleteDoc } from "firebase/firestore";
-import { fbfirestore } from "../../../service/firebase";
-import { useParams } from "react-router-dom";
-import { filterBacklogTickets } from "src/util/helperFunctions";
-import { TicketStatusEnum, PriorityEnum, TicketTypeEnum } from "src/config/Enums.ts";
+import { colors, fireStoreKeys } from "src/config/constants";
 import { OperationEnum } from "src/config/Enums";
+import { PriorityEnum, TicketTypeEnum } from "src/config/Enums.ts";
+import { deleteTicket, fetchAllDevlopersProject, fetchAllTickets } from "src/redux";
+import { addTicketToPoker, filterBacklogTickets, getAllDocs } from "src/util/helperFunctions";
 
 function Backlogs() {
     const { loading, filteredTicketList } = useSelector((state) => state.project.ticket);
@@ -20,7 +19,7 @@ function Backlogs() {
     const { developerList } = useSelector((state) => state.project.developer);
     const { projectId } = useParams();
     const { selectedSprint } = useSelector((state) => state.project.sprint);
-
+    const [pokerList, setPokerList] = useState([]);
     const dispatch = useDispatch();
     const columns = [
         {
@@ -103,14 +102,28 @@ function Backlogs() {
             dataIndex: "move",
             align: "center",
             render: (text, record) => (
-                <RightCircleOutlined
-                    //TODO disabled = {checkIfTicketInPoker(record.ticketId)}
-                    style={{ fontSize: "20px" }}
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        //TODO Move to poker
-                    }}
-                />
+                <>
+                    {pokerList.find((ticketDetails) => record.ticketId === ticketDetails.ticketId) ? (
+                        <h3>-</h3>
+                    ) : (
+                        <RightCircleOutlined
+                            style={{ fontSize: "20px" }}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                //TODO use dispatch made by vishnu
+                                addTicketToPoker(projectId, record).then(
+                                    (res) => {
+                                        ticketInPoker();
+                                        //TODO notify
+                                    },
+                                    (err) => {
+                                        return Notification("warning", "Something went wrong", err);
+                                    }
+                                );
+                            }}
+                        />
+                    )}
+                </>
             ),
         },
     ];
@@ -118,10 +131,16 @@ function Backlogs() {
     const [openModal, setOpenModal] = useState(false);
     const [clickedRow, setClickedRow] = useState(-1);
     const [ticketOperation, setTickearOperation] = useState();
+    const ticketInPoker = () => {
+        getAllDocs(fireStoreKeys.collections.poker).then((res) => {
+            setPokerList(Object.values(res));
+        });
+    };
 
     useEffect(() => {
         dispatch(fetchAllTickets(projectId));
         dispatch(fetchAllDevlopersProject(projectId));
+        ticketInPoker();
     }, []);
 
     useEffect(() => {

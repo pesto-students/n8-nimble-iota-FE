@@ -1,9 +1,9 @@
-import axios from "../../../service/Axios";
 import {
+    FETCH_DEVELOPERS_PROJECT_FAILURE,
     FETCH_DEVELOPERS_PROJECT_REQUEST,
     FETCH_DEVELOPERS_PROJECT_SUCCESS,
-    FETCH_DEVELOPERS_PROJECT_FAILURE,
 } from "src/redux/Project/Developers/developerActionTypes";
+import axios from "src/service/Axios";
 
 export const fetchDeveloperProjectRequest = (obj) => {
     return {

@@ -1,7 +1,7 @@
-import React from "react";
 import classNames from "classnames";
-import styles from "src/components/TicketModal/TicketModal.module.less";
 import PropTypes from "prop-types";
+import React from "react";
+import styles from "src/components/TicketModal/TicketModal.module.less";
 
 const TicketListItem = ({ label, fullWidth, Component }) => {
     return (
@@ -34,7 +34,7 @@ const TicketListItem = ({ label, fullWidth, Component }) => {
 
 TicketListItem.propTypes = {
     label: PropTypes.string,
-    Component: PropTypes.Component,
+    Component: PropTypes.any,
     fullWidth: PropTypes.bool,
 };
 

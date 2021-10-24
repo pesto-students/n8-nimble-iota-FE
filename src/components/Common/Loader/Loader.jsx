@@ -1,6 +1,6 @@
-import React from "react";
 import { Spin } from "antd";
 import PropTypes from "prop-types";
+import React from "react";
 
 function Loader({ load, children }) {
     return (

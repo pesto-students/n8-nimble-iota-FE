@@ -1,19 +1,19 @@
+import PropTypes from "prop-types";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
-import PropTypes from "prop-types";
 
-function Line({ map }) {
+function Line({ mapPrevious, mapCurrent }) {
     const state = {
         series: [
             {
                 name: "Current Sprint",
                 type: "column",
-                data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6],
+                data: Object.values(mapCurrent),
             },
             {
                 name: "Previous Sprint",
                 type: "column",
-                data: [1.1, 3, 3.1, 4, 4.1, 4.9, 6.5, 8.5],
+                data: Object.values(mapPrevious),
             },
             {
                 name: "Average",
@@ -81,7 +81,7 @@ function Line({ map }) {
                         },
                     },
                     title: {
-                        text: "Operating Cashflow (thousand crores)",
+                        text: "Previous Sprint Story Points",
                         style: {
                             color: "#00E396",
                         },
@@ -103,7 +103,7 @@ function Line({ map }) {
                         },
                     },
                     title: {
-                        text: "Revenue (thousand crores)",
+                        text: "Current Sprint story points",
                         style: {
                             color: "#FEB019",
                         },
@@ -129,7 +129,8 @@ function Line({ map }) {
 }
 
 Line.propTypes = {
-    map: PropTypes.object,
+    mapPrevious: PropTypes.object,
+    mapCurrent: PropTypes.object,
     options: PropTypes.object,
     series: PropTypes.array,
 };

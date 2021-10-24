@@ -1,28 +1,79 @@
-import React from "react";
-import styles from "src/components/Page/Scrumboard/Ticket/Ticket.module.less";
-import { Divider, Input } from "antd";
+import { Input } from "antd";
+import classNames from "classnames";
 import PropTypes from "prop-types";
-import { DeleteFilled } from "@ant-design/icons";
+import React, { useEffect, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import AppInput from "src/components/Common/AppInput/AppInput";
+import AppSelect from "src/components/Common/AppSelect/AppSelect";
 import CardCustom from "src/components/Common/Card/Card";
 import CustomTag from "src/components/Common/CustomTag/CustomTag";
-import { colors } from "src/config/constants";
-import CustomDivider from "src/components/Common/CustomDivider/CustomDivider";
+import styles from "src/components/Page/Scrumboard/Ticket/Ticket.module.less";
 import TicketListItem from "src/components/TicketModal/TicketListItem";
-import AppSelect from "src/components/Common/AppSelect/AppSelect";
-import ticketConstants from "src/config/Ticket";
-import classNames from "classnames";
+import { colors } from "src/config/constants";
+import { PriorityEnum, TicketTypeEnum } from "src/config/Enums";
 import { TicketStatusEnum } from "src/config/Enums.ts";
+import { getSprints, transformEnum } from "src/util/helperFunctions";
 
-function Ticket({ onClick,index,ticketData }) {
-
+function Ticket({ onClick, index, ticketData }) {
     const { TextArea } = Input;
 
-    const handleClick = ()=>{
-        onClick(ticketData)
-    }
+    const { developerList } = useSelector((state) => state.project.developer);
+    const { selectedSprint } = useSelector((state) => state.project.sprint);
+    const { projects } = useSelector((state) => state.projectList);
+    const { projectId } = useParams();
+
+    const listOfSprints = getSprints(projects, projectId);
+
+    const ticketTypeArray = transformEnum(TicketTypeEnum);
+    const priorityTypeArray = transformEnum(PriorityEnum);
+
+    const [title, setTitle] = useState();
+    const [ticketId, setTicketId] = useState();
+    const [description, setTcketDescription] = useState();
+    const [assignee, setAssignee] = useState();
+    const [priority, setPriority] = useState();
+    const [type, setType] = useState();
+    const [sprint, setSprint] = useState();
+    const [status, setStatus] = useState();
+    const [points, setStoryPoints] = useState();
+
+    const handleClick = () => {
+        onClick(ticketData);
+    };
+
+    useEffect(() => {
+        setTitle(ticketData.title);
+        setTicketId(ticketData.ticketId);
+        setTcketDescription(ticketData.description);
+        setAssignee(
+            developerList.length > 0
+                ? developerList.find((developer) => {
+                      return developer["_id"] == ticketData.assignee;
+                  })
+                : ""
+        );
+        setPriority(
+            priorityTypeArray.find((priority) => {
+                return ticketData.priority == priority.name;
+            })
+        );
+        setType(
+            ticketTypeArray.find((type) => {
+                return ticketData.type == type.name;
+            })
+        );
+        setSprint(
+            listOfSprints.find((sprint) => {
+                return ticketData.sprint == sprint._id;
+            })
+        );
+        setStatus(ticketData.status ?? "");
+        setStoryPoints(ticketData.storyPoints ?? "");
+    }, []);
     return (
-        <Draggable draggableId={ticketData._id} index={index}  key={ticketData._id}>
+        <Draggable draggableId={ticketData._id} index={index} key={ticketData._id}>
             {(provided) => (
                 <div
                     className={styles.container}
@@ -30,29 +81,33 @@ function Ticket({ onClick,index,ticketData }) {
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
                 >
-                    <CardCustom disabled={true} onClick={handleClick} style={{border:`2px solid ${classNames({
-                        [colors.ticketBorderRed] : ticketData.status === TicketStatusEnum.TODO,
-                        [colors.ticketBorderOrange] : ticketData.status ===  TicketStatusEnum.INPROGRESS,
-                        [colors.ticketBorderGreen] : ticketData.status === TicketStatusEnum.COMPLETE,
-                    })}`}} bodyStyle={{ height: "100%", padding: "8px"}}>
+                    <CardCustom
+                        disabled={true}
+                        onClick={handleClick}
+                        style={{
+                            border: `2px solid ${classNames({
+                                [colors.ticketBorderRed]: ticketData.status === TicketStatusEnum.TODO,
+                                [colors.ticketBorderOrange]: ticketData.status === TicketStatusEnum.INPROGRESS,
+                                [colors.ticketBorderGreen]: ticketData.status === TicketStatusEnum.COMPLETE,
+                            })}`,
+                        }}
+                        bodyStyle={{ height: "100%", padding: "8px", pointerEvents: "none" }}
+                    >
                         <div className={styles.ticketHeader}>
-                            <div className="ticketTitle" style={{ width: "50%"}}>
-                                <b style={{color: `${colors.tagBlue}` }}>Ticket No:</b> {ticketData.ticketId}
+                            <div className="ticketTitle" style={{ width: "50%" }}>
+                                <b style={{ color: `${colors.tagBlue}` }}>Ticket No - </b> {ticketId}
                             </div>
 
                             <div
                                 className="tagContainer"
                                 style={{ width: "50%", display: "flex", justifyContent: "flex-end" }}
                             >
-                                <CustomTag variant="outlined" color={colors.tagRed} text={ticketData.type} />
-                                <CustomTag variant="outlined" color={colors.tagBlue} text={ticketData.status} />
+                                <CustomTag variant="outlined" color={colors.tagRed} text={type?.name} />
+                                <CustomTag variant="outlined" color={colors.tagBlue} text={status} />
                             </div>
                         </div>
-                        {/* <CustomDivider/> */}
-
                         <TextArea
                             placeholder="The ticket Description goes here."
-                            isPassword={false}
                             size="large"
                             style={{
                                 width: "100%",
@@ -60,19 +115,14 @@ function Ticket({ onClick,index,ticketData }) {
                                 fontSize: "0.8rem",
                                 marginTop: "15px",
                             }}
-                            value={ticketData.description}
+                            value={description}
                         />
                         <div className={styles.metaContainer} style={{ width: "100%" }}>
                             <div className={styles.listItem}>
                                 <TicketListItem
                                     label="Assignee"
                                     Component={
-                                        <AppSelect
-                                            style={{ width: "60%" }}
-                                            // onChange={handleAssigneeChange}
-                                            value={"Vishnu"}
-                                            options={[]}
-                                        />
+                                        <AppSelect style={{ width: "60%" }} value={assignee?.name} options={[]} />
                                     }
                                 />
                             </div>
@@ -83,8 +133,8 @@ function Ticket({ onClick,index,ticketData }) {
                                         <AppSelect
                                             style={{ width: "60%" }}
                                             // onChange={handleAssigneeChange}
-                                            value={"sprint_1"}
-                                            options={ticketConstants.sprints}
+                                            value={sprint?.name}
+                                            options={[]}
                                         />
                                     }
                                 />
@@ -96,21 +146,20 @@ function Ticket({ onClick,index,ticketData }) {
                                         <AppSelect
                                             style={{ width: "60%" }}
                                             // onChange={handleAssigneeChange}
-                                            value={ticketData.priority}
-                                            options={ticketConstants.priority}
+                                            value={priority?.name}
+                                            options={[]}
                                         />
                                     }
                                 />
                             </div>
                             <div className={styles.listItem}>
                                 <TicketListItem
-                                    label="Type"
+                                    label="Story Points"
                                     Component={
-                                        <AppSelect
+                                        <AppInput
+                                            placeholder={"No. of story points"}
                                             style={{ width: "60%" }}
-                                            // onChange={handleAssigneeChange}
-                                            value={"BUG"}
-                                            options={ticketConstants.ticketType}
+                                            value={ticketData.storyPoints}
                                         />
                                     }
                                 />
@@ -126,8 +175,8 @@ function Ticket({ onClick,index,ticketData }) {
 Ticket.propTypes = {
     text: PropTypes.string,
     index: PropTypes.number,
-    onClick : PropTypes.func,
-    ticketData : PropTypes.object
+    onClick: PropTypes.func,
+    ticketData: PropTypes.object,
 };
 
 export default Ticket;

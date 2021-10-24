@@ -1,37 +1,37 @@
-import axios from "../../service/Axios";
-import { fbstorage } from "../../service/firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import {
-    LOGIN_USER_REQUEST,
-    LOGIN_USER_SUCCESS,
-    LOGIN_USER_FAILURE,
-    REGISTER_USER_REQUEST,
-    REGISTER_USER_SUCCESS,
-    REGISTER_USER_FAILURE,
-    RESET_PASSWORD_REQUEST,
-    RESET_PASSWORD_FAILURE,
-    RESET_PASSWORD_SUCCESS,
-    FORGOT_PASSWORD_REQUEST,
-    FORGOT_PASSWORD_FAILURE,
-    FORGOT_PASSWORD_SUCCESS,
     ACCOUNT_ACTIVATION_FAILURE,
-    ACCOUNT_ACTIVATION_SUCCESS,
     ACCOUNT_ACTIVATION_REQUEST,
+    ACCOUNT_ACTIVATION_SUCCESS,
+    CHANGE_IMAGE_FAILURE,
     CHANGE_IMAGE_REQUEST,
     CHANGE_IMAGE_SUCCESS,
-    CHANGE_IMAGE_FAILURE,
-    RESET_STATE,
-    RESET_ERR_MSG,
+    FORGOT_PASSWORD_FAILURE,
+    FORGOT_PASSWORD_REQUEST,
+    FORGOT_PASSWORD_SUCCESS,
+    GET_USER_DATA_FAILURE,
+    GET_USER_DATA_REQUEST,
+    GET_USER_DATA_SUCCESS,
+    LOGIN_USER_FAILURE,
+    LOGIN_USER_REQUEST,
+    LOGIN_USER_SUCCESS,
+    LOGOUT_USER_FAILURE,
     LOGOUT_USER_REQUEST,
     LOGOUT_USER_SUCCESS,
-    LOGOUT_USER_FAILURE,
-    GET_USER_DATA_REQUEST,
-    GET_USER_DATA_FAILURE,
-    GET_USER_DATA_SUCCESS,
+    REGISTER_USER_FAILURE,
+    REGISTER_USER_REQUEST,
+    REGISTER_USER_SUCCESS,
+    RESET_ERR_MSG,
+    RESET_PASSWORD_FAILURE,
+    RESET_PASSWORD_REQUEST,
+    RESET_PASSWORD_SUCCESS,
+    RESET_STATE,
+    UPDATE_USER_DATA_FAILURE,
     UPDATE_USER_DATA_REQUEST,
     UPDATE_USER_DATA_SUCCESS,
-    UPDATE_USER_DATA_FAILURE
 } from "src/redux/user/userActionTypes";
+import axios from "src/service/Axios";
+import { fbstorage } from "src/service/firebase";
 export const LogoutUser = () => {
     return (dispatch) => {
         dispatch(logoutRequest());
@@ -60,7 +60,7 @@ export const ChangeImage = (image, email, id) => {
                             .put("/user", { imgurl: url })
                             .then(() => {
                                 dispatch(changeImageSuccess(url));
-                                dispatch(getUserData(id))
+                                dispatch(getUserData(id));
                             })
                             .catch((error) => {
                                 dispatch(changeImageFailure(error));
@@ -170,12 +170,11 @@ export const ResetPassword = (oldpassword, newpassword) => {
     };
 };
 
-
 export const getUserData = (id) => {
     return (dispatch) => {
         dispatch(getUserDataRequest());
         axios
-            .post("/getUserData", {id})
+            .post("/getUserData", { id })
             .then((response) => {
                 dispatch(getUserDataSuccess(response.data.data));
             })
@@ -189,14 +188,14 @@ export const getUserData = (id) => {
     };
 };
 
-export const updateUserData = (name,phone,location,selfintro,id) => {
+export const updateUserData = (name, phone, location, selfintro, id) => {
     return (dispatch) => {
         dispatch(updateUserDataRequest());
         axios
-            .put("/user", {name,phone,location,selfintro})
+            .put("/user", { name, phone, location, selfintro })
             .then((response) => {
                 dispatch(updateUserDataSuccess(response.data.message));
-                dispatch(getUserData(id))
+                dispatch(getUserData(id));
             })
             .catch((error) => {
                 if (error.response) {
@@ -227,8 +226,6 @@ export const getUserDataFailure = (error) => {
         payload: error,
     };
 };
-
-
 
 export const forgotPasswordRequest = () => {
     return {
@@ -380,7 +377,6 @@ export const changeImageFailure = (error) => {
         payload: error,
     };
 };
-
 
 export const updateUserDataRequest = () => {
     return {

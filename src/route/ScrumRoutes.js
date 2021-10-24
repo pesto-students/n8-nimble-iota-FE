@@ -1,10 +1,12 @@
-import Backlogs from "src/components/Page/Backlog/Backlogs";
-import Reports from "src/components/Page/Reports/Reports";
-import Retrospectives from "src/components/Page/Retrospectives/Retrospectives";
-import Poker from "src/components/Page/Poker/Poker";
-import Scrumboard from "src/components/Page/Scrumboard/Scrumboard";
-import Standup from "src/components/Page/Standup/Standup";
+import { lazy } from "react";
 import roles from "src/config/roles";
+import { SprintStatusEnum } from "src/config/Enums";
+
+const Poker = lazy(() => import("src/components/Page/Poker/Poker"));
+const Reports = lazy(() => import("src/components/Page/Reports/Reports"));
+const Retrospectives = lazy(() => import("src/components/Page/Retrospectives/Retrospectives"));
+const Scrumboard = lazy(() => import("src/components/Page/Scrumboard/Scrumboard"));
+const Standup = lazy(() => import("src/components/Page/Standup/Standup"));
 
 const ScrumRoutes = [
     {
@@ -13,6 +15,7 @@ const ScrumRoutes = [
         exact: false,
         requiredRoles: roles.all,
         name: "Poker",
+        allowedStatus: [SprintStatusEnum.ACTIVE, SprintStatusEnum.UPCOMING],
     },
     {
         path: "/scrum_board",
@@ -20,6 +23,7 @@ const ScrumRoutes = [
         exact: false,
         requiredRoles: roles.all,
         name: "Scrum Board",
+        allowedStatus: [SprintStatusEnum.ACTIVE, SprintStatusEnum.UPCOMING, SprintStatusEnum.COMPLETED],
     },
 
     {
@@ -28,6 +32,7 @@ const ScrumRoutes = [
         exact: false,
         requiredRoles: roles.all,
         name: "Standups",
+        allowedStatus: [SprintStatusEnum.ACTIVE, SprintStatusEnum.COMPLETED],
     },
     {
         path: "/retrospectives",
@@ -35,6 +40,7 @@ const ScrumRoutes = [
         exact: false,
         requiredRoles: roles.all,
         name: "Retrospectives",
+        allowedStatus: [SprintStatusEnum.ACTIVE, SprintStatusEnum.COMPLETED],
     },
     {
         path: "/reports",
@@ -42,9 +48,8 @@ const ScrumRoutes = [
         exact: false,
         requiredRoles: roles.all,
         name: "Reports",
+        allowedStatus: [SprintStatusEnum.COMPLETED],
     },
-   
 ];
-
 
 export default ScrumRoutes;

@@ -1,8 +1,8 @@
 import React from "react";
-import StandupDev from "./StandupDev";
-import StandupSM from "./StandupSM";
-import Mounter from "../../Common/Mounter/Mounter";
-import roles from "../../../config/roles";
+import Mounter from "src/components/Common/Mounter/Mounter";
+import StandupDev from "src/components/Page/Standup/StandupDev";
+import StandupSM from "src/components/Page/Standup/StandupSM";
+import roles from "src/config/roles";
 
 function Standup() {
     const DevPage = Mounter(StandupDev, {})(roles.developers);

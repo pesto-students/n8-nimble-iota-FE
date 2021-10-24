@@ -1,33 +1,39 @@
-import React from "react";
-import { Form } from "antd";
-import { useSelector, useDispatch } from "react-redux";
-import { LoginUser, ForgotPassword } from "../../redux";
-import assetMap from "../../assets";
-import AppButton from "../Common/AppButton/AppButton";
-import AppInput from "../Common/AppInput/AppInput";
-import { Typography } from "antd";
-import { validateEmail } from "../../util/validation";
-import styles from "./Auth.module.less";
-import Notification from "../Common/Notification/Notification";
+import { Form, Typography } from "antd";
 import { withFormik } from "formik";
 import PropTypes from "prop-types";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import assetMap from "src/assets";
+import styles from "src/components/Auth/Auth.module.less";
+import AppButton from "src/components/Common/AppButton/AppButton";
+import AppInput from "src/components/Common/AppInput/AppInput";
+import Notification from "src/components/Common/Notification/Notification";
+import { ForgotPassword, LoginUser } from "src/redux";
+import { validateEmail } from "src/util/validation";
 
 function LoginView(props) {
     const { values, touched, errors, handleChange, handleBlur } = props;
     const { Text } = Typography;
     const { loading } = useSelector((state) => state.user);
     const dispatch = useDispatch();
+    const scrumMaster = {
+        email: "jyotirmayasahu38@gmail.com",
+        password: "P@ssword1",
+    };
+    const developer = {
+        email: "sahujyotirmaya1997@gmail.com",
+        password: "CRIMINALcase1",
+    };
     const login = () => {
         if (Object.keys(errors).length === 0) dispatch(LoginUser(values.email, values.password));
     };
     const resendPassword = () => {
-        if (!validateEmail(values.email)) return Notification("Validation Failed", "invalid email");
+        if (!validateEmail(values.email)) return Notification("info", "Validation Failed", "invalid email");
         dispatch(ForgotPassword(values.email));
     };
     const loginFix = (isScrumMaster) => {
-        // if (!validateEmail(email)) return openAuthNotification("Validation Failed", "invalid email");
-        if (isScrumMaster) dispatch(LoginUser("jyotirmayasahu38@gmail.com", "P@ssword1"));
-        else dispatch(LoginUser("sahujyotirmaya1997@gmail.com", "CRIMINALcase1"));
+        if (isScrumMaster) dispatch(LoginUser(scrumMaster.email, scrumMaster.password));
+        else dispatch(LoginUser(developer.email, developer.password));
     };
     return (
         <>
@@ -79,7 +85,7 @@ function LoginView(props) {
                             onClick={() => loginFix(true)}
                             block
                         >
-                            Log in as ScrumMaster *
+                            Scrummaster Dummy Login
                         </AppButton>
                     </Form.Item>
                     <Form.Item>
@@ -91,7 +97,7 @@ function LoginView(props) {
                             onClick={() => loginFix(false)}
                             block
                         >
-                            Log in as Developer *
+                            Developer Dummy Login
                         </AppButton>
                     </Form.Item>
                     <Form.Item>
