@@ -13,7 +13,7 @@ function App() {
                 <Suspense fallback={<div>Loading...</div>}>
                     <Overall />
                 </Suspense>
-            </Provider>
+             </Provider>
         </ErrorBoundary>
     );
 }
