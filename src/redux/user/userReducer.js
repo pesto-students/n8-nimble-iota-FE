@@ -111,8 +111,7 @@ const userReducer = (state = initialState, action) => {
                 return;
             case ACCOUNT_ACTIVATION_SUCCESS:
                 draft.loading = false;
-                draft.isAuthenticated = true;
-                draft.user = action.payload;
+                draft.message = action.payload.message;
                 return;
             case ACCOUNT_ACTIVATION_FAILURE:
                 draft.loading = false;

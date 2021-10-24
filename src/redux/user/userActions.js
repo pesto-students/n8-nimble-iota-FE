@@ -122,7 +122,6 @@ export const AccountActivation = (obj) => {
             .put("/activate", obj)
             .then((response) => {
                 const user = response.data;
-                localStorage.setItem("user", JSON.stringify(user));
                 dispatch(accountActivationSuccess(user));
             })
             .catch((error) => {
