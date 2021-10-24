@@ -21,9 +21,10 @@ function IndexRouting() {
         if (loggedInUser) {
             const foundUser = JSON.parse(loggedInUser);
             dispatch(loginUserSuccess(foundUser));
-           
+            dispatch(getUserData(foundUser._id))
         }
     }, []);
+
     return (
         <BrowserRouter>
             <InjectAxiosInterceptors />

@@ -194,4 +194,13 @@ export const geenrateAverage = (arr1,arr2) => {
   
 };
 
+export const getPreviousSprint = (sprintList,sprintId) => {
+    const index = sprintList.findIndex((sprint)=>sprint._id === sprintId)
+    if(index < 0 || index === 0){
+        return sprintId
+    }else{
+        return sprintList[index-1]
+    }
+}
+
 

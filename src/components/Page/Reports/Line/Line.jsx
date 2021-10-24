@@ -3,24 +3,24 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 
 function Line({ mapPrevious, mapCurrent }) {
-    const previousData = [44, 55, 57, 22, 61, 75, 60, 66, 66]
-    const currentData  = [76, 85, 103, 98, 89, 105, 90, 114, 94]
-    const averageData = [60,70,80,60,75,90,75,90,80]
-    
+    const previousData = Object.values(mapPrevious);
+    const currentData = Object.values(mapCurrent);
+    // const averageData = [];
+
     const state = {
         series: [
             {
-                name: "Previous",
+                name: "Previous Sprint Trend",
                 data: previousData,
             },
             {
-                name: "Current",
+                name: "Current Sprint Trend",
                 data: currentData,
             },
-            {
-                name: "Average",
-                data: averageData,
-            },
+            // {
+            //     name: "Average",
+            //     data: averageData,
+            // },
         ],
         options: {
             chart: {
@@ -29,8 +29,9 @@ function Line({ mapPrevious, mapCurrent }) {
             },
             plotOptions: {
                 bar: {
+                    borderRadius: 10,
                     horizontal: false,
-                    columnWidth: "55%",
+                    columnWidth: "4px",
                     endingShape: "rounded",
                 },
             },
@@ -43,11 +44,11 @@ function Line({ mapPrevious, mapCurrent }) {
                 colors: ["transparent"],
             },
             xaxis: {
-                categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct"],
+                categories: Object.keys(mapCurrent),
             },
             yaxis: {
                 title: {
-                    text: "Story Points",
+                    text: "Issues Completed",
                 },
             },
             fill: {
@@ -56,9 +57,17 @@ function Line({ mapPrevious, mapCurrent }) {
             tooltip: {
                 y: {
                     formatter: function (val) {
-                        return "Story Points : " + val;
+                        return "Issues  : " + val;
                     },
                 },
+            },
+        },
+        title: {
+            text: "Issues Competed Each Day",
+            floating: true,
+            align: "center",
+            style: {
+                color: "#444",
             },
         },
     };
