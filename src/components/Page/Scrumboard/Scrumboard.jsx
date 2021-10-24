@@ -209,6 +209,11 @@ function Scrumboard() {
                                                         />
                                                     );
                                                 })}
+                                                {filterScrumboardTickets(
+                                                    ticketList,
+                                                    selectedSprint?._id ?? "",
+                                                    column.id
+                                                ).length === 0 && <h3>No tickets to display</h3> }
                                                 {provided.placeholder}
                                             </div>
                                         )}

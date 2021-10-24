@@ -101,6 +101,7 @@ function Retrospectives() {
                                 />
                             );
                         })}
+                        {(!retros[RetroTypeEnum.POSITIVE] || retros[RetroTypeEnum.POSITIVE].length === 0) && <h3>No Retrospectives to display</h3>}
                     </div>
                     <div className={styles.retroCardContainer}>
                         {retros[RetroTypeEnum.NEGATIVE]?.map((retro, index) => {
@@ -116,6 +117,7 @@ function Retrospectives() {
                                 />
                             );
                         })}
+                        {(!retros[RetroTypeEnum.NEGATIVE] || retros[RetroTypeEnum.NEGATIVE].length === 0) && <h3>No Retrospectives to display</h3>}
                     </div>
                     <div className={styles.retroCardContainer}>
                         {retros[RetroTypeEnum.NEUTRAL]?.map((retro, index) => {
@@ -131,6 +133,7 @@ function Retrospectives() {
                                 />
                             );
                         })}
+                        {(!retros[RetroTypeEnum.NEUTRAL] || retros[RetroTypeEnum.NEUTRAL].length === 0) && <h3>No Retrospectives to display</h3>}
                     </div>
                     <div className={styles.retroCardContainer}>
                         {retros[RetroTypeEnum.ACTIONS]?.map((retro, index) => {
@@ -146,6 +149,7 @@ function Retrospectives() {
                                 />
                             );
                         })}
+                        {(!retros[RetroTypeEnum.ACTIONS] || retros[RetroTypeEnum.ACTIONS].length === 0) && <h3>No Retrospectives to display</h3>}
                     </div>
                 </div>
             </div>

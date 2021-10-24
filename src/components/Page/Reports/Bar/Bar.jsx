@@ -18,7 +18,7 @@ function Bar({ map }) {
             plotOptions: {
                 bar: {
                     borderRadius: 10,
-                    width: "10%",
+                    columnWidth: '4px',
                     dataLabels: {
                         position: "top", // top, center, bottom
                     },

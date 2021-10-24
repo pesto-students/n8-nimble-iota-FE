@@ -3,129 +3,67 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 
 function Line({ mapPrevious, mapCurrent }) {
+    const previousData = [44, 55, 57, 22, 61, 75, 60, 66, 66]
+    const currentData  = [76, 85, 103, 98, 89, 105, 90, 114, 94]
+    const averageData = [60,70,80,60,75,90,75,90,80]
+    
     const state = {
         series: [
             {
-                name: "Current Sprint",
-                type: "column",
-                data: Object.values(mapCurrent),
+                name: "Previous",
+                data: previousData,
             },
             {
-                name: "Previous Sprint",
-                type: "column",
-                data: Object.values(mapPrevious),
+                name: "Current",
+                data: currentData,
             },
             {
                 name: "Average",
-                type: "line",
-                data: [1.25, 2.5, 2.13, 36, 44, 45, 50, 58],
+                data: averageData,
             },
         ],
         options: {
             chart: {
+                type: "bar",
                 height: 350,
-                type: "line",
-                stacked: true,
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: "55%",
+                    endingShape: "rounded",
+                },
             },
             dataLabels: {
-                enabled: true,
+                enabled: false,
             },
             stroke: {
-                width: [1, 1, 2],
-            },
-            title: {
-                text: "Story Points Comparison - Previous Sprint vs Current Sprint",
-                align: "left",
-                offsetX: 110,
+                show: true,
+                width: 2,
+                colors: ["transparent"],
             },
             xaxis: {
-                categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
+                categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct"],
             },
-            yaxis: [
-                {
-                    axisTicks: {
-                        show: true,
-                    },
-                    axisBorder: {
-                        show: true,
-                        color: "#008FFB",
-                    },
-                    labels: {
-                        style: {
-                            colors: "#008FFB",
-                        },
-                    },
-                    title: {
-                        text: "Average",
-                        style: {
-                            color: "#008FFB",
-                        },
-                    },
-                    tooltip: {
-                        enabled: true,
-                    },
+            yaxis: {
+                title: {
+                    text: "Story Points",
                 },
-                {
-                    seriesName: "Current Sprint",
-                    opposite: true,
-                    axisTicks: {
-                        show: true,
-                    },
-                    axisBorder: {
-                        show: true,
-                        color: "#00E396",
-                    },
-                    labels: {
-                        style: {
-                            colors: "#00E396",
-                        },
-                    },
-                    title: {
-                        text: "Previous Sprint Story Points",
-                        style: {
-                            color: "#00E396",
-                        },
-                    },
-                },
-                {
-                    seriesName: "Revenue",
-                    opposite: true,
-                    axisTicks: {
-                        show: true,
-                    },
-                    axisBorder: {
-                        show: true,
-                        color: "#FEB019",
-                    },
-                    labels: {
-                        style: {
-                            colors: "#FEB019",
-                        },
-                    },
-                    title: {
-                        text: "Current Sprint story points",
-                        style: {
-                            color: "#FEB019",
-                        },
-                    },
-                },
-            ],
+            },
+            fill: {
+                opacity: 1,
+            },
             tooltip: {
-                fixed: {
-                    enabled: true,
-                    position: "topLeft", // topRight, topLeft, bottomRight, bottomLeft
-                    offsetY: 30,
-                    offsetX: 60,
+                y: {
+                    formatter: function (val) {
+                        return "Story Points : " + val;
+                    },
                 },
-            },
-            legend: {
-                horizontalAlign: "left",
-                offsetX: 40,
             },
         },
     };
 
-    return <ReactApexChart options={state.options} series={state.series} type="line" height={350} />;
+    return <ReactApexChart options={state.options} series={state.series} type="bar" height={350} />;
 }
 
 Line.propTypes = {

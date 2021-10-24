@@ -22,25 +22,27 @@ function Reports() {
         //TODO remove harcode sprint
         dispatch(fetchReportData(selectedSprint._id));
     }, []);
+    const docs = require('../../../nimble.md')
+    function createMarkup() {
+        return {__html: docs.toString()};
+      }
+      
+      function MyComponent() {
+        return <div dangerouslySetInnerHTML={createMarkup()} />;
+      }
 
     return (
         <>
             {!(loadingDevelopers || loading || reportsLoading) && (
                 <>
-                    {/* <Bar map={generatePointsVsDate(reportData)} /> */}
-                    <div>
-                        {/* <div style={{ width: "50%",float:"left",padding:"12px" }}> */}
-                        <Bar map={generatePointsVsDate(reportData)} />
-                        {/* </div>
-                        <div style={{ width: "50%", float: "right",padding:"12px"  }}>
-                            <Line map={generateIssuesVsDate(reportData)} />
-                        </div> */}
-                    </div>
+                {/* <MyComponent/> */}
+                    <Bar map={generatePointsVsDate(reportData)} />
 
                     <Line
                         mapPrevious={generateIssuesVsDate(reportData)}
                         mapCurrent={generateIssuesVsDate(reportData)}
                     />
+
                     <Donut map={generatePieChartData(ticketList, developerList)} />
                 </>
             )}
