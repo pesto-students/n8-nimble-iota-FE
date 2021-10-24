@@ -10,6 +10,7 @@ import styles from "src/components/Page/Standup/Standup.module.less";
 import { dateformat } from "src/config/constants";
 import { fetchAllDevlopersProject, loadProjects } from "src/redux";
 import { useMeeting } from "src/util/hooks";
+import { SprintStatusEnum } from "src/config/Enums";
 
 const { Paragraph } = Typography;
 
@@ -22,6 +23,7 @@ function Standup() {
     const [date, setDate] = useState(null);
     const { projects } = useSelector((state) => state.projectList);
     const { developerList } = useSelector((state) => state.project.developer);
+    const { selectedSprint } = useSelector((state) => state.project.sprint);
     const currentProject = projects.find((project) => project._id === projectId);
     const [standups, setStandups] = useState(currentProject?.members);
     const nameMap = {};
@@ -53,7 +55,11 @@ function Standup() {
                 </Col>
                 <Col flex={1} align="middle">
                     <Link to={meetUrl} target="_blank">
-                        <AppButton loading={false} size={"middle"}>
+                        <AppButton
+                            loading={false}
+                            size={"middle"}
+                            disabled={selectedSprint.status !== SprintStatusEnum.ACTIVE}
+                        >
                             <PhoneFilled /> Join Call
                         </AppButton>
                     </Link>
