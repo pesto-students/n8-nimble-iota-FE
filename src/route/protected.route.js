@@ -14,10 +14,8 @@ function ProtectedRoute(properties) {
                 if (user.isAuthenticated && checkPermission(user?.user?.role?.name, properties.requiredRoles)) {
                     return <properties.component {...props} />;
                 }
-                if (!localUser && !user.isAuthenticated) {
-                    return <Redirect to="/" />;
-                }
-                return <Redirect to="/404" />;
+                if (!localUser && !user.isAuthenticated) return <Redirect to="/" />;
+                if (!localUser) return <Redirect to="/404" />;
             }}
         />
     );

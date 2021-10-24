@@ -4,9 +4,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddMembers from "src/components/Common/AddMembers/AddMembers";
 import AppModal from "src/components/Common/AppModal/AppModal";
+import Mounter from "src/components/Common/Mounter/Mounter";
 import styles from "src/components/Common/ProjectItem/ProjectItem.module.less";
 import Donut from "src/components/Page/Reports/Donut/Donut";
 import { SprintStatusEnum } from "src/config/Enums";
+import roles from "src/config/roles";
 import { fetchAllDevlopersProject, fetchAllTickets } from "src/redux";
 import { filterBacklogTickets, generatePieChartData, getDateFromString } from "src/util/helperFunctions";
 
@@ -35,6 +37,13 @@ const ProjectItem = ({ project, onClick }) => {
         dispatch(fetchAllDevlopersProject(project._id));
         dispatch(fetchAllTickets(project._id));
     }, []);
+    const handleAddButtonClick = (e) => {
+        e.stopPropagation();
+        setAddVisible(true);
+    };
+
+    const AddMembersModal = Mounter(AddAppMember, { addVisible, handleCancel, project })(roles.scrummastersandadmins);
+    const AddButtonMounted = Mounter(AddButton, { handleAddButtonClick })(roles.scrummastersandadmins);
     return (
         <>
             {project && (
@@ -85,23 +94,13 @@ const ProjectItem = ({ project, onClick }) => {
                     <div className={`${styles.projectDetail} ${styles.teamInfo}`}>
                         <div>
                             <h3 className={styles.title}>Team Members</h3>
-                            <div
-                                className={styles.add}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setAddVisible(true);
-                                }}
-                            >
-                                <PlusSquareFilled />
-                            </div>
+                            {AddButtonMounted}
                         </div>
                         <div className={styles.scroller}>{prepareMembersListJsx()}</div>
                     </div>
                 </div>
             )}
-            <AppModal visible={addVisible} handleCancel={handleCancel}>
-                <AddMembers projectId={project._id} />
-            </AppModal>
+            {AddMembersModal}
         </>
     );
 };
@@ -112,3 +111,25 @@ ProjectItem.propTypes = {
 };
 
 export default ProjectItem;
+
+const AddAppMember = ({ addVisible, handleCancel, project }) => (
+    <AppModal visible={addVisible} handleCancel={handleCancel}>
+        <AddMembers projectId={project._id} />
+    </AppModal>
+);
+
+AddAppMember.propTypes = {
+    addVisible: PropTypes.bool,
+    handleCancel: PropTypes.func,
+    project: PropTypes.object,
+};
+
+const AddButton = ({ onClick }) => (
+    <div className={styles.add} onClick={onClick}>
+        <PlusSquareFilled />
+    </div>
+);
+
+AddButton.propTypes = {
+    onClick: PropTypes.func,
+};
