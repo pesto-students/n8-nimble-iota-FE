@@ -137,7 +137,6 @@ function TicketModal(props) {
                     Component={
                         <TextArea
                             placeholder="This is ticket description"
-                            isPassword={false}
                             size="large"
                             style={{ width: "100%", height: "80px" }}
                             value={description}

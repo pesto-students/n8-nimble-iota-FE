@@ -145,6 +145,7 @@ function Scrumboard() {
     };
 
     const meetUrl = useMeeting();
+    console.log(meetUrl);
 
     return (
         <>
@@ -213,7 +214,7 @@ function Scrumboard() {
                                                     ticketList,
                                                     selectedSprint?._id ?? "",
                                                     column.id
-                                                ).length === 0 && <h3>No tickets to display</h3> }
+                                                ).length === 0 && <h3>No tickets to display</h3>}
                                                 {provided.placeholder}
                                             </div>
                                         )}

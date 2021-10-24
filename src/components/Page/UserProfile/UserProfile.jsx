@@ -25,7 +25,7 @@ function UserProfile() {
     const inputFile = useRef(null);
     const [locationText, setLocationtext] = useState(userProfile?.location ?? "");
     const [introText, setIntroText] = useState(userProfile?.selfintro ?? "");
-    const router = useRouting();
+    const { navigate, url } = useRouting();
 
     const updateSub = () => {
         return (
@@ -58,9 +58,7 @@ function UserProfile() {
 
     const handleUpdate = () => {
         //TODO remove hardcode
-        dispatch(
-            updateUserData(userProfile.name, userProfile.phone, locationText, introText, user.id)
-        );
+        dispatch(updateUserData(userProfile.name, userProfile.phone, locationText, introText, user.id));
     };
 
     useEffect(() => {
@@ -122,8 +120,7 @@ function UserProfile() {
                     amount: resp.data.order.amount,
                     email: userProfile?.email,
                 };
-               updatePaymentRequest(updatePaymentObject);
-               
+                updatePaymentRequest(updatePaymentObject);
             },
             prefill: {
                 name: userProfile?.name ?? "",
@@ -133,6 +130,13 @@ function UserProfile() {
         };
         const paymentObject = new window.Razorpay(options);
         paymentObject.open();
+    };
+
+    const handleProjectClick = (pid) => {
+        let urlSplit = url.split("/");
+        urlSplit = urlSplit.slice(0, -1);
+        const projectUrl = `${urlSplit.join("/")}/${pid}`;
+        navigate(projectUrl, true);
     };
     return (
         <CardCustom style={{ width: "100%" }} loading={false}>
@@ -205,7 +209,6 @@ function UserProfile() {
                                 Component={
                                     <TextArea
                                         placeholder="This is your description"
-                                        isPassword={false}
                                         size="large"
                                         style={{ width: "70%" }}
                                         value={introText}
@@ -225,7 +228,9 @@ function UserProfile() {
                             <TrophyTwoTone style={{ fontSize: "150px" }} />
                         </div>
                         <div className={styles.meta}>Subscription</div>
-                        <div className={styles.role}>{checkIfPremiumUser(userProfile.subscription) ? "Premium" : "Free Version"}</div>
+                        <div className={styles.role}>
+                            {checkIfPremiumUser(userProfile.subscription) ? "Premium" : "Free Version"}
+                        </div>
                         {updateSubscriptionButton}
                     </CardCustom>
                 </Col>
@@ -236,23 +241,24 @@ function UserProfile() {
                             <Divider className={styles.dividerStyle} />
                             {userProfile.projects?.map((pid, index) => {
                                 const projectItem = getProjectFromProjectList(projects, pid);
-                                return projectItem && (
-                                    <TicketListItem
-                                        key={index}
-                                        label={projectItem?.projectName ?? ""}
-                                        Component={
-                                            <>
-                                                <CustomTag
-                                                    color={colors.tagBlue}
-                                                    text={"Click to Open"}
-                                                    onClick={() => {
-                                                        router.navigate(pid);
-                                                    }}
-                                                    click
-                                                />
-                                            </>
-                                        }
-                                    />
+                                return (
+                                    projectItem && (
+                                        <TicketListItem
+                                            key={index}
+                                            label={projectItem?.projectName ?? ""}
+                                            Component={
+                                                <>
+                                                    <CustomTag
+                                                        color={colors.tagBlue}
+                                                        text={"Click to Open"}
+                                                        onClick={() => {
+                                                            handleProjectClick(pid);
+                                                        }}
+                                                    />
+                                                </>
+                                            }
+                                        />
+                                    )
                                 );
                             })}
                         </div>

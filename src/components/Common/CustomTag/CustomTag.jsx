@@ -6,12 +6,12 @@ function CustomTag({ text, color, variant, ...props }) {
     return (
         <>
             {variant == "outlined" && (
-                <Tag style={{ borderRadius: "6px", borderColor: color }} {...props}>
+                <Tag style={{ borderRadius: "6px", borderColor: color, cursor: "pointer" }} {...props}>
                     {text}
                 </Tag>
             )}
             {variant !== "outlined" && (
-                <Tag color={color} style={{ borderRadius: "6px" }} {...props}>
+                <Tag color={color} style={{ borderRadius: "6px", cursor: "pointer" }} {...props}>
                     {text}
                 </Tag>
             )}
