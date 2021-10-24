@@ -17,7 +17,7 @@ const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
     const smSize = !breakpoints.md;
     return (
         <nav className={styles.navbar}>
-            {smSize && (
+            {isAuthenticated && smSize && (
                 <div className={styles.menuIconContainer}>
                     <MenuOutlined className={styles.menuIcon} />
                 </div>
@@ -29,7 +29,7 @@ const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
                     </div>
                     <div className={styles.brandName}>
                         <h1 className={styles.title}>Nimble</h1>
-                        <div className={styles.subTitle}>Quickly, easily & lightly</div>
+                        {!smSize && <div className={styles.subTitle}>Quickly, easily & lightly</div>}
                     </div>
                 </div>
             </Link>
@@ -58,14 +58,14 @@ const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
                 )}
                 <div className={`${styles.navLinkContainer} ${styles.end}`}>
                     {!isAuthenticated && (
-                        <div className={styles.navLink} onClick={onLogin}>
-                            Login
-                        </div>
-                    )}
-                    {!smSize && !isAuthenticated && (
-                        <div className={styles.navLink} onClick={onRegister}>
-                            Register
-                        </div>
+                        <>
+                            <div className={styles.navLink} onClick={onLogin}>
+                                Login
+                            </div>
+                            <div className={styles.navLink} onClick={onRegister}>
+                                Register
+                            </div>
+                        </>
                     )}
                     {isAuthenticated && (
                         <>

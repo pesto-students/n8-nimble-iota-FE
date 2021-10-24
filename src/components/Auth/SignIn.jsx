@@ -18,7 +18,7 @@ function LoginView(props) {
     const dispatch = useDispatch();
     const scrumMaster = {
         email: "jyotirmayasahu38@gmail.com",
-        password: "P@ssword1",
+        password: "xeqx9mvhpr",
     };
     const developer = {
         email: "sahujyotirmaya1997@gmail.com",

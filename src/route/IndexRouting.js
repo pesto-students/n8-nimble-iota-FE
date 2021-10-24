@@ -1,7 +1,6 @@
 import React, { lazy, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import { loginUserSuccess } from "src/redux";
 import PrivateRoutes from "src/route/PrivateRoutes";
 import ProtectedRoute from "src/route/protected.route";

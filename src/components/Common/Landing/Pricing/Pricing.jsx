@@ -37,9 +37,7 @@ const Pricing = () => {
                     </div>
                 </div>
             </div>
-            <div className={styles.imageContainer}>
-                <img src={assetMap("LandingPricing")} alt="Flexible Pricing" />
-            </div>
+            <img className={smSize ? styles.image : ""} src={assetMap("LandingPricing")} alt="Flexible Pricing" />
         </section>
     );
 };
