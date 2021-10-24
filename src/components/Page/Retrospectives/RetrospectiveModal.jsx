@@ -74,7 +74,6 @@ function RetrospectiveModal(props) {
                     Component={
                         <TextArea
                             placeholder="This is retro text."
-                            isPassword={false}
                             size="large"
                             style={{ width: "100%", height: "80px" }}
                             value={text}

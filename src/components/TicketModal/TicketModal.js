@@ -13,7 +13,7 @@ import { addTicket, updateTicket } from "src/redux";
 import { generateTicketNumber, getSprints, transformEnum } from "src/util/helperFunctions";
 
 function TicketModal(props) {
-    const { projectId, ticketData, ticketOperation, developerList } = props;
+    const { projectId, ticketData, ticketOperation, developerList,onCancel } = props;
     const { projects } = useSelector((state) => state.projectList);
 
     const listOfSprints = getSprints(projects, projectId);
@@ -56,17 +56,19 @@ function TicketModal(props) {
             ticketId: ticketId,
             title: title,
             description: description,
-            assignee: assignee._id,
-            priority: priority.name,
-            type: type.name,
+            assignee: assignee?._id ?? "",
+            priority: priority?.name ?? "",
+            type: type?.name ?? "",
             storyPoints: points,
-            sprint: sprint._id,
+            sprint: sprint?._id ?? "",
             status: status,
         };
         if (ticketOperation == OperationEnum.CREATE) {
             dispatch(addTicket(projectId, ticketObject));
+            onCancel()
         } else {
             dispatch(updateTicket(projectId, ticketObject));
+            onCancel()
         }
     };
 
@@ -110,7 +112,7 @@ function TicketModal(props) {
             setStatus("");
             setStoryPoints("");
         }
-    }, [developerList]);
+    }, []);
 
     return (
         <>
@@ -137,7 +139,6 @@ function TicketModal(props) {
                     Component={
                         <TextArea
                             placeholder="This is ticket description"
-                            isPassword={false}
                             size="large"
                             style={{ width: "100%", height: "80px" }}
                             value={description}
@@ -231,6 +232,7 @@ TicketModal.propTypes = {
     labelWidth: PropTypes.string,
     label: PropTypes.string,
     fullWidth: PropTypes.bool,
+    onCancel : PropTypes.func
 };
 
 export default TicketModal;

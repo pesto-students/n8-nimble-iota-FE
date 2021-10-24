@@ -94,10 +94,6 @@ function Scrumboard() {
                 size={"middle"}
                 onClick={handleSprint}
             >
-                {/* TODO 
-                Start sprint --> previous sprint complete and atleast one ticket in Todo
-                Mark complete --> if last day of sprint || (all tickets complete and retros.length > =1)
-                */}
                 <CheckCircleFilled />
                 {selectedSprint?.status == SprintStatusEnum.COMPLETED
                     ? "Completed"
@@ -145,6 +141,7 @@ function Scrumboard() {
     };
 
     const meetUrl = useMeeting();
+    console.log(meetUrl);
 
     return (
         <>
@@ -213,7 +210,7 @@ function Scrumboard() {
                                                     ticketList,
                                                     selectedSprint?._id ?? "",
                                                     column.id
-                                                ).length === 0 && <h3>No tickets to display</h3> }
+                                                ).length === 0 && <h3>No tickets to display</h3>}
                                                 {provided.placeholder}
                                             </div>
                                         )}

@@ -5,6 +5,9 @@ import {
     INCREMENT_STORY_POINTS_ACHIEVED_FAILURE,
     INCREMENT_STORY_POINTS_ACHIEVED_REQUEST,
     INCREMENT_STORY_POINTS_ACHIEVED_SUCCESS,
+    FETCH_PREVIOUS_REPORTS_DATA_REQUEST,
+    FETCH_PREVIOUS_REPORTS_DATA_SUCCESS,
+    FETCH_PREVIOUS_REPORTS_DATA_FAILURE
 } from "src/redux/Project/Reports/reportActionTypes";
 import axios from "src/service/Axios";
 
@@ -40,6 +43,24 @@ export const fetchReportDataRequestSuccess = (obj) => {
 export const fetchReportDataRequestFailure = (obj) => {
     return {
         type: FETCH_REPORTS_DATA_FAILURE,
+        payload: obj,
+    };
+};
+
+export const fetchPreviousReportDataRequest = () => {
+    return {
+        type: FETCH_PREVIOUS_REPORTS_DATA_REQUEST,
+    };
+};
+export const fetchPreviousReportDataRequestSuccess = (obj) => {
+    return {
+        type: FETCH_PREVIOUS_REPORTS_DATA_SUCCESS,
+        payload: obj,
+    };
+};
+export const fetchPreviousReportDataRequestFailure = (obj) => {
+    return {
+        type: FETCH_PREVIOUS_REPORTS_DATA_FAILURE,
         payload: obj,
     };
 };
@@ -89,3 +110,26 @@ export const fetchReportData = (sprintId) => {
             });
     };
 };
+
+export const PreviousReportData = (sprintId) => {
+    return async (dispatch) => {
+        dispatch(fetchPreviousReportDataRequest());
+        axios
+            .post("/getReportsData", {
+                sprintId,
+            })
+            .then((response) => {
+                const data = response.data.data;
+                dispatch(fetchPreviousReportDataRequestSuccess(data));
+            })
+            .catch((error) => {
+                if (error.response) {
+                    dispatch(fetchPreviousReportDataRequestFailure(error.response.data.message));
+                } else {
+                    dispatch(fetchPreviousReportDataRequestFailure(error.message));
+                }
+            });
+    };
+};
+
+

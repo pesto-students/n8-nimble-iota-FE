@@ -4,14 +4,21 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import Bar from "src/components/Page/Reports/Bar/Bar";
 import Donut from "src/components/Page/Reports/Donut/Donut";
 import Line from "src/components/Page/Reports/Line/Line";
-import { fetchAllDevlopersProject, fetchAllTickets, fetchReportData } from "src/redux";
-import { generateIssuesVsDate, generatePieChartData, generatePointsVsDate } from "src/util/helperFunctions";
+import { fetchAllDevlopersProject, fetchAllTickets, fetchReportData, PreviousReportData } from "src/redux";
+import {
+    generateIssuesVsDate,
+    generatePieChartData,
+    generatePointsVsDate,
+    getPreviousSprint,
+} from "src/util/helperFunctions";
 
 function Reports() {
     const { loading, ticketList } = useSelector((state) => state.project.ticket);
     const { developerList, loadingDevelopers } = useSelector((state) => state.project.developer);
-    const { reportData, reportsLoading } = useSelector((state) => state.project.reports);
-    const { selectedSprint } = useSelector((state) => state.project.sprint);
+    const { reportData, reportsLoading, previousReportData, previousReportDataLoading } = useSelector(
+        (state) => state.project.reports
+    );
+    const { selectedSprint, sprintList } = useSelector((state) => state.project.sprint);
     const { projectId } = useParams();
 
     const dispatch = useDispatch();
@@ -21,28 +28,19 @@ function Reports() {
         dispatch(fetchAllDevlopersProject(projectId));
         //TODO remove harcode sprint
         dispatch(fetchReportData(selectedSprint._id));
+        dispatch(PreviousReportData(getPreviousSprint(sprintList, selectedSprint._id)));
     }, []);
-    const docs = require('../../../nimble.md')
-    function createMarkup() {
-        return {__html: docs.toString()};
-      }
-      
-      function MyComponent() {
-        return <div dangerouslySetInnerHTML={createMarkup()} />;
-      }
 
     return (
         <>
-            {!(loadingDevelopers || loading || reportsLoading) && (
+            {!(loadingDevelopers || loading || reportsLoading || previousReportDataLoading) && (
                 <>
-                {/* <MyComponent/> */}
                     <Bar map={generatePointsVsDate(reportData)} />
 
                     <Line
-                        mapPrevious={generateIssuesVsDate(reportData)}
+                        mapPrevious={generateIssuesVsDate(previousReportData)}
                         mapCurrent={generateIssuesVsDate(reportData)}
                     />
-
                     <Donut map={generatePieChartData(ticketList, developerList)} />
                 </>
             )}

@@ -38,11 +38,18 @@ const ProjectItem = ({ project, onClick }) => {
         dispatch(fetchAllTickets(project._id));
     }, []);
     const handleAddButtonClick = (e) => {
+        console.log(e);
         e.stopPropagation();
         setAddVisible(true);
     };
 
-    const AddMembersModal = Mounter(AddAppMember, { addVisible, handleCancel, project })(roles.scrummastersandadmins);
+    const handleOnAdd = () => {
+        setAddVisible(false);
+    };
+
+    const AddMembersModal = Mounter(AddAppMember, { addVisible, handleCancel, project, handleOnAdd })(
+        roles.scrummastersandadmins
+    );
     const AddButtonMounted = Mounter(AddButton, { handleAddButtonClick })(roles.scrummastersandadmins);
     return (
         <>
@@ -112,9 +119,9 @@ ProjectItem.propTypes = {
 
 export default ProjectItem;
 
-const AddAppMember = ({ addVisible, handleCancel, project }) => (
+const AddAppMember = ({ addVisible, handleCancel, project, onAdd }) => (
     <AppModal visible={addVisible} handleCancel={handleCancel}>
-        <AddMembers projectId={project._id} />
+        <AddMembers projectId={project._id} onAdd={onAdd} />
     </AppModal>
 );
 
@@ -122,6 +129,7 @@ AddAppMember.propTypes = {
     addVisible: PropTypes.bool,
     handleCancel: PropTypes.func,
     project: PropTypes.object,
+    onAdd: PropTypes.func,
 };
 
 const AddButton = ({ onClick }) => (
