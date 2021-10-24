@@ -85,7 +85,7 @@ export const LoginUser = (email, password) => {
                 const user = response.data;
                 localStorage.setItem("user", JSON.stringify(user));
                 dispatch(loginUserSuccess(user));
-                // dispatch(getUserData(user._id));
+                dispatch(getUserData(user.id));
             })
             .catch((error) => {
                 if (error.response) {

@@ -12,9 +12,10 @@ import { extractInitials } from "src/util/helperFunctions";
 
 const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
     const breakpoints = useBreakpoint();
-    const { isAuthenticated, user } = useSelector((state) => state.user);
+    const { isAuthenticated, user, userProfile } = useSelector((state) => state.user);
     const name = user?.name ?? "-";
     const smSize = !breakpoints.md;
+    const imgUrl = userProfile?.imgurl;
     return (
         <nav className={styles.navbar}>
             {isAuthenticated && smSize && (
@@ -73,7 +74,7 @@ const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
                                 Logout
                             </a>
                             <div className={styles.navLink} onClick={onProfileClick}>
-                                <Avatar>{extractInitials(name)}</Avatar>
+                                {imgUrl ? <Avatar src={imgUrl}></Avatar> : <Avatar>{extractInitials(name)}</Avatar>}
                             </div>
                         </>
                     )}

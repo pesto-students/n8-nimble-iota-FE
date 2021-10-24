@@ -7,15 +7,16 @@ import styles from "src/components/Common/Sidebar/UserData/UserData.module.less"
 import { extractInitials } from "src/util/helperFunctions";
 
 const UserData = () => {
+    const { userProfile } = useSelector((state) => state.user);
     const { user } = useSelector((state) => state.user);
 
     const name = user?.name ?? "-";
     const role = user?.role.name ?? "-";
     const email = user?.email ?? "-";
-    const location = user?.location ?? "-";
-    const phone = user?.phone ?? "-";
-    const selfintro = user?.selfintro ?? "-";
-    const imgUrl = user?.img;
+    const location = userProfile?.location ?? "-";
+    const phone = userProfile?.phone ?? "-";
+    const selfintro = userProfile?.selfintro ?? "-";
+    const imgUrl = userProfile?.imgurl;
 
     return (
         <div className={styles.userData}>
