@@ -40,6 +40,7 @@ const retroReducer = (state = initialState, action) => {
             case FETCH_RETROSPECTIVES_FAILURE:
                 draft.retroLoading = false;
                 draft.msg = action.payload;
+                draft.retros = []
                 return;
 
             default:

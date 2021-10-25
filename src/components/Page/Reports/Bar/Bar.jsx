@@ -18,7 +18,7 @@ function Bar({ map }) {
             plotOptions: {
                 bar: {
                     borderRadius: 10,
-                    columnWidth: '4px',
+                    columnWidth: '10%',
                     dataLabels: {
                         position: "top", // top, center, bottom
                     },
@@ -64,15 +64,15 @@ function Bar({ map }) {
                     show: true,
                 },
             },
-            title: {
-                text: "Story Points completed each day.",
-                floating: true,
-                offsetY: 330,
-                align: "center",
-                style: {
-                    color: "#444",
-                },
-            },
+            // title: {
+            //     text: "Story Points completed each day.",
+            //     floating: true,
+            //     offsetY: 330,
+            //     align: "center",
+            //     style: {
+            //         color: "#444",
+            //     },
+            // },
         },
     };
 

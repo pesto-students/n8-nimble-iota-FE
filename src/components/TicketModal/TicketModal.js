@@ -11,6 +11,7 @@ import TicketListItem from "src/components/TicketModal/TicketListItem";
 import { OperationEnum, PriorityEnum, TicketTypeEnum } from "src/config/Enums";
 import { addTicket, updateTicket } from "src/redux";
 import { generateTicketNumber, getSprints, transformEnum } from "src/util/helperFunctions";
+import Notification from "src/components/Common/Notification/Notification";
 
 function TicketModal(props) {
     const { projectId, ticketData, ticketOperation, developerList,onCancel } = props;
@@ -66,9 +67,11 @@ function TicketModal(props) {
         if (ticketOperation == OperationEnum.CREATE) {
             dispatch(addTicket(projectId, ticketObject));
             onCancel()
+            return Notification("success","Ticket successfully created")
         } else {
             dispatch(updateTicket(projectId, ticketObject));
             onCancel()
+            return Notification("success","Ticket successfully updated")
         }
     };
 

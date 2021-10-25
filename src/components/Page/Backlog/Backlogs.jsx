@@ -21,6 +21,12 @@ function Backlogs() {
     const { selectedSprint } = useSelector((state) => state.project.sprint);
     const [pokerList, setPokerList] = useState([]);
     const dispatch = useDispatch();
+
+    const deleteBacklogTicket = (projectId,ticketid)=>{
+        dispatch(deleteTicket(projectId, ticketid));
+        return Notification("success","Ticket successfully deleted.")
+    }
+
     const columns = [
         {
             title: "Ticket No.",
@@ -92,7 +98,7 @@ function Backlogs() {
                     type="primary"
                     onClick={(e) => {
                         e.stopPropagation();
-                        dispatch(deleteTicket(projectId, record.ticketId));
+                        deleteBacklogTicket(projectId, record.ticketId);
                     }}
                 />
             ),
@@ -114,10 +120,10 @@ function Backlogs() {
                                 addTicketToPoker(projectId, record).then(
                                     (res) => {
                                         ticketInPoker();
-                                        //TODO notify
+                                        return Notification("success", "Ticket Movedd to  Poker");
                                     },
                                     (err) => {
-                                        return Notification("warning", "Something went wrong", err);
+                                        return Notification("error", "Error in moving ticket to poker");
                                     }
                                 );
                             }}

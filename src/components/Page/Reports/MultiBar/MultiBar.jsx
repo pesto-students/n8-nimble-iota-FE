@@ -2,10 +2,9 @@ import PropTypes from "prop-types";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-function Line({ mapPrevious, mapCurrent }) {
+function MultiBar({ mapPrevious, mapCurrent }) {
     const previousData = Object.values(mapPrevious);
     const currentData = Object.values(mapCurrent);
-    // const averageData = [];
 
     const state = {
         series: [
@@ -16,11 +15,7 @@ function Line({ mapPrevious, mapCurrent }) {
             {
                 name: "Current Sprint Trend",
                 data: currentData,
-            },
-            // {
-            //     name: "Average",
-            //     data: averageData,
-            // },
+            }
         ],
         options: {
             chart: {
@@ -29,10 +24,8 @@ function Line({ mapPrevious, mapCurrent }) {
             },
             plotOptions: {
                 bar: {
-                    borderRadius: 10,
                     horizontal: false,
-                    columnWidth: "4px",
-                    endingShape: "rounded",
+                    columnWidth: "15%",
                 },
             },
             dataLabels: {
@@ -61,25 +54,17 @@ function Line({ mapPrevious, mapCurrent }) {
                     },
                 },
             },
-        },
-        title: {
-            text: "Issues Competed Each Day",
-            floating: true,
-            align: "center",
-            style: {
-                color: "#444",
-            },
-        },
+        }
     };
 
     return <ReactApexChart options={state.options} series={state.series} type="bar" height={350} />;
 }
 
-Line.propTypes = {
+MultiBar.propTypes = {
     mapPrevious: PropTypes.object,
     mapCurrent: PropTypes.object,
     options: PropTypes.object,
     series: PropTypes.array,
 };
 
-export default Line;
+export default MultiBar;

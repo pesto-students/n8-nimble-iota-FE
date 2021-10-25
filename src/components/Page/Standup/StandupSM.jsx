@@ -94,7 +94,7 @@ function Standup() {
                     For this day
                 </Col>
                 <Col flex={4} align="middle">
-                    Blockers for the day
+                    Impediments
                 </Col>
             </Row>
             {date &&

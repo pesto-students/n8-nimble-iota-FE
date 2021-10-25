@@ -64,7 +64,7 @@ function Retrospectives() {
 
     useEffect(() => {
         dispatch(fetchRetrospectives(selectedSprint._id));
-    }, []);
+    }, [selectedSprint]);
 
     return (
         <>

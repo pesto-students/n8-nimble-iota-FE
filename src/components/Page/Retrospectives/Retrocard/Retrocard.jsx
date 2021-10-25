@@ -9,6 +9,7 @@ import styles from "src/components/Page/Retrospectives/Retrocard/Retrocard.modul
 import { RetroTypeEnum, SprintStatusEnum } from "src/config/Enums";
 import { deleteRetro } from "src/redux";
 import { equalsIgnoreCase } from "src/util/helperFunctions";
+import Notification from "src/components/Common/Notification/Notification";
 
 function Retrocard({ type, text, id, sprint, onClick, index }) {
     const { TextArea } = Input;
@@ -19,6 +20,7 @@ function Retrocard({ type, text, id, sprint, onClick, index }) {
     const handleDelete = (e) => {
         e.stopPropagation();
         dispatch(deleteRetro(sprint, id, type));
+        return Notification("success","Retrospective Deleted Successfully")
     };
     const handleOnClick = () => {
         onClick({ id, text, index, type });

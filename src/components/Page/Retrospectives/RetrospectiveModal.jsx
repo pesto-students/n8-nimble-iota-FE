@@ -11,9 +11,10 @@ import { RetroTypeEnum } from "src/config/Enums";
 import { OperationEnum } from "src/config/Enums.ts";
 import { addRetrospective, updateRetroSpective } from "src/redux/Project/Retrospectives/retroActions";
 import { equalsIgnoreCase, transformEnum } from "src/util/helperFunctions";
+import Notification from "src/components/Common/Notification/Notification";
 
 function RetrospectiveModal(props) {
-    const { id, sprintId, retroText, retroType, operation, index } = props;
+    const { id, sprintId, retroText, retroType, operation, index, onCancel } = props;
     const { user } = useSelector((state) => state.user);
 
     const retroTypes = transformEnum(RetroTypeEnum);
@@ -33,9 +34,13 @@ function RetrospectiveModal(props) {
 
     const handleRetro = () => {
         if (operation == OperationEnum.ADD) {
-            dispatch(addRetrospective(sprintId, type.name, user.id, text));
+            dispatch(addRetrospective(sprintId, type?.name ?? "", user.id, text));
+            onCancel();
+            return Notification("success", "Retrospective Added successfully");
         } else {
-            dispatch(updateRetroSpective(sprintId, type.name, user.id, text, index));
+            dispatch(updateRetroSpective(sprintId, type?.name ?? "", user.id, text, index));
+            onCancel();
+            return Notification("success", "Retrospective updated successfully");
         }
     };
 
@@ -103,6 +108,7 @@ RetrospectiveModal.propTypes = {
     sprintId: PropTypes.array,
     id: PropTypes.string,
     index: PropTypes.number,
+    onCancel: PropTypes.func,
 };
 
 export default RetrospectiveModal;

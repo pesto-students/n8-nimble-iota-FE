@@ -98,7 +98,7 @@ function Scrumboard() {
                 {selectedSprint?.status == SprintStatusEnum.COMPLETED
                     ? "Completed"
                     : selectedSprint?.status === SprintStatusEnum.ACTIVE
-                    ? "Finish Sprint ?"
+                    ? "Finish Sprint"
                     : "Start Sprint"}
             </AppButton>
         );
