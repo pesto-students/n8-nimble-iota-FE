@@ -19,6 +19,7 @@ const UserData = () => {
     const imgUrl = userProfile?.imgurl;
 
     return (
+        <>
         <div className={styles.userData}>
             <div className={styles.avatar}>
                 {imgUrl ? <Avatar src={imgUrl} size={64}></Avatar> : <Avatar size={64}>{extractInitials(name)}</Avatar>}
@@ -27,7 +28,7 @@ const UserData = () => {
                 <div className={styles.header}>
                     <div className={styles.name}>{name}</div>
                     <Link className={styles.edit} to="/projects/account">
-                        <EditFilled />
+                        <EditFilled data-tour="step-6"  />
                     </Link>
                 </div>
                 <div className={styles.content}>
@@ -61,6 +62,7 @@ const UserData = () => {
                 <div className={styles.description}>{selfintro}</div>
             </div>
         </div>
+        </>
     );
 };
 

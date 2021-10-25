@@ -43,7 +43,7 @@ const Projects = (props) => {
                 <Searchbox className={styles.searchBar} placeholder="Search all projects .." loading={false} />
             </div>
             <div className={styles.createButton}>
-                <AppButton size="large" onClick={openCreate}>
+                <AppButton size="large" onClick={openCreate} data-tour="step-5">
                     Create Project
                 </AppButton>
             </div>

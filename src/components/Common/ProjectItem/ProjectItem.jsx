@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddMembers from "src/components/Common/AddMembers/AddMembers";
 import AppModal from "src/components/Common/AppModal/AppModal";
+import AppTour from "src/components/Common/AppTour/AppTour";
+import { projectSteps } from "src/components/Common/AppTour/ProjectScreenSteps";
 import Mounter from "src/components/Common/Mounter/Mounter";
 import styles from "src/components/Common/ProjectItem/ProjectItem.module.less";
 import Donut from "src/components/Page/Reports/Donut/Donut";
@@ -51,16 +53,19 @@ const ProjectItem = ({ project, onClick }) => {
         roles.scrummastersandadmins
     );
     const AddButtonMounted = Mounter(AddButton, { handleAddButtonClick })(roles.scrummastersandadmins);
+
+    
     return (
         <>
+            <AppTour steps={projectSteps}/>
             {project && (
                 <div onClick={onClick} className={styles.projectItem}>
-                    <div className={`${styles.projectDetail} ${styles.graphs}`}>
+                    <div className={`${styles.projectDetail} ${styles.graphs}`} data-tour="step-1">
                         {!loading && !loadingDevelopers && (
                             <Donut map={generatePieChartData(ticketList, developerList)} />
                         )}
                     </div>
-                    <div className={`${styles.projectDetail} ${styles.projectInfo}`}>
+                    <div className={`${styles.projectDetail} ${styles.projectInfo}`} data-tour="step-2" >
                         <>
                             <span className={styles.title}>Project Name</span>
                             <span className={styles.value}>{project.projectName}</span>
@@ -84,7 +89,7 @@ const ProjectItem = ({ project, onClick }) => {
                             <span className={styles.value}>{activeSprint?.name ?? "-"}</span>
                         </>
                     </div>
-                    <div className={`${styles.projectDetail} ${styles.ticketInfo}`}>
+                    <div className={`${styles.projectDetail} ${styles.ticketInfo}`} data-tour="step-3">
                         <>
                             <span className={styles.title}>No of Tickets in Active Sprint</span>
                             <span className={styles.value}>{ticketsInActiveSprintCount ?? "-"}</span>
@@ -98,7 +103,7 @@ const ProjectItem = ({ project, onClick }) => {
                             <span className={styles.value}>{backlogsCount ?? "-"}</span>
                         </>
                     </div>
-                    <div className={`${styles.projectDetail} ${styles.teamInfo}`}>
+                    <div className={`${styles.projectDetail} ${styles.teamInfo}`} data-tour="step-4">
                         <div>
                             <h3 className={styles.title}>Team Members</h3>
                             {AddButtonMounted}
