@@ -79,7 +79,7 @@ function UserProfile() {
             dispatch(getUserData(user.id));
         } else {
             //TODO Add Notificaton
-            console.log("Err", resp);
+            // console.log("Err", resp);
         }
     };
 

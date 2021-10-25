@@ -40,7 +40,7 @@ const ProjectItem = ({ project, onClick }) => {
         dispatch(fetchAllTickets(project._id));
     }, []);
     const handleAddButtonClick = (e) => {
-        console.log(e);
+        // console.log(e);
         e.stopPropagation();
         setAddVisible(true);
     };

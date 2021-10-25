@@ -141,7 +141,7 @@ function Scrumboard() {
     };
 
     const meetUrl = useMeeting();
-    console.log(meetUrl);
+    // console.log(meetUrl);
 
     return (
         <>
