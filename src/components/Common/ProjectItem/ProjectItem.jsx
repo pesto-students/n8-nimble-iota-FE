@@ -52,12 +52,11 @@ const ProjectItem = ({ project, onClick }) => {
     const AddMembersModal = Mounter(AddAppMember, { addVisible, handleCancel, project, handleOnAdd })(
         roles.scrummastersandadmins
     );
-    const AddButtonMounted = Mounter(AddButton, { handleAddButtonClick })(roles.scrummastersandadmins);
+    const AddButtonMounted = Mounter(AddButton, { onClick: handleAddButtonClick })(roles.scrummastersandadmins);
 
-    
     return (
         <>
-            <AppTour steps={projectSteps}/>
+            <AppTour steps={projectSteps} />
             {project && (
                 <div onClick={onClick} className={styles.projectItem}>
                     <div className={`${styles.projectDetail} ${styles.graphs}`} data-tour="step-1">
@@ -65,7 +64,7 @@ const ProjectItem = ({ project, onClick }) => {
                             <Donut map={generatePieChartData(ticketList, developerList)} />
                         )}
                     </div>
-                    <div className={`${styles.projectDetail} ${styles.projectInfo}`} data-tour="step-2" >
+                    <div className={`${styles.projectDetail} ${styles.projectInfo}`} data-tour="step-2">
                         <>
                             <span className={styles.title}>Project Name</span>
                             <span className={styles.value}>{project.projectName}</span>
@@ -124,9 +123,9 @@ ProjectItem.propTypes = {
 
 export default ProjectItem;
 
-const AddAppMember = ({ addVisible, handleCancel, project, onAdd }) => (
+const AddAppMember = ({ addVisible, handleCancel, project, handleOnAdd }) => (
     <AppModal visible={addVisible} handleCancel={handleCancel}>
-        <AddMembers projectId={project._id} onAdd={onAdd} />
+        <AddMembers projectId={project._id} onAdd={handleOnAdd} />
     </AppModal>
 );
 
@@ -134,7 +133,7 @@ AddAppMember.propTypes = {
     addVisible: PropTypes.bool,
     handleCancel: PropTypes.func,
     project: PropTypes.object,
-    onAdd: PropTypes.func,
+    handleOnAdd: PropTypes.func,
 };
 
 const AddButton = ({ onClick }) => (
