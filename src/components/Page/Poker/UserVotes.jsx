@@ -11,7 +11,6 @@ function UserVotes({ flipMove, flipped, selectedItem, avg }) {
     const dispatch = useDispatch();
     const { developerList } = useSelector((state) => state.project.developer);
     const user = useSelector((state) => state.user.user);
-    const memeberList = user.role.name !== "developer" ? [...developerList, user] : [...developerList];
     const { email } = user;
     const { projectId } = useParams();
     const getUserVote = (ticket, email) => {
@@ -35,7 +34,7 @@ function UserVotes({ flipMove, flipped, selectedItem, avg }) {
                 </Row>
             </div>
 
-            {memeberList.map((dev, index) => (
+            {developerList.map((dev, index) => (
                 <Row key={index} className={styles.devrows}>
                     <Col flex={4}>
                         <h3>{dev.email === email ? "You" : dev.name}</h3>
