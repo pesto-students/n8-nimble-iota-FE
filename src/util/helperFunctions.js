@@ -43,7 +43,7 @@ export const generatePieChartData = (ticketList, developerList) => {
 };
 
 export const getAssigneeName = (ticket, userList) => {
-    return userList.find((user) => user["_id"] == ticket.assignee).name;
+    return userList.find((user) => user["_id"] == ticket.assignee)?.name ?? "";
 };
 
 export const generatePointsVsDate = (reportData) => {

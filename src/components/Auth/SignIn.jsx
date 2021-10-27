@@ -17,12 +17,12 @@ function LoginView(props) {
     const { loading } = useSelector((state) => state.user);
     const dispatch = useDispatch();
     const scrumMaster = {
-        email: "jyotirmayasahu38@gmail.com",
-        password: "yxrn0mklz8",
+        email: "pestonimble@gmail.com",
+        password: "pestonimble",
     };
     const developer = {
-        email: "sahujyotirmaya1997@gmail.com",
-        password: "CRIMINALcase1",
+        email: "vipan16116@gmail.com",
+        password: "pestonimble",
     };
     const login = () => {
         if (Object.keys(errors).length === 0) dispatch(LoginUser(values.email, values.password));
