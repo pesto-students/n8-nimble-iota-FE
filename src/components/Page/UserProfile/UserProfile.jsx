@@ -25,6 +25,7 @@ function UserProfile() {
     const inputFile = useRef(null);
     const [locationText, setLocationtext] = useState(userProfile?.location ?? "");
     const [introText, setIntroText] = useState(userProfile?.selfintro ?? "");
+    const [phone, setPhone] = useState(userProfile?.phone ?? "");
     const { navigate, url } = useRouting();
 
     const updateSub = () => {
@@ -55,10 +56,11 @@ function UserProfile() {
 
     const handleLocationTextChange = (e) => setLocationtext(e.target.value);
     const handleIntroTextChange = (e) => setIntroText(e.target.value);
+    const handlePhoneChange = (e)=>setPhone(e.target.value)
 
     const handleUpdate = () => {
         //TODO remove hardcode
-        dispatch(updateUserData(userProfile.name, userProfile.phone, locationText, introText, user.id));
+        dispatch(updateUserData(userProfile.name,phone, locationText, introText, user.id));
     };
 
     useEffect(() => {
@@ -69,6 +71,7 @@ function UserProfile() {
     useEffect(() => {
         setIntroText(userProfile?.selfintro ?? "");
         setLocationtext(userProfile?.location ?? "");
+        setPhone(userProfile?.phone??"")
     }, [userProfile]);
 
     const updatePaymentRequest = async (updatePaymentObject) => {
@@ -184,8 +187,8 @@ function UserProfile() {
                                         isPassword={false}
                                         size="large"
                                         style={{ width: "70%" }}
-                                        value={userProfile?.phone ?? ""}
-                                        disabled={true}
+                                        value={phone}
+                                        onChange = {handlePhoneChange}
                                     />
                                 }
                             />

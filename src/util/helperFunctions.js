@@ -33,11 +33,14 @@ export const generatePieChartData = (ticketList, developerList) => {
     const map = {};
     ticketList.forEach((ticket) => {
         const assignee = getAssigneeName(ticket, developerList);
-        if (map[assignee]) {
-            map[assignee] = map[assignee] + 1;
-        } else {
-            map[assignee] = 1;
+        if(assignee){
+            if (map[assignee]) {
+                map[assignee] = map[assignee] + 1;
+            } else {
+                map[assignee] = 1;
+            }
         }
+      
     });
     return map;
 };
