@@ -182,7 +182,7 @@ function Poker() {
                     <Col flex={5} align="middle">
                         <h3>Title</h3>
                     </Col>
-                    <Col flex={3} align="middle">
+                    <Col flex={3} align="right">
                         <h3>Your Estimations</h3>
                     </Col>
                 </Row>
@@ -200,7 +200,7 @@ function Poker() {
                             <Col flex={5} align="left">
                                 {item.title}
                             </Col>
-                            <Col flex={3} align="middle">
+                            <Col flex={3} align="right">
                                 {item?.votes?.find((obj) => obj.user === email)?.value || "-"}
                             </Col>
                             <Col flex={1} align="middle">
