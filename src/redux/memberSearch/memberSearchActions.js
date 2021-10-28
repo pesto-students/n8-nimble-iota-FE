@@ -39,7 +39,9 @@ export const addMember =
                     Notification("warning", "User is already a member.");
                 }
             })
-            .catch(() => {
-                Notification("error", "Failed to add member");
+            .catch((error) => {
+                if (error.status === 406) {
+                    Notification("warning", "User is already a member.");
+                } else Notification("error", "Failed to add member");
             });
     };
