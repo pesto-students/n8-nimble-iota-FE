@@ -17,7 +17,7 @@ const { Paragraph } = Typography;
 function Standup() {
     const dispatch = useDispatch();
     const meetUrl = useMeeting();
-    const today = moment(new Date(), dateformat);
+    const today = moment(new Date()).format(dateformat);
     const { projectId } = useParams();
     const [member, setMember] = useState(null);
     const [date, setDate] = useState(null);
@@ -75,7 +75,12 @@ function Standup() {
                     </Space>
                 </Col>
                 <Col flex={2} align="middle">
-                    <AppSelect value={member} options={developerList} placeholder="Asignee" onChange={onChangeMember} />
+                    <AppSelect
+                        value={member}
+                        options={developerList}
+                        placeholder="Assignee"
+                        onChange={onChangeMember}
+                    />
                 </Col>
                 <Col flex={2} align="middle">
                     <AppButton size={"middle"} onClick={reset}>
@@ -85,7 +90,7 @@ function Standup() {
             </Row>
             <Row className={styles.standupTable}>
                 <Col flex={2} align="middle">
-                    {!date && member ? "Date" : "Asignee"}
+                    {!date && member ? "Date" : "Assignee"}
                 </Col>
                 <Col flex={4} align="middle">
                     A day before

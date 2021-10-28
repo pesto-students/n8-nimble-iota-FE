@@ -28,7 +28,7 @@ function Standup() {
     };
 
     const meetUrl = useMeeting();
-    const today = moment(new Date(), dateformat);
+    const today = moment(new Date()).format(dateformat);
     const { projectId } = useParams();
     const user = useSelector((state) => state.user.user);
     const { projects } = useSelector((state) => state.projectList);
