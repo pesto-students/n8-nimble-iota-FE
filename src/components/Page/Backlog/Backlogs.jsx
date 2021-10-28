@@ -97,7 +97,8 @@ function Backlogs() {
             dataIndex: "delete",
             align: "center",
             render: (text, record, index) =>
-                !checkPermission(user.role.name, roles.scrummastersandadmins) ? (
+                !checkPermission(user.role.name, roles.scrummastersandadmins) ||
+                pokerList.find((ticketDetails) => record.ticketId === ticketDetails.ticketId) ? (
                     <h3>-</h3>
                 ) : (
                     <DeleteFilled
