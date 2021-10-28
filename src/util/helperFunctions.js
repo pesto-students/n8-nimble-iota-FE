@@ -207,3 +207,9 @@ export const getPreviousSprint = (sprintList,sprintId) => {
 }
 
 
+export const filterTicketById = (ticketList,id) =>{
+    //Ticket will always be there, so no need of null check
+    const index = ticketList.findIndex((ticket)=>ticket._id === id)
+    return ticketList[index]
+    
+}

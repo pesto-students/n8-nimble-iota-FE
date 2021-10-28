@@ -12,7 +12,7 @@ import { colors, fireStoreKeys } from "src/config/constants";
 import { OperationEnum } from "src/config/Enums";
 import { PriorityEnum, TicketTypeEnum } from "src/config/Enums.ts";
 import { deleteTicket, fetchAllDevlopersProject, fetchAllTickets } from "src/redux";
-import { addTicketToPoker, filterBacklogTickets, getAllDocs } from "src/util/helperFunctions";
+import { addTicketToPoker, filterBacklogTickets, filterTicketById, getAllDocs } from "src/util/helperFunctions";
 import Mounter from "src/components/Common/Mounter/Mounter";
 
 function Backlogs() {
@@ -186,7 +186,7 @@ function Backlogs() {
                             return {
                                 onClick: (event) => {
                                     setTickearOperation(OperationEnum.UPDATE);
-                                    setOpenModal(true), setClickedRow(rowIndex);
+                                    setOpenModal(true), setClickedRow(record._id);
                                 },
                                 onMouseEnter: (event) => {},
                             };
@@ -203,7 +203,7 @@ function Backlogs() {
                     visible={openModal}
                     width="400px"
                     ticketOperation={ticketOperation}
-                    ticketData={backlogTickets[clickedRow]}
+                    ticketData={filterTicketById(backlogTickets,clickedRow)}
                     projectId={projectId}
                     developerList={developerList}
                 />
@@ -212,4 +212,5 @@ function Backlogs() {
     );
 }
 
-export default Backlogs;
+
+export default Backlogs
