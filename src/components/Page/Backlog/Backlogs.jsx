@@ -11,11 +11,12 @@ import roles from "src/config/roles";
 import { colors, fireStoreKeys } from "src/config/constants";
 import { OperationEnum } from "src/config/Enums";
 import { PriorityEnum, TicketTypeEnum } from "src/config/Enums.ts";
-import { deleteTicket, fetchAllDevlopersProject, fetchAllTickets } from "src/redux";
-import { addTicketToPoker, filterBacklogTickets, filterTicketById, getAllDocs } from "src/util/helperFunctions";
-import Mounter from "src/components/Common/Mounter/Mounter";
+import { deleteTicket, fetchAllDevlopersProject, fetchAllTickets, getUserData } from "src/redux";
+import { addTicketToPoker, filterBacklogTickets, filterDeveloeprColums, filterTicketById, getAllDocs } from "src/util/helperFunctions";
+import Mounter, { checkPermission } from "src/components/Common/Mounter/Mounter";
 
 function Backlogs() {
+    const { user, userProfile } = useSelector((state) => state.user);
     const { loading, filteredTicketList } = useSelector((state) => state.project.ticket);
     const [backlogTickets, setbacklogTickets] = useState([]);
     const { developerList } = useSelector((state) => state.project.developer);
@@ -24,12 +25,7 @@ function Backlogs() {
     const [pokerList, setPokerList] = useState([]);
     const dispatch = useDispatch();
 
-    const deleteBacklogTicket = (projectId, ticketid) => {
-        dispatch(deleteTicket(projectId, ticketid));
-        return Notification("success", "Ticket successfully deleted.");
-    };
-
-    const columns = [
+    const  [columns, setColumns] = useState([
         {
             title: "Ticket No.",
             dataIndex: "ticketId",
@@ -134,7 +130,14 @@ function Backlogs() {
                 </>
             ),
         },
-    ];
+    ])
+
+    const deleteBacklogTicket = (projectId, ticketid) => {
+        dispatch(deleteTicket(projectId, ticketid));
+        return Notification("success", "Ticket successfully deleted.");
+    };
+
+  
 
     const [openModal, setOpenModal] = useState(false);
     const [clickedRow, setClickedRow] = useState(-1);
@@ -146,8 +149,13 @@ function Backlogs() {
     };
 
     useEffect(() => {
+        if(!checkPermission(user.role.name,roles.scrummastersandadmins)){
+            setColumns(filterDeveloeprColums(columns))
+
+        }
         dispatch(fetchAllTickets(projectId));
         dispatch(fetchAllDevlopersProject(projectId));
+        dispatch(getUserData(user.id));
         ticketInPoker();
     }, []);
 

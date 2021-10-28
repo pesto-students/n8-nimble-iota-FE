@@ -65,7 +65,6 @@ function UserProfile() {
     };
 
     useEffect(() => {
-        //TODO remove hardcode
         dispatch(getUserData(user.id));
     }, []);
 

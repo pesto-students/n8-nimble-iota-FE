@@ -213,3 +213,7 @@ export const filterTicketById = (ticketList,id) =>{
     return ticketList[index]
     
 }
+
+export const filterDeveloeprColums = (columns)=>{
+    return columns.filter((col)=>col.dataIndex!== 'move' && col.dataIndex!=='delete' )
+}
