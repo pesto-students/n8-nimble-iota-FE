@@ -39,7 +39,7 @@ function UserVotes({ flipMove, flipped, selectedItem, avg }) {
                     <Col flex={4}>
                         <h3>{dev.email === email ? "You" : dev.name}</h3>
                     </Col>
-                    <Col flex={1} align="middle">
+                    <Col flex={1} align="right">
                         {flipped && (getUserVote(selectedItem, dev.email)?.value || "-")}
                         {!flipped &&
                             (getUserVote(selectedItem, dev.email) ? (
@@ -55,7 +55,7 @@ function UserVotes({ flipMove, flipped, selectedItem, avg }) {
                 <Col flex={4}>
                     <h3>Average</h3>
                 </Col>
-                <Col flex={1} align="middle">
+                <Col flex={1} align="right">
                     {flipped && selectedItem ? avg : "-"}
                 </Col>
             </Row>
