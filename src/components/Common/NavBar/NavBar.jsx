@@ -86,13 +86,15 @@ const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
                     )}
                     {isAuthenticated && (
                         <>
-                            <div style={{ display: "flex", alignItems: "center" }}>
+                            {/* <div style={{ display: "flex", alignItems: "center" }}>
                                 <CustomTag
                                     text="Want to have a tour ?"
                                     color={colors.priorityLow}
                                     onClick={() => TourContext.setIsTourOpen(true)}
                                 />
-                            </div>
+                            </div> 
+                            UNCOMMENT TO ADD TOUR
+                            */}
                             <a className={styles.navLink} onClick={onLogout}>
                                 Logout
                             </a>

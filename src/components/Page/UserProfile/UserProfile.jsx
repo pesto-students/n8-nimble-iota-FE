@@ -16,6 +16,7 @@ import { checkIfPremiumUser, getProjectFromProjectList } from "src/util/helperFu
 import { useRouting } from "src/util/hooks";
 import assetMap from "src/assets";
 import axios from "src/service/Axios";
+import Notification from "src/components/Common/Notification/Notification";
 
 function UserProfile() {
     const { TextArea } = Input;
@@ -81,8 +82,7 @@ function UserProfile() {
             alert(resp.data.message);
             dispatch(getUserData(user.id));
         } else {
-            //TODO Add Notificaton
-            // console.log("Err", resp);
+            return Notification("error","Failed to update subscription.")
         }
     };
 
@@ -143,9 +143,9 @@ function UserProfile() {
     };
     return (
         <CardCustom style={{ width: "100%" }} loading={false}>
-            <div style={{ textAlign: "right" }}>
+            {/* <div style={{ textAlign: "right" }}>
                 <a href="#">change password ?</a>
-            </div>
+            </div> */}
             <Row>
                 <Col xs={{ span: 24 }} lg={{ span: 7, offset: 1 }} style={{ padding: "15px" }}>
                     <CardCustom className={styles.cardContainer} loading={false}>
@@ -244,7 +244,6 @@ function UserProfile() {
                             <Divider className={styles.dividerStyle} />
                             {userProfile.projects?.map((pid, index) => {
                                 const projectItem = getProjectFromProjectList(projects, pid);
-                                console.log(projectItem);
                                 return (
                                     projectItem && (
                                         <TicketListItem
