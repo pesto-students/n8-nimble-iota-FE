@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Link as ScrollLink } from "react-scroll";
-import { MenuOutlined } from "@ant-design/icons/lib/icons";
+import { MenuOutlined, CloseOutlined } from "@ant-design/icons/lib/icons";
 import { Avatar } from "antd";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import PropTypes from "prop-types";
@@ -12,6 +12,7 @@ import { extractInitials } from "src/util/helperFunctions";
 import CustomTag from "src/components/Common/CustomTag/CustomTag";
 import { colors } from "src/config/constants";
 import AppTourContext from "src/contexts/AppTourContext";
+import { toggleHideSidebar } from "src/redux";
 
 const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
     const breakpoints = useBreakpoint();
@@ -20,11 +21,22 @@ const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
     const name = user?.name ?? "-";
     const smSize = !breakpoints.md;
     const imgUrl = userProfile?.imgurl;
+    const dispatch = useDispatch();
+    const { sidebarHidden } = useSelector((state) => state.common);
     return (
         <nav className={styles.navbar}>
             {isAuthenticated && smSize && (
-                <div className={styles.menuIconContainer}>
-                    <MenuOutlined className={styles.menuIcon} />
+                <div
+                    onClick={() => {
+                        dispatch(toggleHideSidebar());
+                    }}
+                    className={styles.menuIconContainer}
+                >
+                    {sidebarHidden ? (
+                        <MenuOutlined className={styles.menuIcon} />
+                    ) : (
+                        <CloseOutlined className={styles.menuIcon} />
+                    )}
                 </div>
             )}
             <Link className={styles.logoLink} to="/projects">

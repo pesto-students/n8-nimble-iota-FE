@@ -3,10 +3,21 @@
 .sidebar {
     background-color: @primary-color;
     height: calc(100vh - 4em);
-    width: 21vw;
+    width: clamp(260px, 21vw, 300px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    transition: left ease-out 150ms;
+
+    &.small {
+        position: absolute;
+        left: -100%;
+        z-index: 100;
+
+        &.show {
+            left: 0;
+        }
+    }
 
     .footer {
         padding: 1em 0.75em;
