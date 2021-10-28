@@ -1,3 +1,4 @@
+import Notification from "src/components/Common/Notification/Notification";
 import { loadProjects } from "src/redux";
 import {
     SEARCH_MEMBER_FAIL,
@@ -28,7 +29,17 @@ export const searchMembers = (searchString) => (dispatch) => {
 export const addMember =
     ({ memberId, projectId }) =>
     (dispatch) => {
-        axios.post("/member", { memberId, projectId }).then((res) => {
-            if (res.status === 201) dispatch(loadProjects());
-        });
+        axios
+            .post("/member", { memberId, projectId })
+            .then((res) => {
+                if (res.status === 201) {
+                    Notification("success", "Member added successfully.");
+                    dispatch(loadProjects());
+                } else if (res.status === 406) {
+                    Notification("warning", "User is already a member.");
+                }
+            })
+            .catch(() => {
+                Notification("error", "Failed to add member");
+            });
     };

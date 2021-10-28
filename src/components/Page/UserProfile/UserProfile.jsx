@@ -56,11 +56,11 @@ function UserProfile() {
 
     const handleLocationTextChange = (e) => setLocationtext(e.target.value);
     const handleIntroTextChange = (e) => setIntroText(e.target.value);
-    const handlePhoneChange = (e)=>setPhone(e.target.value)
+    const handlePhoneChange = (e) => setPhone(e.target.value);
 
     const handleUpdate = () => {
         //TODO remove hardcode
-        dispatch(updateUserData(userProfile.name,phone, locationText, introText, user.id));
+        dispatch(updateUserData(userProfile.name, phone, locationText, introText, user.id));
     };
 
     useEffect(() => {
@@ -71,7 +71,7 @@ function UserProfile() {
     useEffect(() => {
         setIntroText(userProfile?.selfintro ?? "");
         setLocationtext(userProfile?.location ?? "");
-        setPhone(userProfile?.phone??"")
+        setPhone(userProfile?.phone ?? "");
     }, [userProfile]);
 
     const updatePaymentRequest = async (updatePaymentObject) => {
@@ -188,7 +188,7 @@ function UserProfile() {
                                         size="large"
                                         style={{ width: "70%" }}
                                         value={phone}
-                                        onChange = {handlePhoneChange}
+                                        onChange={handlePhoneChange}
                                     />
                                 }
                             />
@@ -244,6 +244,7 @@ function UserProfile() {
                             <Divider className={styles.dividerStyle} />
                             {userProfile.projects?.map((pid, index) => {
                                 const projectItem = getProjectFromProjectList(projects, pid);
+                                console.log(projectItem);
                                 return (
                                     projectItem && (
                                         <TicketListItem

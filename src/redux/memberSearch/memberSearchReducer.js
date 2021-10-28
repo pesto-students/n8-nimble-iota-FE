@@ -22,7 +22,6 @@ const memberSearchReducer = (state = initialState, action) => {
             case SEARCH_MEMBER_SUCCESS:
                 draft.members = action.data;
                 draft.loading = false;
-                Notification("success", "Member added successfully.");
                 return;
             case SEARCH_MEMBER_FAIL:
                 draft.error = action.data;
