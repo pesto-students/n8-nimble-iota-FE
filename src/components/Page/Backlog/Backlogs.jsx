@@ -11,11 +11,18 @@ import roles from "src/config/roles";
 import { colors, fireStoreKeys } from "src/config/constants";
 import { OperationEnum } from "src/config/Enums";
 import { PriorityEnum, TicketTypeEnum } from "src/config/Enums.ts";
-import { deleteTicket, fetchAllDevlopersProject, fetchAllTickets } from "src/redux";
-import { addTicketToPoker, filterBacklogTickets, getAllDocs } from "src/util/helperFunctions";
-import Mounter from "src/components/Common/Mounter/Mounter";
+import { deleteTicket, fetchAllDevlopersProject, fetchAllTickets, getUserData } from "src/redux";
+import {
+    addTicketToPoker,
+    filterBacklogTickets,
+    filterDeveloeprColums,
+    filterTicketById,
+    getAllDocs,
+} from "src/util/helperFunctions";
+import Mounter, { checkPermission } from "src/components/Common/Mounter/Mounter";
 
 function Backlogs() {
+    const { user, userProfile } = useSelector((state) => state.user);
     const { loading, filteredTicketList } = useSelector((state) => state.project.ticket);
     const [backlogTickets, setbacklogTickets] = useState([]);
     const { developerList } = useSelector((state) => state.project.developer);
@@ -23,11 +30,6 @@ function Backlogs() {
     const { selectedSprint } = useSelector((state) => state.project.sprint);
     const [pokerList, setPokerList] = useState([]);
     const dispatch = useDispatch();
-
-    const deleteBacklogTicket = (projectId, ticketid) => {
-        dispatch(deleteTicket(projectId, ticketid));
-        return Notification("success", "Ticket successfully deleted.");
-    };
 
     const columns = [
         {
@@ -94,47 +96,59 @@ function Backlogs() {
             title: "Delete",
             dataIndex: "delete",
             align: "center",
-            render: (text, record, index) => (
-                <DeleteFilled
-                    style={{ fontSize: "20px" }}
-                    type="primary"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        deleteBacklogTicket(projectId, record.ticketId);
-                    }}
-                />
-            ),
+            render: (text, record, index) =>
+                !checkPermission(user.role.name, roles.scrummastersandadmins) ||
+                pokerList.find((ticketDetails) => record.ticketId === ticketDetails.ticketId) ? (
+                    <h3>-</h3>
+                ) : (
+                    <DeleteFilled
+                        style={{ fontSize: "20px" }}
+                        type="primary"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            deleteBacklogTicket(projectId, record.ticketId);
+                        }}
+                    />
+                ),
         },
         {
             title: "Move to Poker",
             dataIndex: "move",
             align: "center",
-            render: (text, record) => (
-                <>
-                    {pokerList.find((ticketDetails) => record.ticketId === ticketDetails.ticketId) ? (
-                        <h3>-</h3>
-                    ) : (
-                        <RightCircleOutlined
-                            style={{ fontSize: "20px" }}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                //TODO use dispatch made by vishnu
-                                addTicketToPoker(projectId, record).then(
-                                    (res) => {
-                                        ticketInPoker();
-                                        return Notification("success", "Ticket Movedd to  Poker");
-                                    },
-                                    (err) => {
-                                        return Notification("error", "Error in moving ticket to poker");
-                                    }
-                                );
-                            }}
-                        />
-                    )}
-                </>
-            ),
+            render: (text, record) =>
+                !checkPermission(user.role.name, roles.scrummastersandadmins) ? (
+                    <h3>-</h3>
+                ) : (
+                    <>
+                        {pokerList.find((ticketDetails) => record.ticketId === ticketDetails.ticketId) ? (
+                            <h3>-</h3>
+                        ) : (
+                            <RightCircleOutlined
+                                style={{ fontSize: "20px" }}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    //TODO use dispatch made by vishnu
+                                    addTicketToPoker(projectId, record).then(
+                                        (res) => {
+                                            ticketInPoker();
+                                            return Notification("success", "Ticket Movedd to  Poker");
+                                        },
+                                        (err) => {
+                                            return Notification("error", "Error in moving ticket to poker");
+                                        }
+                                    );
+                                }}
+                            />
+                        )}
+                    </>
+                ),
         },
     ];
+
+    const deleteBacklogTicket = (projectId, ticketid) => {
+        dispatch(deleteTicket(projectId, ticketid));
+        return Notification("success", "Ticket successfully deleted.");
+    };
 
     const [openModal, setOpenModal] = useState(false);
     const [clickedRow, setClickedRow] = useState(-1);
@@ -146,8 +160,14 @@ function Backlogs() {
     };
 
     useEffect(() => {
+        // if(!checkPermission(user.role.name,roles.scrummastersandadmins)){
+        //     setColumns(filterDeveloeprColums(allColumns))
+        // }else{
+        //     setColumns(allColumns)
+        // }
         dispatch(fetchAllTickets(projectId));
         dispatch(fetchAllDevlopersProject(projectId));
+        dispatch(getUserData(user.id));
         ticketInPoker();
     }, []);
 
@@ -186,7 +206,7 @@ function Backlogs() {
                             return {
                                 onClick: (event) => {
                                     setTickearOperation(OperationEnum.UPDATE);
-                                    setOpenModal(true), setClickedRow(rowIndex);
+                                    setOpenModal(true), setClickedRow(record._id);
                                 },
                                 onMouseEnter: (event) => {},
                             };
@@ -203,7 +223,7 @@ function Backlogs() {
                     visible={openModal}
                     width="400px"
                     ticketOperation={ticketOperation}
-                    ticketData={backlogTickets[clickedRow]}
+                    ticketData={filterTicketById(backlogTickets, clickedRow)}
                     projectId={projectId}
                     developerList={developerList}
                 />

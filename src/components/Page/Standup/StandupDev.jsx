@@ -1,15 +1,17 @@
 import { PhoneFilled, PlusCircleFilled } from "@ant-design/icons";
 import { Card, Col, Input, Row, Typography } from "antd";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import AppButton from "src/components/Common/AppButton/AppButton";
 import Notification from "src/components/Common/Notification/Notification";
 import styles from "src/components/Page/Standup/Standup.module.less";
+import { dateformat } from "src/config/constants";
+import { SprintStatusEnum } from "src/config/Enums";
 import { fetchAllDevlopersProject, loadProjects } from "src/redux";
 import Axios from "src/service/Axios";
 import { useMeeting } from "src/util/hooks";
-import { SprintStatusEnum } from "src/config/Enums";
 
 const { TextArea } = Input;
 const { Paragraph } = Typography;
@@ -26,7 +28,7 @@ function Standup() {
     };
 
     const meetUrl = useMeeting();
-    const today = new Date().toLocaleDateString();
+    const today = moment(new Date()).format(dateformat);
     const { projectId } = useParams();
     const user = useSelector((state) => state.user.user);
     const { projects } = useSelector((state) => state.projectList);

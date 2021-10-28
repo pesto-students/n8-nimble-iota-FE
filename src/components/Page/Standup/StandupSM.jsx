@@ -17,15 +17,18 @@ const { Paragraph } = Typography;
 function Standup() {
     const dispatch = useDispatch();
     const meetUrl = useMeeting();
-    const today = new Date().toLocaleDateString();
+    const today = moment(new Date()).format(dateformat);
     const { projectId } = useParams();
     const [member, setMember] = useState(null);
     const [date, setDate] = useState(null);
     const { projects } = useSelector((state) => state.projectList);
+    const user = useSelector((state) => state.user.user);
+    const { email, id } = user;
     const { developerList } = useSelector((state) => state.project.developer);
     const { selectedSprint } = useSelector((state) => state.project.sprint);
     const currentProject = projects.find((project) => project._id === projectId);
-    const [standups, setStandups] = useState(currentProject?.members);
+    const members = currentProject?.members.filter((member) => member.userId !== id);
+    const [standups, setStandups] = useState(members);
     const nameMap = {};
     developerList.forEach((item) => (nameMap[item._id] = item.name));
     useEffect(() => {
@@ -41,10 +44,10 @@ function Standup() {
     useEffect(() => {
         const memberDetail = JSON.parse(member);
         if (!member) {
-            setStandups(currentProject?.members);
+            setStandups(members);
             return;
         }
-        const filtered = currentProject?.members.filter((dev) => dev.userId === memberDetail?._id);
+        const filtered = members.filter((dev) => dev.userId === memberDetail?._id);
         setStandups(filtered);
     }, [date, member]);
     return (
@@ -75,7 +78,12 @@ function Standup() {
                     </Space>
                 </Col>
                 <Col flex={2} align="middle">
-                    <AppSelect value={member} options={developerList} placeholder="Asignee" onChange={onChangeMember} />
+                    <AppSelect
+                        value={member}
+                        options={developerList.filter((dev) => dev.email !== email)}
+                        placeholder="Assignee"
+                        onChange={onChangeMember}
+                    />
                 </Col>
                 <Col flex={2} align="middle">
                     <AppButton size={"middle"} onClick={reset}>
@@ -85,7 +93,7 @@ function Standup() {
             </Row>
             <Row className={styles.standupTable}>
                 <Col flex={2} align="middle">
-                    {!date && member ? "Date" : "Asignee"}
+                    {!date && member ? "Date" : "Assignee"}
                 </Col>
                 <Col flex={4} align="middle">
                     A day before
