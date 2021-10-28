@@ -26,6 +26,7 @@ import { fetchAllTickets, updateTicket } from "src/redux";
 import Axios from "src/service/Axios";
 import { fbfirestore } from "src/service/firebase";
 import { useMeeting } from "src/util/hooks";
+import { filterBacklogTickets } from "src/util/helperFunctions";
 
 function Poker() {
     const [avg, setAvg] = useState(0);
@@ -213,7 +214,7 @@ function Poker() {
                 <AddTicketModal
                     addTicket={addTicket}
                     closeAddTicket={closeAddTicket}
-                    ticketList={ticketList}
+                    ticketList={filterBacklogTickets(ticketList)}
                     onChangeTicketid={onChangeTicketid}
                     AddTicketToPoker={AddTicketToPoker}
                 />
