@@ -27,7 +27,7 @@ const NavBar = ({ onLogin, onRegister, onLogout, onProfileClick }) => {
                     <MenuOutlined className={styles.menuIcon} />
                 </div>
             )}
-            <Link to="/projects">
+            <Link className={styles.logoLink} to="/projects">
                 <div className={styles.brand}>
                     <div className={styles.logo}>
                         <img src={assetMap("Logo")} alt="Nimble" />
