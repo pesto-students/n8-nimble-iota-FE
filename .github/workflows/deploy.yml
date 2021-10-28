@@ -2,7 +2,7 @@ name: Deploy Netlify site
 
 on:
     push:
-        branches: [ features/week3 ]
+        branches: [master]
 
 jobs:
     build:
