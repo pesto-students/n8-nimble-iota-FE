@@ -17,7 +17,7 @@ const { Paragraph } = Typography;
 function Standup() {
     const dispatch = useDispatch();
     const meetUrl = useMeeting();
-    const today = new Date().toLocaleDateString();
+    const today = moment(new Date(), dateformat);
     const { projectId } = useParams();
     const [member, setMember] = useState(null);
     const [date, setDate] = useState(null);
