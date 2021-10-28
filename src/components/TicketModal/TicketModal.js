@@ -12,10 +12,13 @@ import { OperationEnum, PriorityEnum, TicketTypeEnum } from "src/config/Enums";
 import { addTicket, updateTicket } from "src/redux";
 import { generateTicketNumber, getSprints, transformEnum } from "src/util/helperFunctions";
 import Notification from "src/components/Common/Notification/Notification";
+import { checkPermission } from "src/components/Common/Mounter/Mounter";
+import roles from "src/config/roles";
 
 function TicketModal(props) {
     const { projectId, ticketData, ticketOperation, developerList,onCancel } = props;
     const { projects } = useSelector((state) => state.projectList);
+    const { user, userProfile } = useSelector((state) => state.user);
 
     const listOfSprints = getSprints(projects, projectId);
 
@@ -217,7 +220,7 @@ function TicketModal(props) {
                     </>
                 )}
 
-                <AppButton onClick={handleTicketAction} style={{ width: "100%" }}>
+                <AppButton disabled={!checkPermission(user.role.name,roles.scrummastersandadmins)} onClick={handleTicketAction} style={{ width: "100%" }}>
                     {ticketOperation == OperationEnum.CREATE ? "Create" : "Update"}
                 </AppButton>
             </AppModal>

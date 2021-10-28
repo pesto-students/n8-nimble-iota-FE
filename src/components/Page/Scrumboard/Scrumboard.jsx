@@ -189,7 +189,8 @@ function Scrumboard() {
                                                     background: snapshot.isDraggingOver
                                                         ? colors.dragEventBackground
                                                         : colors.droppableColumnBackground,
-                                                    border: snapshot.isDraggingOver ? "2px dashed" : "none",
+                                                    border: snapshot.isDraggingOver ? "1px dashed" : "none",
+                                                    borderRadius: "0.5em",
                                                 }}
                                             >
                                                 {filterScrumboardTickets(

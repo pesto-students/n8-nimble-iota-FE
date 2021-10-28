@@ -7,11 +7,13 @@ import CustomTag from "src/components/Common/CustomTag/CustomTag";
 import Notification from "src/components/Common/Notification/Notification";
 import styles from "src/components/Page/Backlog/Backlog.module.less";
 import TicketModal from "src/components/TicketModal/TicketModal";
+import roles from "src/config/roles";
 import { colors, fireStoreKeys } from "src/config/constants";
 import { OperationEnum } from "src/config/Enums";
 import { PriorityEnum, TicketTypeEnum } from "src/config/Enums.ts";
 import { deleteTicket, fetchAllDevlopersProject, fetchAllTickets } from "src/redux";
 import { addTicketToPoker, filterBacklogTickets, getAllDocs } from "src/util/helperFunctions";
+import Mounter from "src/components/Common/Mounter/Mounter";
 
 function Backlogs() {
     const { loading, filteredTicketList } = useSelector((state) => state.project.ticket);
@@ -22,10 +24,10 @@ function Backlogs() {
     const [pokerList, setPokerList] = useState([]);
     const dispatch = useDispatch();
 
-    const deleteBacklogTicket = (projectId,ticketid)=>{
+    const deleteBacklogTicket = (projectId, ticketid) => {
         dispatch(deleteTicket(projectId, ticketid));
-        return Notification("success","Ticket successfully deleted.")
-    }
+        return Notification("success", "Ticket successfully deleted.");
+    };
 
     const columns = [
         {
@@ -157,10 +159,9 @@ function Backlogs() {
         setOpenModal(false);
     };
 
-    return (
-        <>
-            {loading && <h4>Data is loading</h4>}
-            <Affix style={{ position: "absolute", bottom: 50, right: 30 }}>
+    const addTicketComponent = () => {
+        return (
+            <Affix style={{ position: "absolute", bottom: 50, right: 30, zIndex: 200 }}>
                 <PlusCircleFilled
                     disabled={loading}
                     onClick={() => {
@@ -170,6 +171,14 @@ function Backlogs() {
                     className={styles.addButton}
                 />
             </Affix>
+        );
+    };
+    const addTicketButton = Mounter(addTicketComponent, {})(roles.scrummastersandadmins);
+
+    return (
+        <>
+            {loading && <h4>Data is loading</h4>}
+            {addTicketButton}
             {!loading && (
                 <div>
                     <Table
