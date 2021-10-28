@@ -4,6 +4,10 @@ import logger from "redux-logger";
 import thunk from "redux-thunk";
 import rootReducer from "src/redux/rootReducer";
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger, thunk)));
+let middlewares = [thunk];
+if (process.env.REACT_APP_ENV !== "production") {
+    middlewares.push(logger);
+}
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(...middlewares)));
 
 export default store;
