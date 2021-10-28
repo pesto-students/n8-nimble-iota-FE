@@ -12,7 +12,13 @@ import { colors, fireStoreKeys } from "src/config/constants";
 import { OperationEnum } from "src/config/Enums";
 import { PriorityEnum, TicketTypeEnum } from "src/config/Enums.ts";
 import { deleteTicket, fetchAllDevlopersProject, fetchAllTickets, getUserData } from "src/redux";
-import { addTicketToPoker, filterBacklogTickets, filterDeveloeprColums, filterTicketById, getAllDocs } from "src/util/helperFunctions";
+import {
+    addTicketToPoker,
+    filterBacklogTickets,
+    filterDeveloeprColums,
+    filterTicketById,
+    getAllDocs,
+} from "src/util/helperFunctions";
 import Mounter, { checkPermission } from "src/components/Common/Mounter/Mounter";
 
 function Backlogs() {
@@ -25,7 +31,7 @@ function Backlogs() {
     const [pokerList, setPokerList] = useState([]);
     const dispatch = useDispatch();
 
-    const  [columns, setColumns] = useState([
+    const columns = [
         {
             title: "Ticket No.",
             dataIndex: "ticketId",
@@ -90,54 +96,58 @@ function Backlogs() {
             title: "Delete",
             dataIndex: "delete",
             align: "center",
-            render: (text, record, index) => (
-                <DeleteFilled
-                    style={{ fontSize: "20px" }}
-                    type="primary"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        deleteBacklogTicket(projectId, record.ticketId);
-                    }}
-                />
-            ),
+            render: (text, record, index) =>
+                !checkPermission(user.role.name, roles.scrummastersandadmins) ? (
+                    <h3>-</h3>
+                ) : (
+                    <DeleteFilled
+                        style={{ fontSize: "20px" }}
+                        type="primary"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            deleteBacklogTicket(projectId, record.ticketId);
+                        }}
+                    />
+                ),
         },
         {
             title: "Move to Poker",
             dataIndex: "move",
             align: "center",
-            render: (text, record) => (
-                <>
-                    {pokerList.find((ticketDetails) => record.ticketId === ticketDetails.ticketId) ? (
-                        <h3>-</h3>
-                    ) : (
-                        <RightCircleOutlined
-                            style={{ fontSize: "20px" }}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                //TODO use dispatch made by vishnu
-                                addTicketToPoker(projectId, record).then(
-                                    (res) => {
-                                        ticketInPoker();
-                                        return Notification("success", "Ticket Movedd to  Poker");
-                                    },
-                                    (err) => {
-                                        return Notification("error", "Error in moving ticket to poker");
-                                    }
-                                );
-                            }}
-                        />
-                    )}
-                </>
-            ),
+            render: (text, record) =>
+                !checkPermission(user.role.name, roles.scrummastersandadmins) ? (
+                    <h3>-</h3>
+                ) : (
+                    <>
+                        {pokerList.find((ticketDetails) => record.ticketId === ticketDetails.ticketId) ? (
+                            <h3>-</h3>
+                        ) : (
+                            <RightCircleOutlined
+                                style={{ fontSize: "20px" }}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    //TODO use dispatch made by vishnu
+                                    addTicketToPoker(projectId, record).then(
+                                        (res) => {
+                                            ticketInPoker();
+                                            return Notification("success", "Ticket Movedd to  Poker");
+                                        },
+                                        (err) => {
+                                            return Notification("error", "Error in moving ticket to poker");
+                                        }
+                                    );
+                                }}
+                            />
+                        )}
+                    </>
+                ),
         },
-    ])
+    ];
 
     const deleteBacklogTicket = (projectId, ticketid) => {
         dispatch(deleteTicket(projectId, ticketid));
         return Notification("success", "Ticket successfully deleted.");
     };
-
-  
 
     const [openModal, setOpenModal] = useState(false);
     const [clickedRow, setClickedRow] = useState(-1);
@@ -149,10 +159,11 @@ function Backlogs() {
     };
 
     useEffect(() => {
-        if(!checkPermission(user.role.name,roles.scrummastersandadmins)){
-            setColumns(filterDeveloeprColums(columns))
-
-        }
+        // if(!checkPermission(user.role.name,roles.scrummastersandadmins)){
+        //     setColumns(filterDeveloeprColums(allColumns))
+        // }else{
+        //     setColumns(allColumns)
+        // }
         dispatch(fetchAllTickets(projectId));
         dispatch(fetchAllDevlopersProject(projectId));
         dispatch(getUserData(user.id));
@@ -211,7 +222,7 @@ function Backlogs() {
                     visible={openModal}
                     width="400px"
                     ticketOperation={ticketOperation}
-                    ticketData={filterTicketById(backlogTickets,clickedRow)}
+                    ticketData={filterTicketById(backlogTickets, clickedRow)}
                     projectId={projectId}
                     developerList={developerList}
                 />
@@ -220,5 +231,4 @@ function Backlogs() {
     );
 }
 
-
-export default Backlogs
+export default Backlogs;
