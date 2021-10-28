@@ -1,5 +1,6 @@
+import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import classnames from "classnames";
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { matchPath, useLocation, useRouteMatch } from "react-router";
 import { Link } from "react-router-dom";
@@ -15,7 +16,7 @@ const Sidebar = () => {
     const { pathname } = useLocation();
     const { path, url } = useRouteMatch();
     const { user, userProfile } = useSelector((state) => state.user);
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const match = matchPath(pathname, { path: `${path}/:projectId/*` });
     const projectId = match?.params?.projectId;
     const projectUrl = `${url}/${projectId}`;
@@ -26,16 +27,22 @@ const Sidebar = () => {
     const backlogsUrl = `${url}/${projectId}/backlogs`;
     const isProject = !!projectId;
     const isMeet = pathname.endsWith("meet");
+    const breakpoints = useBreakpoint();
+    const smSize = !breakpoints.md;
+    const { sidebarHidden } = useSelector((state) => state.common);
     const sideBarClassNames = classnames([
         styles.sidebar,
         {
             [styles.hidden]: isMeet,
+            [styles.small]: smSize,
+            [styles.show]: !sidebarHidden,
         },
     ]);
 
     useEffect(() => {
-        dispatch(getUserData(user.id))
-    }, [])
+        dispatch(getUserData(user.id));
+    }, []);
+
     return (
         <section className={sideBarClassNames}>
             <div className={styles.main}>
@@ -61,7 +68,9 @@ const Sidebar = () => {
                     <>{isProjectList && <UserData />}</>
                 )}
             </div>
-            <div className={styles.footer}>Subscription : {checkIfPremiumUser(userProfile.subscription) ? "Premium" : "Free Version"}</div>
+            <div className={styles.footer}>
+                Subscription : {checkIfPremiumUser(userProfile.subscription) ? "Premium" : "Free Version"}
+            </div>
         </section>
     );
 };

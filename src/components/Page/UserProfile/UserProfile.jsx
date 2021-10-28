@@ -16,6 +16,7 @@ import { checkIfPremiumUser, getProjectFromProjectList } from "src/util/helperFu
 import { useRouting } from "src/util/hooks";
 import assetMap from "src/assets";
 import axios from "src/service/Axios";
+import Notification from "src/components/Common/Notification/Notification";
 
 function UserProfile() {
     const { TextArea } = Input;
@@ -56,11 +57,11 @@ function UserProfile() {
 
     const handleLocationTextChange = (e) => setLocationtext(e.target.value);
     const handleIntroTextChange = (e) => setIntroText(e.target.value);
-    const handlePhoneChange = (e)=>setPhone(e.target.value)
+    const handlePhoneChange = (e) => setPhone(e.target.value);
 
     const handleUpdate = () => {
         //TODO remove hardcode
-        dispatch(updateUserData(userProfile.name,phone, locationText, introText, user.id));
+        dispatch(updateUserData(userProfile.name, phone, locationText, introText, user.id));
     };
 
     useEffect(() => {
@@ -71,7 +72,7 @@ function UserProfile() {
     useEffect(() => {
         setIntroText(userProfile?.selfintro ?? "");
         setLocationtext(userProfile?.location ?? "");
-        setPhone(userProfile?.phone??"")
+        setPhone(userProfile?.phone ?? "");
     }, [userProfile]);
 
     const updatePaymentRequest = async (updatePaymentObject) => {
@@ -81,8 +82,7 @@ function UserProfile() {
             alert(resp.data.message);
             dispatch(getUserData(user.id));
         } else {
-            //TODO Add Notificaton
-            // console.log("Err", resp);
+            return Notification("error","Failed to update subscription.")
         }
     };
 
@@ -143,9 +143,9 @@ function UserProfile() {
     };
     return (
         <CardCustom style={{ width: "100%" }} loading={false}>
-            <div style={{ textAlign: "right" }}>
+            {/* <div style={{ textAlign: "right" }}>
                 <a href="#">change password ?</a>
-            </div>
+            </div> */}
             <Row>
                 <Col xs={{ span: 24 }} lg={{ span: 7, offset: 1 }} style={{ padding: "15px" }}>
                     <CardCustom className={styles.cardContainer} loading={false}>
@@ -188,7 +188,7 @@ function UserProfile() {
                                         size="large"
                                         style={{ width: "70%" }}
                                         value={phone}
-                                        onChange = {handlePhoneChange}
+                                        onChange={handlePhoneChange}
                                     />
                                 }
                             />
