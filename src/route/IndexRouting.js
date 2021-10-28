@@ -1,17 +1,18 @@
 import React, { lazy, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import componentLoader from "src/components/Common/Mounter/componentLoader";
 import AppTourContext from "src/contexts/AppTourContext";
 import { getUserData, loginUserSuccess } from "src/redux";
 import PrivateRoutes from "src/route/PrivateRoutes";
 import ProtectedRoute from "src/route/protected.route";
 
-const AccountActivate = lazy(() => import("src/components/Auth/AccountActivate"));
-const LandingPage = lazy(() => import("src/components/Page/LandingPage"));
-const PlayArea = lazy(() => import("src/components/PlayArea/PlayArea"));
-const Notfound = lazy(() => import("src/components/Page/Error/Notfound"));
-const Servererror = lazy(() => import("src/components/Page/Error/Servererror"));
-const InjectAxiosInterceptors = lazy(() => import("src/service/InjectAxiosInterceptors"));
+const AccountActivate = lazy(() => componentLoader(() => import("src/components/Auth/AccountActivate")));
+const LandingPage = lazy(() => componentLoader(() => import("src/components/Page/LandingPage")));
+const PlayArea = lazy(() => componentLoader(() => import("src/components/PlayArea/PlayArea")));
+const Notfound = lazy(() => componentLoader(() => import("src/components/Page/Error/Notfound")));
+const Servererror = lazy(() => componentLoader(() => import("src/components/Page/Error/Servererror")));
+const InjectAxiosInterceptors = lazy(() => componentLoader(() => import("src/service/InjectAxiosInterceptors")));
 
 function IndexRouting() {
     const dispatch = useDispatch();
@@ -21,7 +22,7 @@ function IndexRouting() {
         if (loggedInUser) {
             const foundUser = JSON.parse(loggedInUser);
             dispatch(loginUserSuccess(foundUser));
-            dispatch(getUserData(foundUser._id))
+            dispatch(getUserData(foundUser._id));
         }
     }, []);
 

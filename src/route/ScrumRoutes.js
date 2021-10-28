@@ -1,12 +1,13 @@
 import { lazy } from "react";
-import roles from "src/config/roles";
+import componentLoader from "src/components/Common/Mounter/componentLoader";
 import { SprintStatusEnum } from "src/config/Enums";
+import roles from "src/config/roles";
 
-const Poker = lazy(() => import("src/components/Page/Poker/Poker"));
-const Reports = lazy(() => import("src/components/Page/Reports/Reports"));
-const Retrospectives = lazy(() => import("src/components/Page/Retrospectives/Retrospectives"));
-const Scrumboard = lazy(() => import("src/components/Page/Scrumboard/Scrumboard"));
-const Standup = lazy(() => import("src/components/Page/Standup/Standup"));
+const Poker = lazy(() => componentLoader(() => import("src/components/Page/Poker/Poker")));
+const Reports = lazy(() => componentLoader(() => import("src/components/Page/Reports/Reports")));
+const Retrospectives = lazy(() => componentLoader(() => import("src/components/Page/Retrospectives/Retrospectives")));
+const Scrumboard = lazy(() => componentLoader(() => import("src/components/Page/Scrumboard/Scrumboard")));
+const Standup = lazy(() => componentLoader(() => import("src/components/Page/Standup/Standup")));
 
 const ScrumRoutes = [
     {

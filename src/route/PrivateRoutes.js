@@ -1,12 +1,13 @@
 import { lazy } from "react";
+import componentLoader from "src/components/Common/Mounter/componentLoader";
 import roles from "src/config/roles";
 
-const Backlogs = lazy(() => import("src/components/Page/Backlog/Backlogs"));
-const Home = lazy(() => import("src/components/Page/Home/Home"));
-const Retrospectives = lazy(() => import("src/components/Page/Retrospectives/Retrospectives"));
-const Scrumboard = lazy(() => import("src/components/Page/Scrumboard/Scrumboard"));
-const Subscription = lazy(() => import("src/components/Page/Subscription"));
-const UserProfile = lazy(() => import("src/components/Page/UserProfile/UserProfile"));
+const Backlogs = lazy(() => componentLoader(() => import("src/components/Page/Backlog/Backlogs")));
+const Home = lazy(() => componentLoader(() => import("src/components/Page/Home/Home")));
+const Retrospectives = lazy(() => componentLoader(() => import("src/components/Page/Retrospectives/Retrospectives")));
+const Scrumboard = lazy(() => componentLoader(() => import("src/components/Page/Scrumboard/Scrumboard")));
+const Subscription = lazy(() => componentLoader(() => import("src/components/Page/Subscription")));
+const UserProfile = lazy(() => componentLoader(() => import("src/components/Page/UserProfile/UserProfile")));
 
 const PrivateRoutes = [
     {
