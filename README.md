@@ -42,7 +42,9 @@ Nimble is an Agile Sprint management platform which provides functionality to ma
 
 ### Project Artifacts
 
-Link for the PRD : 
+Link for the PRD : https://docs.google.com/document/d/e/2PACX-1vSC8xFp4kAbnqykWznJ8h_maf9822SaMK_nNVWKqi5Ks7-0FI628xuGHDLpZduiwji_7fSqNehv7Vp4/pub
+
+One Pager : https://drive.google.com/file/d/1o1JnAjs5VN2c8HKWu2vgbzllwSFxy5vg/view?usp=sharing
 
 Wireframe Link: https://www.figma.com/file/MoEiBCzh58qnInvfRFHzyA/nimble?node-id=0%3A1
 
@@ -74,5 +76,11 @@ https://pesto-students.github.io/n8-nimble-iota-FE/docs/Apidocumentation
 
     [Email 📬](mailto:vipan16116@iiitd.ac.in)
 
-1. Vishnu Thiyagarajan
-2. Jyotirmaya Sahu
+2. ### Vishnu Thiyagarajan
+
+     Hi. I'm a JS developer & MERN Stack Enthusiast from Hyderabad. I love everything that has to do with Coding & Problem solving, Application designing and development. I have been working as a Software developer for 4.5 years on various technologies like Sentinel rule based engine and developed MERN Stack application from scratch.
+
+    [LinkedIn 💼](https://www.linkedin.com/in/vishnu-thiyagarajan-2aa6a6129/)
+
+    [Email 📬](mailto:mrtvishnu@gmail.com)
+3. Jyotirmaya Sahu
