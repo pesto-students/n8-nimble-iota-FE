@@ -28,6 +28,8 @@ Nimble is an Agile Sprint management platform which provides functionality to ma
    
    Demo: https://www.loom.com/share/ba62799fa1284cad866607dfca21008c
 3. Scrum Poker for Ticket Estimation
+   
+   Demo: https://www.loom.com/share/b0a6d47b57204b7bb7ee12461c27f708
 4. Scrum board for tracking tickets (with Drag Drop feature)
 5. 
    Demo Drag Drop: https://www.loom.com/share/4a989386babc4e439377173de2db2920
