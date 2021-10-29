@@ -20,9 +20,9 @@ const About = () => {
         },
         {
             name: "Jyotirmaya Sahu",
-            linkedIn: "",
-            github: "",
-            img: "",
+            linkedIn: "https://www.linkedin.com/in/jyotirmaya-sahu-52052b133/",
+            github: "https://github.com/i-am-jyotirmaya",
+            img: "https://firebasestorage.googleapis.com/v0/b/nim-ble.appspot.com/o/profile-images%2Fjyotirmayasahu38%40gmail.com?alt=media&token=c8c0d721-4699-4ac1-99b8-7061b1c08af4",
         },
     ];
 
