@@ -18,12 +18,12 @@ function LoginView(props) {
     const dispatch = useDispatch();
     console.log(process.env.DUMMY_SCRUM_EMAIL)
     const scrumMaster = {
-        email: process.env.DUMMY_SCRUM_EMAIL,
-        password: process.env.DUMMY_SCRUM_PASS,
+        email: process.env.REACT_APP_DUMMY_SCRUM_EMAIL,
+        password: process.env.REACT_APP_DUMMY_SCRUM_PASS,
     };
     const developer = {
-        email: process.env.DUMMY_DEV_EMAIL,
-        password: process.env.DUMMY_DEV_PASS,
+        email: process.env.REACT_APP_DUMMY_DEV_EMAIL,
+        password: process.env.REACT_APP_DUMMY_DEV_PASS,
     };
     const login = () => {
         if (Object.keys(errors).length === 0) dispatch(LoginUser(values.email, values.password));

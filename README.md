@@ -42,7 +42,9 @@ Nimble is an Agile Sprint management platform which provides functionality to ma
 
 ### Project Artifacts
 
-Link for the PRD : 
+Link for the PRD : https://docs.google.com/document/d/e/2PACX-1vSC8xFp4kAbnqykWznJ8h_maf9822SaMK_nNVWKqi5Ks7-0FI628xuGHDLpZduiwji_7fSqNehv7Vp4/pub
+
+One Pager : https://drive.google.com/file/d/1o1JnAjs5VN2c8HKWu2vgbzllwSFxy5vg/view?usp=sharing
 
 Wireframe Link: https://www.figma.com/file/MoEiBCzh58qnInvfRFHzyA/nimble?node-id=0%3A1
 

@@ -98,13 +98,13 @@ function UserProfile() {
     };
 
     const displayRazorpay = async () => {
-        const res = await loadScript(process.env.RAZORPAY_SCRIPT);
+        const res = await loadScript(process.env.REACT_APP_RAZORPAY_SCRIPT);
         if (!res) {
             return Notification("error","Payments failed to load")
         }
         const resp = await axios.post("/createOrder", { email: userProfile?.email ?? "", amount: subscriptionAMount });
         const options = {
-            key: process.env.PAYMENT_ID,
+            key: process.env.REACT_APP_PAYMENT_ID,
             currency: resp.data.order.currency,
             amount: resp.data.order.amount,
             order_id: resp.data.order.id,
