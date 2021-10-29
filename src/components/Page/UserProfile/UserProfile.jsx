@@ -9,7 +9,7 @@ import CustomTag from "src/components/Common/CustomTag/CustomTag";
 import Mounter from "src/components/Common/Mounter/Mounter";
 import styles from "src/components/Page/UserProfile/Userprofile.module.less";
 import TicketListItem from "src/components/TicketModal/TicketListItem";
-import { colors } from "src/config/constants";
+import { colors, subscriptionAMount } from "src/config/constants";
 import roles from "src/config/roles";
 import { ChangeImage, getUserData, updateUserData } from "src/redux";
 import { checkIfPremiumUser, getProjectFromProjectList } from "src/util/helperFunctions";
@@ -60,7 +60,6 @@ function UserProfile() {
     const handlePhoneChange = (e) => setPhone(e.target.value);
 
     const handleUpdate = () => {
-        //TODO remove hardcode
         dispatch(updateUserData(userProfile.name, phone, locationText, introText, user.id));
     };
 
@@ -77,9 +76,8 @@ function UserProfile() {
     const updatePaymentRequest = async (updatePaymentObject) => {
         const resp = await axios.post("/updatePayment", updatePaymentObject);
         if (resp.data.success) {
-            //TODO Add Notificaton
-            alert(resp.data.message);
             dispatch(getUserData(user.id));
+            return Notification("success",resp.data.message)
         } else {
             return Notification("error","Failed to update subscription.")
         }
@@ -100,15 +98,13 @@ function UserProfile() {
     };
 
     const displayRazorpay = async () => {
-        const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+        const res = await loadScript(process.env.RAZORPAY_SCRIPT);
         if (!res) {
-            alert("Razorpay SDK failed to load. Are you online?");
-            return;
+            return Notification("error","Payments failed to load")
         }
-        const resp = await axios.post("/createOrder", { email: userProfile?.email ?? "", amount: 5000 });
-
+        const resp = await axios.post("/createOrder", { email: userProfile?.email ?? "", amount: subscriptionAMount });
         const options = {
-            key: "rzp_test_EyqvUaeet9A4Fy",
+            key: process.env.PAYMENT_ID,
             currency: resp.data.order.currency,
             amount: resp.data.order.amount,
             order_id: resp.data.order.id,

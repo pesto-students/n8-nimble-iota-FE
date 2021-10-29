@@ -127,7 +127,6 @@ function Backlogs() {
                                 style={{ fontSize: "20px" }}
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    //TODO use dispatch made by vishnu
                                     addTicketToPoker(projectId, record).then(
                                         (res) => {
                                             ticketInPoker();
@@ -160,11 +159,6 @@ function Backlogs() {
     };
 
     useEffect(() => {
-        // if(!checkPermission(user.role.name,roles.scrummastersandadmins)){
-        //     setColumns(filterDeveloeprColums(allColumns))
-        // }else{
-        //     setColumns(allColumns)
-        // }
         dispatch(fetchAllTickets(projectId));
         dispatch(fetchAllDevlopersProject(projectId));
         dispatch(getUserData(user.id));

@@ -7,13 +7,13 @@ import styles from "src/components/Common/Landing/About/About.module.less";
 const About = () => {
     const data = [
         {
-            name: "Vishnu Thiyagarajan",
-            linkedIn: "",
-            github: "",
-            img: "",
+            name: "Vipan Kumar",
+            linkedIn: "https://www.linkedin.com/in/vipank/",
+            github: "https://github.com/Vipank",
+            img: "https://firebasestorage.googleapis.com/v0/b/nim-ble.appspot.com/o/profile-images%2Fabout_vipan.jpeg?alt=media&token=468f67ed-0942-4e54-957e-d4ba39ba03f0",
         },
         {
-            name: "Vipan Kumar",
+            name: "Vishnu Thiyagarajan",
             linkedIn: "",
             github: "",
             img: "",

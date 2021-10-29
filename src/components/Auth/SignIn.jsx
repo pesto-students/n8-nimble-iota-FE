@@ -16,13 +16,14 @@ function LoginView(props) {
     const { Text } = Typography;
     const { loading } = useSelector((state) => state.user);
     const dispatch = useDispatch();
+    console.log(process.env.DUMMY_SCRUM_EMAIL)
     const scrumMaster = {
-        email: "pestonimble@gmail.com",
-        password: "pestonimble",
+        email: process.env.DUMMY_SCRUM_EMAIL,
+        password: process.env.DUMMY_SCRUM_PASS,
     };
     const developer = {
-        email: "vipan16116@gmail.com",
-        password: "pestonimble",
+        email: process.env.DUMMY_DEV_EMAIL,
+        password: process.env.DUMMY_DEV_PASS,
     };
     const login = () => {
         if (Object.keys(errors).length === 0) dispatch(LoginUser(values.email, values.password));
