@@ -14,9 +14,9 @@ const About = () => {
         },
         {
             name: "Vishnu Thiyagarajan",
-            linkedIn: "",
-            github: "",
-            img: "",
+            linkedIn: "https://www.linkedin.com/in/vishnu-thiyagarajan-2aa6a6129/",
+            github: "https://github.com/vishnu-thiyagarajan",
+            img: "https://firebasestorage.googleapis.com/v0/b/nim-ble.appspot.com/o/profile-images%2Fmrtvishnu%40gmail.com?alt=media&token=1527b6eb-6ccf-4fac-b695-12f82ad89b04",
         },
         {
             name: "Jyotirmaya Sahu",
