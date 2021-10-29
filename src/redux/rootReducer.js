@@ -4,6 +4,7 @@ import memberSearchReducer from "src/redux/memberSearch/memberSearchReducer";
 import projectReducer from "src/redux/Project/projectReducer";
 import sprintReducer from "src/redux/Project/Sprint/SprintReducer";
 import projectListReducer from "src/redux/projectList/projectListReducer";
+import { LOGOUT_USER_SUCCESS } from "src/redux/user/userActionTypes";
 import userReducer from "src/redux/user/userReducer";
 
 const rootReducer = combineReducers({
@@ -15,4 +16,12 @@ const rootReducer = combineReducers({
     memberSearch: memberSearchReducer,
 });
 
-export default rootReducer;
+const appReducer = (state, action) => {
+    if (action.type === LOGOUT_USER_SUCCESS) {
+      return rootReducer(undefined, action)
+    }
+  
+    return rootReducer(state, action)
+}
+
+export default appReducer;
