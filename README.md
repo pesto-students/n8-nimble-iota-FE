@@ -76,5 +76,11 @@ https://pesto-students.github.io/n8-nimble-iota-FE/docs/Apidocumentation
 
     [Email 📬](mailto:vipan16116@iiitd.ac.in)
 
-1. Vishnu Thiyagarajan
-2. Jyotirmaya Sahu
+2. ### Vishnu Thiyagarajan
+
+     Hi. I'm a JS developer & MERN Stack Enthusiast from Hyderabad. I love everything that has to do with Coding & Problem solving, Application designing and development. I have been working as a Software developer for 4.5 years on various technologies like Sentinel rule based engine and developed MERN Stack application from scratch.
+
+    [LinkedIn 💼](https://www.linkedin.com/in/vishnu-thiyagarajan-2aa6a6129/)
+
+    [Email 📬](mailto:mrtvishnu@gmail.com)
+3. Jyotirmaya Sahu
