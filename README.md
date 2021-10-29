@@ -4,8 +4,8 @@
 </p>
 <p align="center"><b>Nimble Frontend</b></p>
 <p align="center">Nimble : Quickly, Easily and lightly</p>
-̦
 <p align="center">Live url : <a>https://nim-ble.netlify.app</a></p>
+
 
 <hr>
 
@@ -63,4 +63,16 @@ https://pesto-students.github.io/n8-nimble-iota-FE/docs/intro
 https://pesto-students.github.io/n8-nimble-iota-FE/docs/Apidocumentation
 
 
+### Team
 
+
+1. ### Vipan kumar
+
+    Hey there. I am a passionate coder from Hoshiarpur, punjab.  I am currently working with MakeMyTrip India . I have industry experience of 1 year. For the last year, I am working on ReactJs and NodeJs. I have built Reporting Engine from scratch to fetch data from different sources parallel and was able to acheive good latencies (less than 800ms). 
+
+    [LinkedIn 💼](https://www.linkedin.com/in/vipank/")
+
+    [Email 📬](mailto:vipan16116@iiitd.ac.in)
+
+1. Vishnu Thiyagarajan
+2. Jyotirmaya Sahu
