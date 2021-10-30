@@ -1,15 +1,16 @@
+import { Card } from "antd";
 import React, { useEffect, useState } from "react";
-import styles from "src/components/Page/Projects/Projects.module.less";
-import { useDispatch } from "react-redux";
-import { loadProjects } from "src/redux/projectList/projectListActions";
+import { useDispatch, useSelector } from "react-redux";
+import assetMap from "src/assets";
+import AppButton from "src/components/Common/AppButton/AppButton";
+import AppModal from "src/components/Common/AppModal/AppModal";
+import Mounter from "src/components/Common/Mounter/Mounter";
 import ProjectItem from "src/components/Common/ProjectItem/ProjectItem";
 import Searchbox from "src/components/Common/Searchbox/Searchbox";
-import AppButton from "src/components/Common/AppButton/AppButton";
+import styles from "src/components/Page/Projects/Projects.module.less";
+import roles from "src/config/roles";
+import { loadProjects } from "src/redux/projectList/projectListActions";
 import { useRouting } from "src/util/hooks";
-import { useSelector } from "react-redux";
-import AppModal from "src/components/Common/AppModal/AppModal";
-import assetMap from "src/assets";
-import { Card } from "antd";
 
 const { Meta } = Card;
 const Projects = (props) => {
@@ -38,16 +39,25 @@ const Projects = (props) => {
             </div>
         ));
     };
+
+    const createProjectButton = () => {
+        return (
+            <div className={styles.createButton}>
+                <AppButton size="large" onClick={openCreate} data-tour="step-5">
+                    Create Project
+                </AppButton>
+            </div>
+        );
+    };
+
+    const createProject = Mounter(createProjectButton, {})(roles.scrummastersandadmins);
     return (
         <>
             <div>
                 <Searchbox className={styles.searchBar} placeholder="Search all projects .." loading={false} />
             </div>
-            <div className={styles.createButton}>
-                <AppButton size="large" onClick={openCreate}>
-                    Create Project
-                </AppButton>
-            </div>
+            <br></br>
+            {createProject}
             <div className={styles.project}>{prepareJsx()}</div>
             <AppModal visible={create} handleCancel={closeCreate}>
                 <Card bordered={false} cover={<img alt="under construction" src={assetMap("comingsoon")} />}>

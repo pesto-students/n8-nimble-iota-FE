@@ -85,13 +85,14 @@ function Ticket({ onClick, index, ticketData }) {
                         disabled={true}
                         onClick={handleClick}
                         style={{
-                            border: `2px solid ${classNames({
+                            border: `1px solid ${classNames({
                                 [colors.ticketBorderRed]: ticketData.status === TicketStatusEnum.TODO,
                                 [colors.ticketBorderOrange]: ticketData.status === TicketStatusEnum.INPROGRESS,
                                 [colors.ticketBorderGreen]: ticketData.status === TicketStatusEnum.COMPLETE,
                             })}`,
+                            borderRadius: "0.5em",
                         }}
-                        bodyStyle={{ height: "100%", padding: "8px",pointerEvents : 'none' }}
+                        bodyStyle={{ height: "100%", padding: "8px", pointerEvents: "none" }}
                     >
                         <div className={styles.ticketHeader}>
                             <div className="ticketTitle" style={{ width: "50%" }}>

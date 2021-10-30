@@ -1,37 +1,36 @@
-import React, { useState, useEffect } from "react";
-import { CheckCircleFilled, PhoneFilled, PlusCircleFilled } from "@ant-design/icons";
-import { useDispatch, useSelector } from "react-redux";
-import {
-    fetchAllDevlopersProject,
-    fetchAllTickets,
-    incrementStroyPoints,
-    completeSprint,
-    startSprint,
-    updateTicketStatus,
-    fetchRetrospectives,
-} from "src/redux";
+import { CheckCircleFilled, PhoneFilled } from "@ant-design/icons";
+import classNames from "classnames";
 import PropTypes from "prop-types";
-import styles from "src/components/Page/Scrumboard/Scrumboard.module.less";
-import { DragDropContext } from "react-beautiful-dnd";
-import { Droppable } from "react-beautiful-dnd";
+import React, { useEffect, useState } from "react";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import AppButton from "src/components/Common/AppButton/AppButton";
+import Mounter from "src/components/Common/Mounter/Mounter";
+import ConfirmCompleteSprint from "src/components/Page/Retrospectives/ConfirmCompleteSprint";
+import styles from "src/components/Page/Scrumboard/Scrumboard.module.less";
 import Ticket from "src/components/Page/Scrumboard/Ticket/Ticket";
 import TicketModal from "src/components/TicketModal/TicketModal";
+import { colors } from "src/config/constants";
+import { OperationEnum, SprintStatusEnum, TicketStatusEnum } from "src/config/Enums";
+import roles from "src/config/roles";
+import {
+    completeSprint,
+    fetchAllDevlopersProject,
+    fetchAllTickets,
+    fetchRetrospectives,
+    incrementStroyPoints,
+    startSprint,
+    updateTicketStatus,
+} from "src/redux";
 import {
     checkEndSprint,
     checkStartSprint,
     filterScrumboardTickets,
     isRetrospectiveDone,
 } from "src/util/helperFunctions";
-import { colors } from "src/config/constants";
-import { Link } from "react-router-dom";
 import { useMeeting } from "src/util/hooks";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-import { OperationEnum, SprintStatusEnum, TicketStatusEnum } from "src/config/Enums";
-import Mounter from "src/components/Common/Mounter/Mounter";
-import roles from "src/config/roles";
-import classNames from "classnames";
-import ConfirmCompleteSprint from "src/components/Page/Retrospectives/ConfirmCompleteSprint";
 
 const Heading = ({ text }) => {
     return (
@@ -95,15 +94,11 @@ function Scrumboard() {
                 size={"middle"}
                 onClick={handleSprint}
             >
-                {/* TODO 
-                Start sprint --> previous sprint complete and atleast one ticket in Todo
-                Mark complete --> if last day of sprint || (all tickets complete and retros.length > =1)
-                */}
                 <CheckCircleFilled />
                 {selectedSprint?.status == SprintStatusEnum.COMPLETED
                     ? "Completed"
                     : selectedSprint?.status === SprintStatusEnum.ACTIVE
-                    ? "Finish Sprint ?"
+                    ? "Finish Sprint"
                     : "Start Sprint"}
             </AppButton>
         );
@@ -146,6 +141,7 @@ function Scrumboard() {
     };
 
     const meetUrl = useMeeting();
+    // console.log(meetUrl);
 
     return (
         <>
@@ -158,7 +154,12 @@ function Scrumboard() {
                 >
                     <div className={styles.actions}>
                         <Link to={meetUrl} target="_blank">
-                            <AppButton disabled={selectedSprint.status!== SprintStatusEnum.ACTIVE} loading={false} size={"middle"} style={{ marginRight: "8px" }}>
+                            <AppButton
+                                disabled={selectedSprint.status !== SprintStatusEnum.ACTIVE}
+                                loading={false}
+                                size={"middle"}
+                                style={{ marginRight: "8px" }}
+                            >
                                 <PhoneFilled /> Join Call
                             </AppButton>
                         </Link>
@@ -188,7 +189,8 @@ function Scrumboard() {
                                                     background: snapshot.isDraggingOver
                                                         ? colors.dragEventBackground
                                                         : colors.droppableColumnBackground,
-                                                    border: snapshot.isDraggingOver ? "2px dashed" : "none",
+                                                    border: snapshot.isDraggingOver ? "1px dashed" : "none",
+                                                    borderRadius: "0.5em",
                                                 }}
                                             >
                                                 {filterScrumboardTickets(
@@ -205,6 +207,11 @@ function Scrumboard() {
                                                         />
                                                     );
                                                 })}
+                                                {filterScrumboardTickets(
+                                                    ticketList,
+                                                    selectedSprint?._id ?? "",
+                                                    column.id
+                                                ).length === 0 && <h3>No tickets to display</h3>}
                                                 {provided.placeholder}
                                             </div>
                                         )}

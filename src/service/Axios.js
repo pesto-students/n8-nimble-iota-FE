@@ -1,13 +1,16 @@
 import axios from "axios";
+import { setLoadingFalse, setLoadingTrue } from "src/redux";
 
 // eslint-disable-next-line no-undef
 axios.defaults.baseURL = process.env.REACT_APP_DBURL;
 axios.defaults.withCredentials = true;
-import { setLoadingTrue, setLoadingFalse } from "src/redux";
 
 export const setupAxios = (history, dispatch) => {
     axios.interceptors.request.use(
         (config) => {
+            const loggedInUser = localStorage.getItem("user");
+            const foundUser = loggedInUser && JSON.parse(loggedInUser);
+            if (!config.headers?.Authorization) config.headers.Authorization = "Bearer " + foundUser?.accessToken;
             dispatch(setLoadingTrue());
             return config;
         },
@@ -40,6 +43,9 @@ export const setupAxios = (history, dispatch) => {
                     })
                     .then((res) => {
                         if (res.status === 200) {
+                            foundUser.accessToken = res.data?.accessToken;
+                            localStorage.setItem("user", JSON.stringify(foundUser));
+                            originalRequest.headers.Authorization = "Bearer " + foundUser.accessToken;
                             return axios(originalRequest);
                         }
                     })

@@ -1,14 +1,12 @@
-import axios from "../../../service/Axios";
-
+import { loadProjects } from "src/redux";
 import {
+    MARK_SPRINT_COMPLETE,
     SET_SELECTED_SPRINT,
     SET_SPRINT_LIST,
-    MARK_SPRINT_COMPLETE,
-    START_SPRINT_REQUEST,
-    START_SPRINT_SUCCESS,
     START_SPRINT_FAILURE,
+    START_SPRINT_SUCCESS,
 } from "src/redux/Project/Sprint/SprintActionTypes";
-import { fetchAllTickets, loadProjects } from "src/redux";
+import axios from "../../../service/Axios";
 
 export const setSelectedSprint = (sprint) => ({
     type: SET_SELECTED_SPRINT,
@@ -46,6 +44,7 @@ export const startSprint = (projectId, selectedSprint) => {
         axios
             .post("/startsprint", { projectId, sprintId: selectedSprint?._id })
             .then((response) => {
+                dispatch(loadProjects());
                 dispatch(startSprintSuccess(response.data.message));
                 dispatch(setSelectedSprint(selectedSprint));
             })
@@ -64,8 +63,8 @@ export const completeSprint = (selectedSprint) => {
         axios
             .put("/completesprint", { sprintId: selectedSprint._id })
             .then((response) => {
-                dispatch(markSprintComplete(response.data.message));
                 dispatch(loadProjects());
+                dispatch(markSprintComplete(response.data.message));
             })
             .catch((error) => {
                 if (error.response) {

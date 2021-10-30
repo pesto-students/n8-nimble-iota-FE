@@ -1,8 +1,8 @@
-import React from "react";
-import { Affix } from "antd";
-import AppButton from "src/components/Common/AppButton/AppButton";
 import { PlusCircleFilled } from "@ant-design/icons/lib/icons";
+import { Affix } from "antd";
 import PropTypes from "prop-types";
+import React from "react";
+import AppButton from "src/components/Common/AppButton/AppButton";
 import styles from "src/components/Common/FloatingAdd/FloatingAdd.module.less";
 
 function FloatingAdd({ onClick, loading }) {

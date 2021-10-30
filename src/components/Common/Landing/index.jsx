@@ -1,10 +1,10 @@
 import React from "react";
 import { Element } from "react-scroll";
+import About from "src/components/Common/Landing/About/About";
+import Features from "src/components/Common/Landing/Features/Features";
 import styles from "src/components/Common/Landing/index.module.less";
 import LandingMain from "src/components/Common/Landing/Main/LandingMain";
-import Features from "src/components/Common/Landing/Features/Features";
 import Pricing from "src/components/Common/Landing/Pricing/Pricing";
-import About from "src/components/Common/Landing/About/About";
 
 const Landing = () => {
     return (

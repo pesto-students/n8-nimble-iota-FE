@@ -1,7 +1,7 @@
-import React from "react";
 import classNames from "classnames";
-import styles from "src/components/Common/ListItem/ListItem.module.less";
 import PropTypes from "prop-types";
+import React from "react";
+import styles from "src/components/Common/ListItem/ListItem.module.less";
 
 const ListItem = ({ label, fullWidth, Component }) => {
     return (

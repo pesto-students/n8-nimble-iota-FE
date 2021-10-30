@@ -1,8 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styles from "src/components/Common/Sidebar/BacklogsControls/BacklogsControls.module.less";
 import { Checkbox, Radio } from "antd";
+import React from "react";
 import { useDispatch } from "react-redux";
+import styles from "src/components/Common/Sidebar/BacklogsControls/BacklogsControls.module.less";
 import { filterTickets, sortTickets } from "src/redux";
 
 const BacklogsControls = (props) => {

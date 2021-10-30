@@ -1,10 +1,8 @@
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import { fireStoreKeys } from "src/config/constants";
-import { SprintStatusEnum } from "src/config/Enums.ts";
-import { TicketStatusEnum } from "src/config/Enums.ts";
-import { fbfirestore } from "src/service/firebase";
-import { doc, addDoc, setDoc, collection, getDoc, getDocs, updateDoc } from "firebase/firestore";
-import { async } from "@firebase/util";
 import { RetroTypeEnum } from "src/config/Enums";
+import { SprintStatusEnum, TicketStatusEnum } from "src/config/Enums.ts";
+import { fbfirestore } from "src/service/firebase";
 
 export const transformEnum = (enumObject) => {
     // This function converts enum to array of Objects. Eg [HIGH,MEDIUM] ----> [{_id:0,name: HIGH},{_id:1,name: MEDIUM}]
@@ -32,21 +30,23 @@ export const extractInitials = (/**@type{String} */ name) => {
 export const getDateFromString = (dateString) => (dateString ? new Date(dateString).toLocaleDateString() : undefined);
 
 export const generatePieChartData = (ticketList, developerList) => {
-    console.log("test", ticketList, developerList);
     const map = {};
     ticketList.forEach((ticket) => {
         const assignee = getAssigneeName(ticket, developerList);
-        if (map[assignee]) {
-            map[assignee] = map[assignee] + 1;
-        } else {
-            map[assignee] = 1;
+        if(assignee){
+            if (map[assignee]) {
+                map[assignee] = map[assignee] + 1;
+            } else {
+                map[assignee] = 1;
+            }
         }
+      
     });
     return map;
 };
 
 export const getAssigneeName = (ticket, userList) => {
-    return userList.find((user) => user["_id"] == ticket.assignee).name;
+    return userList.find((user) => user["_id"] == ticket.assignee)?.name ?? "";
 };
 
 export const generatePointsVsDate = (reportData) => {
@@ -186,3 +186,35 @@ export const isRetrospectiveDone = (retros) => {
         ? true
         : false;
 };
+
+export const checkIfPremiumUser = (subscriptionArray) => {
+    //This method checks if subscription length is greater than zero then return true meaning user has a subscription
+    return subscriptionArray?.length > 0 ? true : false
+};
+
+export const geenrateAverage = (arr1,arr2) => {
+    //This method geenrates an array of average values of given two arrays
+  
+};
+
+export const getPreviousSprint = (sprintList,sprintId) => {
+    //Think better approach. Considering index is not good
+    const index = sprintList.findIndex((sprint)=>sprint._id === sprintId)
+    if(index < 0 || index === 0){
+        return sprintId
+    }else{
+        return sprintList[index-1]
+    }
+}
+
+
+export const filterTicketById = (ticketList,id) =>{
+    //Ticket will always be there, so no need of null check
+    const index = ticketList.findIndex((ticket)=>ticket._id === id)
+    return ticketList[index]
+    
+}
+
+export const filterDeveloeprColums = (columns)=>{
+    return columns.filter((col)=>col.dataIndex!== 'move' && col.dataIndex!=='delete' )
+}

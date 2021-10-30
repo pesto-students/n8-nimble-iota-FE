@@ -1,19 +1,22 @@
-import React, { useEffect, useState, useRef } from "react";
 import { CloudUploadOutlined, TrophyTwoTone } from "@ant-design/icons";
 import { Avatar, Col, Divider, Input, Row } from "antd";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AppButton from "src/components/Common/AppButton/AppButton";
 import AppInput from "src/components/Common/AppInput/AppInput";
 import CardCustom from "src/components/Common/Card/Card";
 import CustomTag from "src/components/Common/CustomTag/CustomTag";
+import Mounter from "src/components/Common/Mounter/Mounter";
 import styles from "src/components/Page/UserProfile/Userprofile.module.less";
 import TicketListItem from "src/components/TicketModal/TicketListItem";
 import { colors } from "src/config/constants";
-import { getUserData, updateUserData, ChangeImage } from "src/redux";
-import { getProjectFromProjectList } from "src/util/helperFunctions";
-import { useRouting } from "src/util/hooks";
-import Mounter from "src/components/Common/Mounter/Mounter";
 import roles from "src/config/roles";
+import { ChangeImage, getUserData, updateUserData } from "src/redux";
+import { checkIfPremiumUser, getProjectFromProjectList } from "src/util/helperFunctions";
+import { useRouting } from "src/util/hooks";
+import { displayRazorpay } from "src/components/Page/UserProfile/Razorpay";
+import Notification from "src/components/Common/Notification/Notification";
+import axios from "src/service/Axios";
 
 function UserProfile() {
     const { TextArea } = Input;
@@ -23,18 +26,24 @@ function UserProfile() {
     const inputFile = useRef(null);
     const [locationText, setLocationtext] = useState(userProfile?.location ?? "");
     const [introText, setIntroText] = useState(userProfile?.selfintro ?? "");
-    const router = useRouting();
+    const [phone, setPhone] = useState(userProfile?.phone ?? "");
+    const { navigate, url } = useRouting();
 
     const updateSub = () => {
         return (
             <div className={styles.action}>
-                <AppButton disabled={true} style={{ width: "100%" }}>
-                    Update Subscption
+                <AppButton
+                    onClick={()=>displayRazorpay(userProfile,updatePaymentRequest)}
+                    disabled={checkIfPremiumUser(userProfile.subscription)}
+                    style={{ width: "100%" }}
+                >
+                    {checkIfPremiumUser(userProfile.subscription) && "Already Subscribed"}
+                    {!checkIfPremiumUser(userProfile.subscription) && "Update Subscription"}
                 </AppButton>
             </div>
         );
     };
-
+    
     const updateSubscriptionButton = Mounter(updateSub, {})(roles.scrummastersandadmins);
 
     const openUploadBox = () => {
@@ -42,36 +51,51 @@ function UserProfile() {
     };
     const handleUpload = (e) => {
         const imgToUpload = e.target.files[0];
-        dispatch(ChangeImage(imgToUpload, userProfile?.email ?? "", "6152f4685c6326c6388b36c9"));
+        dispatch(ChangeImage(imgToUpload, userProfile?.email ?? "", user.id));
     };
     const dispatch = useDispatch();
 
     const handleLocationTextChange = (e) => setLocationtext(e.target.value);
     const handleIntroTextChange = (e) => setIntroText(e.target.value);
+    const handlePhoneChange = (e) => setPhone(e.target.value);
 
     const handleUpdate = () => {
-        console.log(userProfile.name, userProfile.phone, locationText, introText);
-        //TODO remove hardcode
-        dispatch(
-            updateUserData(userProfile.name, userProfile.phone, locationText, introText, "6152f4685c6326c6388b36c9")
-        );
+        dispatch(updateUserData(userProfile.name, phone, locationText, introText, user.id));
     };
 
     useEffect(() => {
-        //TODO remove hardcode
-        dispatch(getUserData("6152f4685c6326c6388b36c9"));
+        dispatch(getUserData(user.id));
     }, []);
 
     useEffect(() => {
         setIntroText(userProfile?.selfintro ?? "");
         setLocationtext(userProfile?.location ?? "");
+        setPhone(userProfile?.phone ?? "");
     }, [userProfile]);
+
+
+    const handleProjectClick = (pid) => {
+        let urlSplit = url.split("/");
+        urlSplit = urlSplit.slice(0, -1);
+        const projectUrl = `${urlSplit.join("/")}/${pid}`;
+        navigate(projectUrl, true);
+    };
+
+    const updatePaymentRequest = async (updatePaymentObject) => {
+        const resp = await axios.post("/updatePayment", updatePaymentObject);
+        if (resp.data.success) {
+            dispatch(getUserData(user.id));
+            return Notification("success", resp.data.message);
+        } else {
+            return Notification("error", "Failed to update subscription.");
+        }
+    };
 
     return (
         <CardCustom style={{ width: "100%" }} loading={false}>
-            <div style={{ textAlign: "right" }}>
+            {/* <div style={{ textAlign: "right" }}>
                 <a href="#">change password ?</a>
-            </div>
+            </div> */}
             <Row>
                 <Col xs={{ span: 24 }} lg={{ span: 7, offset: 1 }} style={{ padding: "15px" }}>
                     <CardCustom className={styles.cardContainer} loading={false}>
@@ -113,8 +137,8 @@ function UserProfile() {
                                         isPassword={false}
                                         size="large"
                                         style={{ width: "70%" }}
-                                        value={userProfile?.phone ?? ""}
-                                        disabled={true}
+                                        value={phone}
+                                        onChange={handlePhoneChange}
                                     />
                                 }
                             />
@@ -138,7 +162,6 @@ function UserProfile() {
                                 Component={
                                     <TextArea
                                         placeholder="This is your description"
-                                        isPassword={false}
                                         size="large"
                                         style={{ width: "70%" }}
                                         value={introText}
@@ -158,7 +181,9 @@ function UserProfile() {
                             <TrophyTwoTone style={{ fontSize: "150px" }} />
                         </div>
                         <div className={styles.meta}>Subscription</div>
-                        <div className={styles.role}>Premium</div>
+                        <div className={styles.role}>
+                            {checkIfPremiumUser(userProfile.subscription) ? "Premium" : "Free Version"}
+                        </div>
                         {updateSubscriptionButton}
                     </CardCustom>
                 </Col>
@@ -169,23 +194,24 @@ function UserProfile() {
                             <Divider className={styles.dividerStyle} />
                             {userProfile.projects?.map((pid, index) => {
                                 const projectItem = getProjectFromProjectList(projects, pid);
-                                projectItem && (
-                                    <TicketListItem
-                                        key={index}
-                                        label={projectItem?.projectName ?? ""}
-                                        Component={
-                                            <>
-                                                <CustomTag
-                                                    color={colors.tagBlue}
-                                                    text={"Click to Open"}
-                                                    onClick={() => {
-                                                        router.navigate(pid);
-                                                    }}
-                                                    click
-                                                />
-                                            </>
-                                        }
-                                    />
+                                return (
+                                    projectItem && (
+                                        <TicketListItem
+                                            key={index}
+                                            label={projectItem?.projectName ?? ""}
+                                            Component={
+                                                <>
+                                                    <CustomTag
+                                                        color={colors.tagBlue}
+                                                        text={"Click to Open"}
+                                                        onClick={() => {
+                                                            handleProjectClick(pid);
+                                                        }}
+                                                    />
+                                                </>
+                                            }
+                                        />
+                                    )
                                 );
                             })}
                         </div>

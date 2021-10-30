@@ -1,14 +1,16 @@
+import PropTypes from "prop-types";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
-import PropTypes from "prop-types";
 
 function Bar({ map }) {
+    const values = Object.values(map)
+    const keys = Object.keys(map)
 
     const state = {
         series: [
             {
                 name: "",
-                data: Object.values(map),
+                data: values,
             },
         ],
         options: {
@@ -19,7 +21,7 @@ function Bar({ map }) {
             plotOptions: {
                 bar: {
                     borderRadius: 10,
-                    width :  "10%",
+                    columnWidth: `${40}%`,
                     dataLabels: {
                         position: "top", // top, center, bottom
                     },
@@ -30,7 +32,7 @@ function Bar({ map }) {
             },
 
             xaxis: {
-                categories:  Object.keys(map),
+                categories: keys,
                 position: "top",
                 axisBorder: {
                     show: false,
@@ -65,15 +67,15 @@ function Bar({ map }) {
                     show: true,
                 },
             },
-            title: {
-                text: "Story Points completed each day.",
-                floating: true,
-                offsetY: 330,
-                align: "center",
-                style: {
-                    color: "#444",
-                },
-            },
+            // title: {
+            //     text: "Story Points completed each day.",
+            //     floating: true,
+            //     offsetY: 330,
+            //     align: "center",
+            //     style: {
+            //         color: "#444",
+            //     },
+            // },
         },
     };
 

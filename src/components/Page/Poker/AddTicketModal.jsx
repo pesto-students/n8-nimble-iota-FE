@@ -1,9 +1,9 @@
-import React from "react";
-import AppModal from "src/components/Common/AppModal/AppModal";
 import { Form } from "antd";
-import AppSelect from "src/components/Common/AppSelect/AppSelect";
-import AppButton from "src/components/Common/AppButton/AppButton";
 import PropTypes from "prop-types";
+import React from "react";
+import AppButton from "src/components/Common/AppButton/AppButton";
+import AppModal from "src/components/Common/AppModal/AppModal";
+import AppSelect from "src/components/Common/AppSelect/AppSelect";
 
 function AddTicketModal({ addTicket, closeAddTicket, ticketList, onChangeTicketid, AddTicketToPoker }) {
     return (

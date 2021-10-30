@@ -4,15 +4,25 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import CustomTag from "src/components/Common/CustomTag/CustomTag";
+import Notification from "src/components/Common/Notification/Notification";
 import styles from "src/components/Page/Backlog/Backlog.module.less";
 import TicketModal from "src/components/TicketModal/TicketModal";
+import roles from "src/config/roles";
 import { colors, fireStoreKeys } from "src/config/constants";
 import { OperationEnum } from "src/config/Enums";
 import { PriorityEnum, TicketTypeEnum } from "src/config/Enums.ts";
-import { deleteTicket, fetchAllDevlopersProject, fetchAllTickets, loadProjects } from "src/redux";
-import { addTicketToPoker, filterBacklogTickets, getAllDocs } from "src/util/helperFunctions";
+import { deleteTicket, fetchAllDevlopersProject, fetchAllTickets, getUserData } from "src/redux";
+import {
+    addTicketToPoker,
+    filterBacklogTickets,
+    filterDeveloeprColums,
+    filterTicketById,
+    getAllDocs,
+} from "src/util/helperFunctions";
+import Mounter, { checkPermission } from "src/components/Common/Mounter/Mounter";
 
 function Backlogs() {
+    const { user, userProfile } = useSelector((state) => state.user);
     const { loading, filteredTicketList } = useSelector((state) => state.project.ticket);
     const [backlogTickets, setbacklogTickets] = useState([]);
     const { developerList } = useSelector((state) => state.project.developer);
@@ -20,6 +30,7 @@ function Backlogs() {
     const { selectedSprint } = useSelector((state) => state.project.sprint);
     const [pokerList, setPokerList] = useState([]);
     const dispatch = useDispatch();
+
     const columns = [
         {
             title: "Ticket No.",
@@ -85,51 +96,58 @@ function Backlogs() {
             title: "Delete",
             dataIndex: "delete",
             align: "center",
-            render: (text, record, index) => (
-                <DeleteFilled
-                    style={{ fontSize: "20px" }}
-                    type="primary"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        dispatch(deleteTicket(projectId, record.ticketId));
-                    }}
-                />
-            ),
+            render: (text, record, index) =>
+                !checkPermission(user.role.name, roles.scrummastersandadmins) ||
+                pokerList.find((ticketDetails) => record.ticketId === ticketDetails.ticketId) ? (
+                    <h3>-</h3>
+                ) : (
+                    <DeleteFilled
+                        style={{ fontSize: "20px" }}
+                        type="primary"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            deleteBacklogTicket(projectId, record.ticketId);
+                        }}
+                    />
+                ),
         },
         {
             title: "Move to Poker",
             dataIndex: "move",
             align: "center",
-            render: (text, record) => (
-                <>
-                    {pokerList.find((ticketDetails) => record.ticketId === ticketDetails.ticketId) ? (
-                        <h3>-</h3>
-                    ) : (
-                        (console.log("plist", pokerList),
-                        (
+            render: (text, record) =>
+                !checkPermission(user.role.name, roles.scrummastersandadmins) ? (
+                    <h3>-</h3>
+                ) : (
+                    <>
+                        {pokerList.find((ticketDetails) => record.ticketId === ticketDetails.ticketId) ? (
+                            <h3>-</h3>
+                        ) : (
                             <RightCircleOutlined
                                 style={{ fontSize: "20px" }}
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    //TODO use dispatch made by vishnu
                                     addTicketToPoker(projectId, record).then(
                                         (res) => {
-                                            ticketInPoker()
-                                            //TODO notify
+                                            ticketInPoker();
+                                            return Notification("success", "Ticket Movedd to  Poker");
                                         },
                                         (err) => {
-                                            console.log(err);
-                                            //TODO notify
+                                            return Notification("error", "Error in moving ticket to poker");
                                         }
                                     );
                                 }}
                             />
-                        ))
-                    )}
-                </>
-            ),
+                        )}
+                    </>
+                ),
         },
     ];
+
+    const deleteBacklogTicket = (projectId, ticketid) => {
+        dispatch(deleteTicket(projectId, ticketid));
+        return Notification("success", "Ticket successfully deleted.");
+    };
 
     const [openModal, setOpenModal] = useState(false);
     const [clickedRow, setClickedRow] = useState(-1);
@@ -143,7 +161,8 @@ function Backlogs() {
     useEffect(() => {
         dispatch(fetchAllTickets(projectId));
         dispatch(fetchAllDevlopersProject(projectId));
-        ticketInPoker()
+        dispatch(getUserData(user.id));
+        ticketInPoker();
     }, []);
 
     useEffect(() => {
@@ -154,10 +173,9 @@ function Backlogs() {
         setOpenModal(false);
     };
 
-    return (
-        <>
-            {loading && <h4>Data is loading</h4>}
-            <Affix style={{ position: "absolute", bottom: 50, right: 30 }}>
+    const addTicketComponent = () => {
+        return (
+            <Affix style={{ position: "absolute", bottom: 50, right: 30, zIndex: 200 }}>
                 <PlusCircleFilled
                     disabled={loading}
                     onClick={() => {
@@ -167,6 +185,14 @@ function Backlogs() {
                     className={styles.addButton}
                 />
             </Affix>
+        );
+    };
+    const addTicketButton = Mounter(addTicketComponent, {})(roles.scrummastersandadmins);
+
+    return (
+        <>
+            {loading && <h4>Data is loading</h4>}
+            {addTicketButton}
             {!loading && (
                 <div>
                     <Table
@@ -174,7 +200,7 @@ function Backlogs() {
                             return {
                                 onClick: (event) => {
                                     setTickearOperation(OperationEnum.UPDATE);
-                                    setOpenModal(true), setClickedRow(rowIndex);
+                                    setOpenModal(true), setClickedRow(record._id);
                                 },
                                 onMouseEnter: (event) => {},
                             };
@@ -191,7 +217,7 @@ function Backlogs() {
                     visible={openModal}
                     width="400px"
                     ticketOperation={ticketOperation}
-                    ticketData={backlogTickets[clickedRow]}
+                    ticketData={filterTicketById(backlogTickets, clickedRow)}
                     projectId={projectId}
                     developerList={developerList}
                 />

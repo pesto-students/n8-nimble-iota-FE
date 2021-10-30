@@ -1,16 +1,18 @@
+import { produce } from "immer";
 import {
+    REMOVE_NOTIFICATION,
     SET_LOADER_FALSE,
     SET_LOADER_TRUE,
     SHOW_NOTIFICATION,
-    REMOVE_NOTIFICATION,
+    TOGGLE_HIDE_SIDEBAR,
 } from "src/redux/common/commonActionTypes";
-import { produce } from "immer";
 
 const initialState = {
     loading: false,
     showNotification: false,
     notificationMessage: "",
     notificationType: "INFO",
+    sidebarHidden: true,
 };
 
 const commonReducer = (state = initialState, action) => {
@@ -31,6 +33,9 @@ const commonReducer = (state = initialState, action) => {
                 draft.showNotification = false;
                 draft.notificationType = "";
                 draft.notificationMessage = "";
+                return;
+            case TOGGLE_HIDE_SIDEBAR:
+                draft.sidebarHidden = !state.sidebarHidden;
                 return;
             default:
                 return;

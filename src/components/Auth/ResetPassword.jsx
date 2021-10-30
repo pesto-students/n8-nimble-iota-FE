@@ -1,12 +1,12 @@
-import React from "react";
 import { Form } from "antd";
+import { withFormik } from "formik";
+import PropTypes from "prop-types";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ResetPassword } from "src/redux";
 import assetMap from "src/assets";
 import AppButton from "src/components/Common/AppButton/AppButton";
 import AppInput from "src/components/Common/AppInput/AppInput";
-import { withFormik } from "formik";
-import PropTypes from "prop-types";
+import { ResetPassword } from "src/redux";
 
 function ResetView(props) {
     const { values, touched, errors, handleChange, handleBlur } = props;

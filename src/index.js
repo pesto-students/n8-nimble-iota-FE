@@ -1,7 +1,7 @@
-import React from "react";
-import ReactDOM from "react-dom";
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
+import React from "react";
+import ReactDOM from "react-dom";
 import App from "src/components/App/App";
 
 Sentry.init({

@@ -1,10 +1,11 @@
 import { combineReducers } from "redux";
-import userReducer from "src/redux/user/userReducer";
 import commonReducer from "src/redux/common/commonReducer";
-import projectListReducer from "src/redux/projectList/projectListReducer";
+import memberSearchReducer from "src/redux/memberSearch/memberSearchReducer";
 import projectReducer from "src/redux/Project/projectReducer";
 import sprintReducer from "src/redux/Project/Sprint/SprintReducer";
-import memberSearchReducer from "src/redux/memberSearch/memberSearchReducer";
+import projectListReducer from "src/redux/projectList/projectListReducer";
+import { LOGOUT_USER_SUCCESS } from "src/redux/user/userActionTypes";
+import userReducer from "src/redux/user/userReducer";
 
 const rootReducer = combineReducers({
     user: userReducer,
@@ -15,4 +16,12 @@ const rootReducer = combineReducers({
     memberSearch: memberSearchReducer,
 });
 
-export default rootReducer;
+const appReducer = (state, action) => {
+    if (action.type === LOGOUT_USER_SUCCESS) {
+      return rootReducer(undefined, action)
+    }
+  
+    return rootReducer(state, action)
+}
+
+export default appReducer;

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
-import styles from "src/components/Common/Sidebar/SprintsData/SprintsData.module.less";
-import AppInput from "src/components/Common/AppInput/AppInput";
 import { CheckOutlined, SearchOutlined } from "@ant-design/icons";
-import { setSelectedSprint, setSprintList } from "src/redux/Project/Sprint/SprintActions";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ActiveMark from "src/components/Common/ActiveMark/ActiveMark";
+import AppInput from "src/components/Common/AppInput/AppInput";
+import styles from "src/components/Common/Sidebar/SprintsData/SprintsData.module.less";
 import { SprintStatusEnum } from "src/config/Enums";
+import { setSelectedSprint, setSprintList } from "src/redux/Project/Sprint/SprintActions";
 import { getDateFromString } from "src/util/helperFunctions";
 
 const SprintsData = ({ project }) => {
@@ -14,6 +14,9 @@ const SprintsData = ({ project }) => {
     const [filteredSprints, setFilteredSprints] = useState(sprints);
     const [searchText, setSearchText] = useState("");
     const dispatch = useDispatch();
+    useEffect(() => {
+        setFilteredSprints(sprints);
+    }, [sprints]);
     useEffect(() => {
         if (searchText !== "") {
             const filtered = sprints.filter((e) => e.name.includes(searchText));
@@ -30,7 +33,7 @@ const SprintsData = ({ project }) => {
             sprints?.find((e) => e.status === SprintStatusEnum.UPCOMING);
 
         dispatch(setSelectedSprint(currentSprint));
-    }, []);
+    }, [sprints]);
 
     const prepareSprintsListJsx = () => filteredSprints?.map((e, index) => <SprintListItem key={index} sprint={e} />);
     return (

@@ -1,23 +1,25 @@
-import React from "react";
-import styles from "src/components/Common/Sidebar/UserData/UserData.module.less";
-import { useSelector } from "react-redux";
+import { EditFilled, EnvironmentFilled, MailFilled, PhoneFilled, SafetyOutlined } from "@ant-design/icons/lib/icons";
 import { Avatar } from "antd";
-import { EditFilled, SafetyOutlined, EnvironmentFilled, PhoneFilled, MailFilled } from "@ant-design/icons/lib/icons";
-import { extractInitials } from "src/util/helperFunctions";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import styles from "src/components/Common/Sidebar/UserData/UserData.module.less";
+import { extractInitials } from "src/util/helperFunctions";
 
 const UserData = () => {
+    const { userProfile } = useSelector((state) => state.user);
     const { user } = useSelector((state) => state.user);
 
     const name = user?.name ?? "-";
     const role = user?.role.name ?? "-";
     const email = user?.email ?? "-";
-    const location = user?.location ?? "-";
-    const phone = user?.phone ?? "-";
-    const selfintro = user?.selfintro ?? "-";
-    const imgUrl = user?.img;
+    const location = userProfile?.location ?? "-";
+    const phone = userProfile?.phone ?? "-";
+    const selfintro = userProfile?.selfintro ?? "-";
+    const imgUrl = userProfile?.imgurl;
 
     return (
+        <>
         <div className={styles.userData}>
             <div className={styles.avatar}>
                 {imgUrl ? <Avatar src={imgUrl} size={64}></Avatar> : <Avatar size={64}>{extractInitials(name)}</Avatar>}
@@ -26,7 +28,7 @@ const UserData = () => {
                 <div className={styles.header}>
                     <div className={styles.name}>{name}</div>
                     <Link className={styles.edit} to="/projects/account">
-                        <EditFilled />
+                        <EditFilled data-tour="step-6"  />
                     </Link>
                 </div>
                 <div className={styles.content}>
@@ -60,6 +62,7 @@ const UserData = () => {
                 <div className={styles.description}>{selfintro}</div>
             </div>
         </div>
+        </>
     );
 };
 

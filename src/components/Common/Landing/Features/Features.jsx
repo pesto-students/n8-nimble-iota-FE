@@ -1,11 +1,12 @@
-import React from "react";
-import styles from "src/components/Common/Landing/Features/Features.module.less";
-import assetMap from "src/assets";
-import classNames from "classnames";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
+import classNames from "classnames";
+import React from "react";
+import assetMap from "src/assets";
+import styles from "src/components/Common/Landing/Features/Features.module.less";
 
 const Features = () => {
     const breakpoints = useBreakpoint();
+    const smSize = !breakpoints.md;
     const mdSize = !breakpoints.lg;
     const titleClassName = classNames(styles.title, { [styles.small]: mdSize });
     const listTitleClassName = classNames(styles.listTitle, {
@@ -17,8 +18,8 @@ const Features = () => {
     return (
         <>
             <section className={styles.features}>
-                <div className={styles.imageContainer}>
-                    <img src={assetMap("LandingFeatures")} alt="More Features" />
+                <div>
+                    <img className={smSize ? styles.img : ""} src={assetMap("LandingFeatures")} alt="More Features" />
                 </div>
                 <div>
                     <h1 className={titleClassName}>Nimble Provides</h1>

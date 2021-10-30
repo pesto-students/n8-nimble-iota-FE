@@ -1,8 +1,9 @@
 import {
+    REMOVE_NOTIFICATION,
     SET_LOADER_FALSE,
     SET_LOADER_TRUE,
     SHOW_NOTIFICATION,
-    REMOVE_NOTIFICATION,
+    TOGGLE_HIDE_SIDEBAR,
 } from "src/redux/common/commonActionTypes";
 
 export const setLoadingTrue = () => {
@@ -38,3 +39,7 @@ export const showNotificationRequest = (type, message) => {
         }, 2000);
     };
 };
+
+export const toggleHideSidebar = () => ({
+    type: TOGGLE_HIDE_SIDEBAR,
+});

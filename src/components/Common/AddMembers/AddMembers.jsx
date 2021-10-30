@@ -1,20 +1,15 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import { Space } from "antd";
 import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import assetMap from "src/assets";
-import AppInput from "src/components/Common/AppInput/AppInput";
-import AppDropDown from "src/components/Common/AppDropDown/AppDropDown";
+import styles from "src/components/Common/AddMembers/AddMembers.module.less";
+import AppButton from "src/components/Common/AppButton/AppButton";
+import AppSelect from "src/components/Common/AppSelect/AppSelect";
 import { addMember, searchMembers } from "src/redux/memberSearch/memberSearchActions";
 import { debounce } from "src/util/helperFunctions";
-import { useSelector } from "react-redux";
-import AppSelect from "src/components/Common/AppSelect/AppSelect";
-import AppButton from "src/components/Common/AppButton/AppButton";
-import { useState } from "react";
-import { UserSwitchOutlined } from "@ant-design/icons";
-import { Space } from "antd";
-import styles from "src/components/Common/AddMembers/AddMembers.module.less";
 
-const AddMembers = ({ projectId }) => {
+const AddMembers = ({ projectId, onAdd }) => {
     const dispatch = useDispatch();
     const handleSearch = (val) => dispatch(searchMembers(val));
     const handleSearchDebounced = debounce(handleSearch);
@@ -23,11 +18,14 @@ const AddMembers = ({ projectId }) => {
     const handleAdd = () => {
         const user = JSON.parse(selectedMember);
         dispatch(addMember({ memberId: user._id, projectId }));
+        onAdd && onAdd();
     };
     const handleChange = (e) => {
-        console.log(e);
         setSelectedMember(e);
     };
+    useEffect(() => {
+        dispatch(searchMembers(""));
+    }, []);
     return (
         <div align="middle" className={styles.middle}>
             <Space size="middle" direction="vertical">
@@ -55,6 +53,7 @@ const AddMembers = ({ projectId }) => {
 
 AddMembers.propTypes = {
     projectId: PropTypes.string,
+    onAdd: PropTypes.func,
 };
 
 export default AddMembers;

@@ -1,23 +1,23 @@
-import axios from "src/service/Axios";
 import {
+    ADD_TICKET_FAILURE,
     ADD_TICKET_REQUEST,
     ADD_TICKET_SUCCESS,
-    ADD_TICKET_FAILURE,
-    UPDATE_TICKET_REQUEST,
-    UPDATE_TICKET_SUCCESS,
-    UPDATE_TICKET_FAILURE,
-    UPDATE_TICKET_STATUS_REQUEST,
-    UPDATE_TICKET_STATUS_SUCCESS,
-    UPDATE_TICKET_STATUS_FAILURE,
+    DELETE_TICKET_FAILURE,
     DELETE_TICKET_REQUEST,
     DELETE_TICKET_SUCCESS,
-    DELETE_TICKET_FAILURE,
+    FETCH_UPDATED_TICKET_LIST_FAILURE,
     FETCH_UPDATED_TICKET_LIST_REQUEST,
     FETCH_UPDATED_TICKET_LIST_SUCCESS,
-    FETCH_UPDATED_TICKET_LIST_FAILURE,
     FILTER_UPDATED_TICKET_LIST,
     SORT_UPDATED_TICKET_LIST,
+    UPDATE_TICKET_FAILURE,
+    UPDATE_TICKET_REQUEST,
+    UPDATE_TICKET_STATUS_FAILURE,
+    UPDATE_TICKET_STATUS_REQUEST,
+    UPDATE_TICKET_STATUS_SUCCESS,
+    UPDATE_TICKET_SUCCESS,
 } from "src/redux/Project/Tickets/ticketActionTypes";
+import axios from "src/service/Axios";
 
 export const addTicketRequest = () => {
     return {
@@ -194,7 +194,6 @@ export const deleteTicket = (projectId, ticketId) => {
             .post("/deleteTicket", { projectId, ticketId })
             .then((response) => {
                 const resMessage = response.data.message;
-                console.log(resMessage);
                 dispatch(deleteTicketRequestSuccess(resMessage));
                 dispatch(fetchAllTickets(projectId));
                 // dispatch(showNotificationRequest("success", "Test"));

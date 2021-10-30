@@ -1,15 +1,18 @@
-import React,{useEffect} from "react";
-import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
-import styles from "src/components/Common/ProjectItem/ProjectItem.module.less";
 import { PlusSquareFilled } from "@ant-design/icons";
-import {filterBacklogTickets, generatePieChartData, getDateFromString } from "src/util/helperFunctions";
-import AppModal from "src/components/Common/AppModal/AppModal";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import AddMembers from "src/components/Common/AddMembers/AddMembers";
-import { useState } from "react";
-import { SprintStatusEnum } from "src/config/Enums";
+import AppModal from "src/components/Common/AppModal/AppModal";
+import AppTour from "src/components/Common/AppTour/AppTour";
+import { projectSteps } from "src/components/Common/AppTour/ProjectScreenSteps";
+import Mounter from "src/components/Common/Mounter/Mounter";
+import styles from "src/components/Common/ProjectItem/ProjectItem.module.less";
 import Donut from "src/components/Page/Reports/Donut/Donut";
+import { SprintStatusEnum } from "src/config/Enums";
+import roles from "src/config/roles";
 import { fetchAllDevlopersProject, fetchAllTickets } from "src/redux";
+import { filterBacklogTickets, generatePieChartData, getDateFromString } from "src/util/helperFunctions";
 
 const ProjectItem = ({ project, onClick }) => {
     const prepareMembersListJsx = () =>
@@ -18,7 +21,6 @@ const ProjectItem = ({ project, onClick }) => {
                 <a href="#">{e.user?.name ?? "User"}</a>
             </div>
         ));
-    console.log("project", project);
     const [addVisible, setAddVisible] = useState(false);
     const handleCancel = () => setAddVisible(false);
     const backlogsCount = filterBacklogTickets(project?.tickets).length ?? 0;
@@ -32,19 +34,37 @@ const ProjectItem = ({ project, onClick }) => {
 
     const { loading, ticketList } = useSelector((state) => state.project.ticket);
     const { developerList, loadingDevelopers } = useSelector((state) => state.project.developer);
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(fetchAllDevlopersProject(project._id))
-        dispatch(fetchAllTickets(project._id))
-    }, [])
+        dispatch(fetchAllDevlopersProject(project._id));
+        dispatch(fetchAllTickets(project._id));
+    }, []);
+    const handleAddButtonClick = (e) => {
+        // console.log(e);
+        e.stopPropagation();
+        setAddVisible(true);
+    };
+
+    const handleOnAdd = () => {
+        setAddVisible(false);
+    };
+
+    const AddMembersModal = Mounter(AddAppMember, { addVisible, handleCancel, project, handleOnAdd })(
+        roles.scrummastersandadmins
+    );
+    const AddButtonMounted = Mounter(AddButton, { onClick: handleAddButtonClick })(roles.scrummastersandadmins);
+
     return (
         <>
+            <AppTour steps={projectSteps} />
             {project && (
                 <div onClick={onClick} className={styles.projectItem}>
-                    <div className={`${styles.projectDetail} ${styles.graphs}`}>
-                        {!loading && !loadingDevelopers && <Donut map={generatePieChartData(ticketList, developerList)} />}
+                    <div className={`${styles.projectDetail} ${styles.graphs}`} data-tour="step-1">
+                        {!loading && !loadingDevelopers && (
+                            <Donut map={generatePieChartData(ticketList, developerList)} />
+                        )}
                     </div>
-                    <div className={`${styles.projectDetail} ${styles.projectInfo}`}>
+                    <div className={`${styles.projectDetail} ${styles.projectInfo}`} data-tour="step-2">
                         <>
                             <span className={styles.title}>Project Name</span>
                             <span className={styles.value}>{project.projectName}</span>
@@ -68,7 +88,7 @@ const ProjectItem = ({ project, onClick }) => {
                             <span className={styles.value}>{activeSprint?.name ?? "-"}</span>
                         </>
                     </div>
-                    <div className={`${styles.projectDetail} ${styles.ticketInfo}`}>
+                    <div className={`${styles.projectDetail} ${styles.ticketInfo}`} data-tour="step-3">
                         <>
                             <span className={styles.title}>No of Tickets in Active Sprint</span>
                             <span className={styles.value}>{ticketsInActiveSprintCount ?? "-"}</span>
@@ -82,26 +102,16 @@ const ProjectItem = ({ project, onClick }) => {
                             <span className={styles.value}>{backlogsCount ?? "-"}</span>
                         </>
                     </div>
-                    <div className={`${styles.projectDetail} ${styles.teamInfo}`}>
+                    <div className={`${styles.projectDetail} ${styles.teamInfo}`} data-tour="step-4">
                         <div>
                             <h3 className={styles.title}>Team Members</h3>
-                            <div
-                                className={styles.add}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setAddVisible(true);
-                                }}
-                            >
-                                <PlusSquareFilled />
-                            </div>
+                            {AddButtonMounted}
                         </div>
                         <div className={styles.scroller}>{prepareMembersListJsx()}</div>
                     </div>
                 </div>
             )}
-            <AppModal visible={addVisible} handleCancel={handleCancel}>
-                <AddMembers projectId={project._id} />
-            </AppModal>
+            {AddMembersModal}
         </>
     );
 };
@@ -112,3 +122,26 @@ ProjectItem.propTypes = {
 };
 
 export default ProjectItem;
+
+const AddAppMember = ({ addVisible, handleCancel, project, handleOnAdd }) => (
+    <AppModal visible={addVisible} handleCancel={handleCancel}>
+        <AddMembers projectId={project._id} onAdd={handleOnAdd} />
+    </AppModal>
+);
+
+AddAppMember.propTypes = {
+    addVisible: PropTypes.bool,
+    handleCancel: PropTypes.func,
+    project: PropTypes.object,
+    handleOnAdd: PropTypes.func,
+};
+
+const AddButton = ({ onClick }) => (
+    <div className={styles.add} onClick={onClick}>
+        <PlusSquareFilled />
+    </div>
+);
+
+AddButton.propTypes = {
+    onClick: PropTypes.func,
+};

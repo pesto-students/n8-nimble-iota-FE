@@ -1,6 +1,6 @@
-import { useHistory, useRouteMatch } from "react-router-dom";
-import { useLocation, useParams } from "react-router";
 import { useSelector } from "react-redux";
+import { useLocation, useParams } from "react-router";
+import { useHistory, useRouteMatch } from "react-router-dom";
 
 export const useRouting = () => {
     const history = useHistory();
@@ -11,7 +11,6 @@ export const useRouting = () => {
                 if (exact) history.replace(to);
                 else history.replace(`${path}/${to}`);
             } else {
-                console.log(to);
                 if (exact) history.push(to);
                 else history.push(`${path}/${to}`);
             }
@@ -26,9 +25,7 @@ export const useMeeting = () => {
     const { projectId } = useParams();
     const projects = useSelector((state) => state.projectList.projects);
     const currentProject = projects.find((e) => e._id === projectId);
-    let splits = url.split("/");
-    splits = splits.slice(0, -1);
-    const meetUrl = `${splits.join("/")}/meet?roomName=${currentProject?.meetingRoom?.roomName}&meetingId=${
+    const meetUrl = `${url}/meet?roomName=${currentProject?.meetingRoom?.roomName}&meetingId=${
         currentProject?.meetingRoom?.roomId
     }&referrer=${encodeURI(url)}`;
     return meetUrl;

@@ -1,12 +1,12 @@
+import { produce } from "immer";
 import {
+    ADD_RETROSPECTIVE_FAILURE,
     ADD_RETROSPECTIVE_REQUEST,
     ADD_RETROSPECTIVE_SUCCESS,
-    ADD_RETROSPECTIVE_FAILURE,
+    FETCH_RETROSPECTIVES_FAILURE,
     FETCH_RETROSPECTIVES_REQUEST,
     FETCH_RETROSPECTIVES_SUCCESS,
-    FETCH_RETROSPECTIVES_FAILURE,
 } from "src/redux/Project/Retrospectives/retroActionTypes";
-import { produce } from "immer";
 
 const initialState = {
     retros: {},
@@ -40,6 +40,7 @@ const retroReducer = (state = initialState, action) => {
             case FETCH_RETROSPECTIVES_FAILURE:
                 draft.retroLoading = false;
                 draft.msg = action.payload;
+                draft.retros = []
                 return;
 
             default:

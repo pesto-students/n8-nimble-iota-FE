@@ -4,13 +4,14 @@ import store from "src/redux/store";
 import "src/components/App/App.less";
 import "src/components/themes/themes.less";
 import Overall from "src/components/App/Overall";
-import ErrorBoundary from "src/components/Common/Errorboundary/Errorboundary";
+import ErrorBoundary from "src/components/Common/Errorboundary";
+import Builder from "src/components/Common/Loader/Builder";
 
 function App() {
     return (
         <ErrorBoundary>
             <Provider store={store}>
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={<Builder />}>
                     <Overall />
                 </Suspense>
             </Provider>

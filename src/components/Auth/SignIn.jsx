@@ -1,29 +1,29 @@
-import React from "react";
-import { Form } from "antd";
-import { useSelector, useDispatch } from "react-redux";
-import { LoginUser, ForgotPassword } from "src/redux";
-import assetMap from "src/assets";
-import AppButton from "src/components/Common/AppButton/AppButton";
-import AppInput from "src/components/Common/AppInput/AppInput";
-import { Typography } from "antd";
-import { validateEmail } from "src/util/validation";
-import styles from "src/components/Auth/Auth.module.less";
-import Notification from "src/components/Common/Notification/Notification";
+import { Form, Typography } from "antd";
 import { withFormik } from "formik";
 import PropTypes from "prop-types";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import assetMap from "src/assets";
+import styles from "src/components/Auth/Auth.module.less";
+import AppButton from "src/components/Common/AppButton/AppButton";
+import AppInput from "src/components/Common/AppInput/AppInput";
+import Notification from "src/components/Common/Notification/Notification";
+import { ForgotPassword, LoginUser } from "src/redux";
+import { validateEmail } from "src/util/validation";
 
 function LoginView(props) {
     const { values, touched, errors, handleChange, handleBlur } = props;
     const { Text } = Typography;
     const { loading } = useSelector((state) => state.user);
     const dispatch = useDispatch();
+    console.log(process.env.DUMMY_SCRUM_EMAIL)
     const scrumMaster = {
-        email: "jyotirmayasahu38@gmail.com",
-        password: "P@ssword1",
+        email: process.env.REACT_APP_DUMMY_SCRUM_EMAIL,
+        password: process.env.REACT_APP_DUMMY_SCRUM_PASS,
     };
     const developer = {
-        email: "sahujyotirmaya1997@gmail.com",
-        password: "CRIMINALcase1",
+        email: process.env.REACT_APP_DUMMY_DEV_EMAIL,
+        password: process.env.REACT_APP_DUMMY_DEV_PASS,
     };
     const login = () => {
         if (Object.keys(errors).length === 0) dispatch(LoginUser(values.email, values.password));
@@ -86,7 +86,7 @@ function LoginView(props) {
                             onClick={() => loginFix(true)}
                             block
                         >
-                            Scrummaster Dummy Login
+                            Demo Scrum master Login
                         </AppButton>
                     </Form.Item>
                     <Form.Item>
@@ -98,7 +98,7 @@ function LoginView(props) {
                             onClick={() => loginFix(false)}
                             block
                         >
-                            Developer Dummy Login
+                            Demo Developer Login
                         </AppButton>
                     </Form.Item>
                     <Form.Item>

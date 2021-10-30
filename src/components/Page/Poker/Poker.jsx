@@ -1,32 +1,32 @@
-import React, { useState, useRef, useEffect } from "react";
 import { PhoneFilled } from "@ant-design/icons";
-import { Col, Row, Layout, Form, Empty } from "antd";
-import { fetchAllTickets, updateTicket } from "src/redux";
-import AppButton from "src/components/Common/AppButton/AppButton";
-import { useDispatch, useSelector } from "react-redux";
-import EstimationCard from "src/components/Page/Poker/EstimationCard";
-import AppModal from "src/components/Common/AppModal/AppModal";
-import FloatingAdd from "src/components/Common/FloatingAdd/FloatingAdd";
+import { Col, Empty, Form, Layout, Row } from "antd";
+import { addDoc, arrayRemove, arrayUnion, collection, deleteDoc, doc, onSnapshot, updateDoc } from "firebase/firestore";
 import "intersection-observer";
+import React, { useEffect, useRef, useState } from "react";
 import { useIsVisible } from "react-is-visible";
-import AppSelect from "src/components/Common/AppSelect/AppSelect";
-import { useMeeting } from "src/util/hooks";
-import { onSnapshot, collection, addDoc, doc, updateDoc, arrayUnion, arrayRemove, deleteDoc } from "firebase/firestore";
-import { fbfirestore } from "src/service/firebase";
-import styles from "src/components/Page/Poker/Poker.module.less";
-import Axios from "src/service/Axios";
-import AppInput from "src/components/Common/AppInput/AppInput";
-import Mounter from "src/components/Common/Mounter/Mounter";
-import roles from "src/config/roles";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import Flipbutton from "src/components/Page/Poker/Flipbutton";
-import UserVotes from "src/components/Page/Poker/UserVotes";
+import AppButton from "src/components/Common/AppButton/AppButton";
+import AppInput from "src/components/Common/AppInput/AppInput";
+import AppModal from "src/components/Common/AppModal/AppModal";
+import AppSelect from "src/components/Common/AppSelect/AppSelect";
+import FloatingAdd from "src/components/Common/FloatingAdd/FloatingAdd";
+import Mounter from "src/components/Common/Mounter/Mounter";
+import Notification from "src/components/Common/Notification/Notification";
 import AddTicketModal from "src/components/Page/Poker/AddTicketModal";
 import Delticket from "src/components/Page/Poker/Delticket";
-import { estimations } from "src/config/constants";
-import Notification from "src/components/Common/Notification/Notification";
+import EstimationCard from "src/components/Page/Poker/EstimationCard";
+import Flipbutton from "src/components/Page/Poker/Flipbutton";
+import styles from "src/components/Page/Poker/Poker.module.less";
+import UserVotes from "src/components/Page/Poker/UserVotes";
+import { estimations, fireStoreKeys } from "src/config/constants";
 import { SprintStatusEnum } from "src/config/Enums";
-import { fireStoreKeys } from "src/config/constants";
+import roles from "src/config/roles";
+import { fetchAllTickets, updateTicket } from "src/redux";
+import Axios from "src/service/Axios";
+import { fbfirestore } from "src/service/firebase";
+import { useMeeting } from "src/util/hooks";
+import { filterBacklogTickets } from "src/util/helperFunctions";
 
 function Poker() {
     const [avg, setAvg] = useState(0);
@@ -86,7 +86,7 @@ function Poker() {
     };
     const setTicketFlipped = async () => {
         if (!selected) return Notification("info", "No tickets selected", "please select one.");
-        await updateDoc(doc(fbfirestore, "poker", selected), {
+        await updateDoc(doc(fbfirestore, fireStoreKeys.collections.poker, selected), {
             flipped: true,
         });
         calculateAvg(selectedItem);
@@ -94,7 +94,7 @@ function Poker() {
     };
     const flipMove = Mounter(Flipbutton, { selected, flipped, move, setTicketFlipped })(roles.scrummastersandadmins);
     const getlist = () => {
-        onSnapshot(collection(fbfirestore, "poker"), (querySnapshot) => {
+        onSnapshot(collection(fbfirestore, fireStoreKeys.collections.poker), (querySnapshot) => {
             const items = [];
             querySnapshot.forEach((doc) => {
                 const ticket = doc.data();
@@ -108,11 +108,11 @@ function Poker() {
         if (!selected || flipped) return;
         const previousVote = selectedItem?.votes?.find((item) => item.user === email);
         if (previousVote) {
-            await updateDoc(doc(fbfirestore, "poker", selected), {
+            await updateDoc(doc(fbfirestore, fireStoreKeys.collections.poker, selected), {
                 votes: arrayRemove(previousVote),
             });
         }
-        await updateDoc(doc(fbfirestore, "poker", selected), {
+        await updateDoc(doc(fbfirestore, fireStoreKeys.collections.poker, selected), {
             votes: arrayUnion({ user: email, value }),
         });
         setSelectedVote(value);
@@ -124,7 +124,7 @@ function Poker() {
         ticketObj.sprint = sprint._id;
         ticketObj.storyPoints = String(avg);
         dispatch(updateTicket(projectId, ticketObj));
-        await deleteDoc(doc(fbfirestore, "poker", selected));
+        await deleteDoc(doc(fbfirestore, fireStoreKeys.collections.poker, selected));
         setSelectedVote(null);
         setMoving(false);
         return Notification("success", "Ticket moved to scrum");
@@ -159,9 +159,7 @@ function Poker() {
                         <Col flex={1} align="middle">
                             <Link to={meetUrl} target="_blank">
                                 <AppButton loading={false} size={"middle"}>
-                                    <>
-                                        <PhoneFilled /> Join Call
-                                    </>
+                                    <PhoneFilled /> Join Call
                                 </AppButton>
                             </Link>
                         </Col>
@@ -185,7 +183,7 @@ function Poker() {
                     <Col flex={5} align="middle">
                         <h3>Title</h3>
                     </Col>
-                    <Col flex={3} align="middle">
+                    <Col flex={3} align="right">
                         <h3>Your Estimations</h3>
                     </Col>
                 </Row>
@@ -203,7 +201,7 @@ function Poker() {
                             <Col flex={5} align="left">
                                 {item.title}
                             </Col>
-                            <Col flex={3} align="middle">
+                            <Col flex={3} align="right">
                                 {item?.votes?.find((obj) => obj.user === email)?.value || "-"}
                             </Col>
                             <Col flex={1} align="middle">
@@ -216,7 +214,7 @@ function Poker() {
                 <AddTicketModal
                     addTicket={addTicket}
                     closeAddTicket={closeAddTicket}
-                    ticketList={ticketList}
+                    ticketList={filterBacklogTickets(ticketList)}
                     onChangeTicketid={onChangeTicketid}
                     AddTicketToPoker={AddTicketToPoker}
                 />
@@ -258,7 +256,7 @@ function Poker() {
                 <Row ref={nodeRef} />
             </Content>
             <Sider width="30%" className={styles.plain}>
-                <UserVotes flipMove={flipMove} flipped={flipped} selectedItem={selectedItem} avg={avg} />
+                <UserVotes flipMove={flipMove} flipped={flipped} selectedItem={selectedItem} avg={String(avg)} />
             </Sider>
         </Layout>
     );

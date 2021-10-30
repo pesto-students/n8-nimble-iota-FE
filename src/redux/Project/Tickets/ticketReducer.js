@@ -1,25 +1,23 @@
+import { produce } from "immer";
 import {
+    ADD_TICKET_FAILURE,
     ADD_TICKET_REQUEST,
     ADD_TICKET_SUCCESS,
-    ADD_TICKET_FAILURE,
-    UPDATE_TICKET_REQUEST,
-    UPDATE_TICKET_SUCCESS,
-    UPDATE_TICKET_FAILURE,
-    UPDATE_TICKET_STATUS_REQUEST,
-    UPDATE_TICKET_STATUS_SUCCESS,
-    UPDATE_TICKET_STATUS_FAILURE,
+    DELETE_TICKET_FAILURE,
     DELETE_TICKET_REQUEST,
     DELETE_TICKET_SUCCESS,
-    DELETE_TICKET_FAILURE,
+    FETCH_UPDATED_TICKET_LIST_FAILURE,
     FETCH_UPDATED_TICKET_LIST_REQUEST,
     FETCH_UPDATED_TICKET_LIST_SUCCESS,
-    FETCH_UPDATED_TICKET_LIST_FAILURE,
     FILTER_UPDATED_TICKET_LIST,
     SORT_UPDATED_TICKET_LIST,
+    UPDATE_TICKET_FAILURE,
+    UPDATE_TICKET_REQUEST,
+    UPDATE_TICKET_STATUS_FAILURE,
+    UPDATE_TICKET_STATUS_REQUEST,
+    UPDATE_TICKET_STATUS_SUCCESS,
+    UPDATE_TICKET_SUCCESS,
 } from "src/redux/Project/Tickets/ticketActionTypes";
-import { produce } from "immer";
-import ticketConstants from "src/config/Ticket";
-import { TicketStatusEnum } from "src/config/Enums.ts";
 
 const initialState = {
     ticketList: [],
@@ -99,18 +97,15 @@ const ticketReducer = (state = initialState, action) => {
                 return;
             case FILTER_UPDATED_TICKET_LIST:
                 draft.filters[action.data.filter] = action.data.isAdded;
-                console.log(draft.filters.bug);
                 if (!(draft.filters.bug || draft.filters.userStory)) {
-                    console.log("f");
                     draft.filteredTicketList = draft.ticketList.slice();
                     return;
                 }
                 draft.filteredTicketList = draft.ticketList.filter(
                     (e) =>
-                        (e.type === (draft.filters.bug ? "BUG" : "USER_STORY") ||
-                        e.type === (draft.filters.userStory ? "USER_STORY" : "BUG"))
+                        e.type === (draft.filters.bug ? "BUG" : "USER_STORY") ||
+                        e.type === (draft.filters.userStory ? "USER_STORY" : "BUG")
                 );
-                console.log(draft.filters);
                 return;
             case SORT_UPDATED_TICKET_LIST:
                 if (action.data.sortBy === "") {

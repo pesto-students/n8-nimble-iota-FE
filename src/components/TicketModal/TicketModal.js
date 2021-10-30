@@ -1,20 +1,24 @@
-import React, { useEffect, useState } from "react";
 import { Divider } from "antd";
 import PropTypes from "prop-types";
 import TextArea from "rc-textarea";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AppButton from "src/components/Common/AppButton/AppButton";
 import AppInput from "src/components/Common/AppInput/AppInput";
 import AppModal from "src/components/Common/AppModal/AppModal";
 import AppSelect from "src/components/Common/AppSelect/AppSelect";
 import TicketListItem from "src/components/TicketModal/TicketListItem";
-import { PriorityEnum, OperationEnum, TicketTypeEnum } from "src/config/Enums";
+import { OperationEnum, PriorityEnum, TicketTypeEnum } from "src/config/Enums";
 import { addTicket, updateTicket } from "src/redux";
 import { generateTicketNumber, getSprints, transformEnum } from "src/util/helperFunctions";
+import Notification from "src/components/Common/Notification/Notification";
+import { checkPermission } from "src/components/Common/Mounter/Mounter";
+import roles from "src/config/roles";
 
 function TicketModal(props) {
-    const { projectId, ticketData, ticketOperation, developerList } = props;
+    const { projectId, ticketData, ticketOperation, developerList,onCancel } = props;
     const { projects } = useSelector((state) => state.projectList);
+    const { user, userProfile } = useSelector((state) => state.user);
 
     const listOfSprints = getSprints(projects, projectId);
 
@@ -56,17 +60,21 @@ function TicketModal(props) {
             ticketId: ticketId,
             title: title,
             description: description,
-            assignee: assignee._id,
-            priority: priority.name,
-            type: type.name,
+            assignee: assignee?._id ?? "",
+            priority: priority?.name ?? "",
+            type: type?.name ?? "",
             storyPoints: points,
-            sprint: sprint._id,
+            sprint: sprint?._id ?? "",
             status: status,
         };
         if (ticketOperation == OperationEnum.CREATE) {
             dispatch(addTicket(projectId, ticketObject));
+            onCancel()
+            return Notification("success","Ticket successfully created")
         } else {
             dispatch(updateTicket(projectId, ticketObject));
+            onCancel()
+            return Notification("success","Ticket successfully updated")
         }
     };
 
@@ -78,8 +86,8 @@ function TicketModal(props) {
             setAssignee(
                 developerList.length > 0
                     ? developerList.find((developer) => {
-                        return developer["_id"] == ticketData.assignee;
-                    })
+                          return developer["_id"] == ticketData.assignee;
+                      })
                     : ""
             );
             setPriority(
@@ -110,7 +118,7 @@ function TicketModal(props) {
             setStatus("");
             setStoryPoints("");
         }
-    }, [developerList]);
+    }, []);
 
     return (
         <>
@@ -137,7 +145,6 @@ function TicketModal(props) {
                     Component={
                         <TextArea
                             placeholder="This is ticket description"
-                            isPassword={false}
                             size="large"
                             style={{ width: "100%", height: "80px" }}
                             value={description}
@@ -213,7 +220,7 @@ function TicketModal(props) {
                     </>
                 )}
 
-                <AppButton onClick={handleTicketAction} style={{ width: "100%" }}>
+                <AppButton disabled={!checkPermission(user.role.name,roles.scrummastersandadmins)} onClick={handleTicketAction} style={{ width: "100%" }}>
                     {ticketOperation == OperationEnum.CREATE ? "Create" : "Update"}
                 </AppButton>
             </AppModal>
@@ -231,6 +238,7 @@ TicketModal.propTypes = {
     labelWidth: PropTypes.string,
     label: PropTypes.string,
     fullWidth: PropTypes.bool,
+    onCancel : PropTypes.func
 };
 
 export default TicketModal;
