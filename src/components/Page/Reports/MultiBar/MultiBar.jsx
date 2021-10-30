@@ -24,12 +24,13 @@ function MultiBar({ mapPrevious, mapCurrent }) {
             },
             plotOptions: {
                 bar: {
+                    borderRadius: 10,
                     horizontal: false,
-                    columnWidth: "15%",
+                    columnWidth: "40%",
                 },
             },
             dataLabels: {
-                enabled: false,
+                enabled: true,
             },
             stroke: {
                 show: true,
@@ -42,6 +43,12 @@ function MultiBar({ mapPrevious, mapCurrent }) {
             yaxis: {
                 title: {
                     text: "Issues Completed",
+                },
+                axisTicks: {
+                    show: false,
+                },
+                labels: {
+                    show: true,
                 },
             },
             fill: {

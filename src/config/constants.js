@@ -33,4 +33,4 @@ export const estimations = ["0.5", "1", "2", "3", "5", "8", "13", "21"];
 
 export const dateformat = "MM/DD/YYYY";
 
-export const subscriptionAMount = 100000
+export const subscriptionAMount = 1000

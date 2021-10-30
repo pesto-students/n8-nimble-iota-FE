@@ -9,14 +9,14 @@ import CustomTag from "src/components/Common/CustomTag/CustomTag";
 import Mounter from "src/components/Common/Mounter/Mounter";
 import styles from "src/components/Page/UserProfile/Userprofile.module.less";
 import TicketListItem from "src/components/TicketModal/TicketListItem";
-import { colors, subscriptionAMount } from "src/config/constants";
+import { colors } from "src/config/constants";
 import roles from "src/config/roles";
 import { ChangeImage, getUserData, updateUserData } from "src/redux";
 import { checkIfPremiumUser, getProjectFromProjectList } from "src/util/helperFunctions";
 import { useRouting } from "src/util/hooks";
-import assetMap from "src/assets";
-import axios from "src/service/Axios";
+import { displayRazorpay } from "src/components/Page/UserProfile/Razorpay";
 import Notification from "src/components/Common/Notification/Notification";
+import axios from "src/service/Axios";
 
 function UserProfile() {
     const { TextArea } = Input;
@@ -33,7 +33,7 @@ function UserProfile() {
         return (
             <div className={styles.action}>
                 <AppButton
-                    onClick={displayRazorpay}
+                    onClick={()=>displayRazorpay(userProfile,updatePaymentRequest)}
                     disabled={checkIfPremiumUser(userProfile.subscription)}
                     style={{ width: "100%" }}
                 >
@@ -43,7 +43,7 @@ function UserProfile() {
             </div>
         );
     };
-
+    
     const updateSubscriptionButton = Mounter(updateSub, {})(roles.scrummastersandadmins);
 
     const openUploadBox = () => {
@@ -73,62 +73,6 @@ function UserProfile() {
         setPhone(userProfile?.phone ?? "");
     }, [userProfile]);
 
-    const updatePaymentRequest = async (updatePaymentObject) => {
-        const resp = await axios.post("/updatePayment", updatePaymentObject);
-        if (resp.data.success) {
-            dispatch(getUserData(user.id));
-            return Notification("success",resp.data.message)
-        } else {
-            return Notification("error","Failed to update subscription.")
-        }
-    };
-
-    const loadScript = (src) => {
-        return new Promise((resolve) => {
-            const script = document.createElement("script");
-            script.src = src;
-            script.onload = () => {
-                resolve(true);
-            };
-            script.onerror = () => {
-                resolve(false);
-            };
-            document.body.appendChild(script);
-        });
-    };
-
-    const displayRazorpay = async () => {
-        const res = await loadScript(process.env.REACT_APP_RAZORPAY_SCRIPT);
-        if (!res) {
-            return Notification("error","Payments failed to load")
-        }
-        const resp = await axios.post("/createOrder", { email: userProfile?.email ?? "", amount: subscriptionAMount });
-        const options = {
-            key: process.env.REACT_APP_PAYMENT_ID,
-            currency: resp.data.order.currency,
-            amount: resp.data.order.amount,
-            order_id: resp.data.order.id,
-            name: "Subscription",
-            description: "You are going to buy Nimble subscrption.",
-            image: assetMap("Logo"),
-            handler: function (response) {
-                const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = response;
-                const updatePaymentObject = {
-                    transactionid: razorpay_payment_id,
-                    amount: resp.data.order.amount,
-                    email: userProfile?.email,
-                };
-                updatePaymentRequest(updatePaymentObject);
-            },
-            prefill: {
-                name: userProfile?.name ?? "",
-                email: userProfile?.email ?? "",
-                phone_number: userProfile?.phone ?? "",
-            },
-        };
-        const paymentObject = new window.Razorpay(options);
-        paymentObject.open();
-    };
 
     const handleProjectClick = (pid) => {
         let urlSplit = url.split("/");
@@ -136,6 +80,17 @@ function UserProfile() {
         const projectUrl = `${urlSplit.join("/")}/${pid}`;
         navigate(projectUrl, true);
     };
+
+    const updatePaymentRequest = async (updatePaymentObject) => {
+        const resp = await axios.post("/updatePayment", updatePaymentObject);
+        if (resp.data.success) {
+            dispatch(getUserData(user.id));
+            return Notification("success", resp.data.message);
+        } else {
+            return Notification("error", "Failed to update subscription.");
+        }
+    };
+
     return (
         <CardCustom style={{ width: "100%" }} loading={false}>
             {/* <div style={{ textAlign: "right" }}>

@@ -3,11 +3,14 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 
 function Bar({ map }) {
+    const values = Object.values(map)
+    const keys = Object.keys(map)
+
     const state = {
         series: [
             {
                 name: "",
-                data: Object.values(map),
+                data: values,
             },
         ],
         options: {
@@ -18,7 +21,7 @@ function Bar({ map }) {
             plotOptions: {
                 bar: {
                     borderRadius: 10,
-                    columnWidth: '10%',
+                    columnWidth: `${40}%`,
                     dataLabels: {
                         position: "top", // top, center, bottom
                     },
@@ -29,7 +32,7 @@ function Bar({ map }) {
             },
 
             xaxis: {
-                categories: Object.keys(map),
+                categories: keys,
                 position: "top",
                 axisBorder: {
                     show: false,
