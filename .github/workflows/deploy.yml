@@ -1,4 +1,4 @@
-name: Deploy Netlify site
+name: Deploy Nimble
 
 on:
     push:
