@@ -96,7 +96,7 @@ function Ticket({ onClick, index, ticketData }) {
                     >
                         <div className={styles.ticketHeader}>
                             <div className="ticketTitle" style={{ width: "50%" }}>
-                                <b style={{ color: `${colors.tagBlue}` }}>Ticket No - </b> {ticketId}
+                                <b style={{ color: `${colors.tagBlue}` }}>T.No - </b> {ticketId}
                             </div>
 
                             <div

@@ -47,8 +47,8 @@ function Reports() {
                         mapPrevious={generateIssuesVsDate(previousReportData)}
                         mapCurrent={generateIssuesVsDate(reportData)}
                     />
-                    <br/>
-                    <Heading text={"Tickets Distribution"} />
+                    <br />
+
                     <Donut map={generatePieChartData(ticketList, developerList)} />
                 </>
             )}
@@ -57,7 +57,7 @@ function Reports() {
 }
 
 Heading.propTypes = {
-    text : PropTypes.string
-}
+    text: PropTypes.string,
+};
 
 export default Reports;

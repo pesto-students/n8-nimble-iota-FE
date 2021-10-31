@@ -20,11 +20,18 @@ function Donut({ map }) {
                     return opts.w.config.series[opts.seriesIndex];
                 },
             },
+            legend: {
+                show: false,
+            },
+            title: {
+                text: "Ticket distribution",
+                align: "center",
+            },
         },
         series: Object.values(map),
     };
 
-    return <ReactApexChart options={state.options} series={state.series} type="donut" height={350} />;
+    return <ReactApexChart options={state.options} series={state.series} type="donut" height={300} />;
 }
 
 Donut.propTypes = {
