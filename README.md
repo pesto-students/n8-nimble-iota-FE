@@ -15,6 +15,7 @@ Nimble is an Agile Sprint management platform which provides functionality to ma
 - [Getting started](#getting-started)
 - [Technology Stack](#technology-stack)
 - [Authors](#authors)
+- [License](#license)
 
 ### Major Features
 
