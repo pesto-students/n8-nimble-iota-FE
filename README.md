@@ -3,7 +3,6 @@
 </p>
 <p align="center"><b>Nimble Frontend</b></p>
 <p align="center">Nimble : Quickly, Easily and lightly</p>
-<p align="center">Live url : <a href="https://nim-ble.netlify.app">https://nim-ble.netlify.app</a></p>
 
 <hr>
 
@@ -11,13 +10,15 @@ Nimble is an Agile Sprint management platform which provides functionality to ma
 
 #### Table of Contents
 
-- [Major Features](#major-features)
+- [Demo](#demo)
 - [Getting started](#getting-started)
 - [Technology Stack](#technology-stack)
 - [Authors](#authors)
 - [License](#license)
 
-### Major Features
+### Demo
+
+<p align="center">Live url : <a href="https://nim-ble.netlify.app">https://nim-ble.netlify.app</a></p>
 
 1. User register/login
    
