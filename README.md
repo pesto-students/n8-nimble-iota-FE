@@ -12,8 +12,8 @@ Nimble is an Agile Sprint management platform which provides functionality to ma
 #### Table of Contents
 
 - [Major Features](#major-features)
-- [Project Artifacts](#project-artifacts)
 - [Getting started](#getting-started)
+- [Technology Stack](#technology-stack)
 - [Authors](#authors)
 
 ### Major Features
@@ -42,29 +42,27 @@ Nimble is an Agile Sprint management platform which provides functionality to ma
    
    Demo : https://www.loom.com/share/debd195632bf4c52b36e05533e6a52b1
 
-### Project Artifacts
-
-Link for the PRD : https://docs.google.com/document/d/e/2PACX-1vSC8xFp4kAbnqykWznJ8h_maf9822SaMK_nNVWKqi5Ks7-0FI628xuGHDLpZduiwji_7fSqNehv7Vp4/pub
-
-One Pager : https://drive.google.com/file/d/1o1JnAjs5VN2c8HKWu2vgbzllwSFxy5vg/view?usp=sharing
-
-Wireframe Link: https://www.figma.com/file/MoEiBCzh58qnInvfRFHzyA/nimble?node-id=0%3A1
-
-Scrum Master Figma Prototype: https://www.figma.com/proto/MoEiBCzh58qnInvfRFHzyA/nimble?node-id=122%3A381&scaling=min-zoom&page-id=0%3A1&starting-point-node-id=122%3A381&show-proto-sidebar=1
-
-Developer flow Figma Prototype: https://www.figma.com/proto/MoEiBCzh58qnInvfRFHzyA/nimble?node-id=250%3A2362&scaling=min-zoom&page-id=0%3A1&starting-point-node-id=250%3A2362&show-proto-sidebar=1
-
-Link for backend Repo : https://github.com/pesto-students/n8-nimble-iota-BE
-
 ### Getting started
 
 https://pesto-students.github.io/n8-nimble-iota-FE/docs/intro
 
+### Technology Stack
+
+We have used MERN stack for the project with some new technologies.
+- [React JS](https://reactjs.org/)
+- [Ant Design](https://ant.design/)
+- [Firebase](https://firebase.google.com/)
+- [Express JS](https://expressjs.com/)
+- [MongoDB](https://www.mongodb.com/)
+- [Github Actions](https://github.com/features/actions)
+- [Netlify](https://www.netlify.com/)
+- [Heroku](https://www.heroku.com/)
+
 ### Authors
 
-1. Vipan kumar
-2. Vishnu Thiyagarajan
-3. Jyotirmaya Sahu
+- [Vipan kumar]()
+- [Vishnu Thiyagarajan]()
+- [Jyotirmaya Sahu](https://github.com/i-am-jyotirmaya)
 
 ### License
 
