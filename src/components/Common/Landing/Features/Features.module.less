@@ -1,0 +1,45 @@
+@import "../../../themes/themes.less";
+
+.features {
+    display: flex;
+    padding: 4em;
+    justify-content: space-evenly;
+    align-items: stretch;
+    flex-wrap: wrap-reverse;
+
+    > div {
+        flex: 1;
+        min-width: 23em;
+        padding-left: 2em;
+    }
+    .title,
+    .listTitle {
+        color: @primary-1;
+        width: 100%;
+    }
+    .title {
+        font-size: 4em;
+        font-weight: 200;
+        &.small {
+            font-size: 2em;
+        }
+    }
+
+    .listTitle {
+        font-size: 1.35em;
+        &.small {
+            font-size: 1.125em;
+        }
+    }
+    .listDesc {
+        font-size: 1.125em;
+        color: #858687;
+        padding-left: 2em;
+        &.small {
+            font-size: 0.9em;
+        }
+    }
+}
+.img {
+    width: 92%;
+}

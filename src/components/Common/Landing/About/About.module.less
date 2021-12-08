@@ -1,0 +1,45 @@
+@import "../../../themes/themes.less";
+.about {
+    padding: 1em;
+    background-color: @primary-color;
+    color: white;
+    text-align: center;
+    ul {
+        margin-top: 1em;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        li {
+            list-style: none;
+            width: 20em;
+            margin: 0.5em;
+        }
+    }
+    span {
+        font-weight: bold;
+
+        &.name {
+            text-decoration: underline;
+        }
+    }
+    a {
+        &.icon {
+            font-size: 1.5em;
+        }
+    }
+    .aboutCard {
+        > div {
+            display: flex;
+            align-items: center;
+            padding: 1em;
+            .details {
+                display: inline-block;
+                margin-left: 1em;
+                .links {
+                    text-align: left;
+                }
+            }
+        }
+    }
+}

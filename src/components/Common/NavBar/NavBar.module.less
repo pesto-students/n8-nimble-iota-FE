@@ -1,0 +1,87 @@
+@import "../../themes/themes.less";
+
+.navbar {
+    height: 4em;
+    background-color: @primary-color;
+    display: flex;
+    align-items: center;
+    padding: 0 1em;
+    color: white;
+    position: sticky;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    * {
+        color: inherit;
+    }
+
+    .logoLink {
+        &:hover {
+            color: white;
+        }
+    }
+
+    .menuIconContainer {
+        padding: 0 0.75em 0 0;
+        cursor: pointer;
+        .menuIcon {
+            font-size: 1.8em;
+        }
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        .logo {
+            img {
+                height: 1.7em;
+            }
+        }
+        .brandName {
+            margin-left: 0.75em;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            .title {
+                margin: 0;
+                line-height: 1em;
+            }
+        }
+    }
+
+    .nav {
+        flex: 1;
+        display: flex;
+        align-items: stretch;
+        justify-content: space-between;
+
+        .navLinkContainer {
+            display: flex;
+            align-items: stretch;
+
+            .navLink {
+                padding: 1em 1em;
+                display: grid;
+                cursor: pointer;
+                place-items: center;
+                width: 6em;
+                transition: background-color 150ms ease-in;
+                font-weight: 500;
+                letter-spacing: 1px;
+                cursor: pointer;
+                &:hover {
+                    background-color: rgba(white, 0.1);
+                    color: white;
+                }
+                &.active {
+                    background-color: rgba(white, 0.2);
+                }
+            }
+
+            &.end {
+                margin-left: auto;
+            }
+        }
+    }
+}

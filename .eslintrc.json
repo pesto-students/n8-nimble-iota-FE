@@ -1,0 +1,33 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "node": true,
+        "jest/globals": true
+    },
+    "extends": ["eslint:recommended", "plugin:react/recommended"],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": ["react", "jest"],
+    "ignorePatterns": ["node_modules", "build"],
+    "rules": {
+        "indent": ["warn", 4, { "SwitchCase": 1 }],
+        "linebreak-style": [0, "windows"],
+        "quotes": ["warn", "double"],
+        "semi": ["warn", "always"],
+        "no-unused-vars": "warn",
+        "no-undef": "warn",
+        "no-tabs": ["error", { "allowIndentationTabs": true }]
+    },
+    "settings": {
+        "react": {
+            "pragma": "React",
+            "version": "detect"
+        }
+    }
+}

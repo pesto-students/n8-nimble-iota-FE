@@ -1,0 +1,67 @@
+.projectItem {
+    background-color: #fbfafa;
+    border: solid 1px #dfe0eb;
+    display: grid;
+    padding: 1em;
+    gap: 0.75em;
+    grid-template-areas:
+        "graph pr ti"
+        "graph team team";
+    cursor: pointer;
+    position: relative;
+
+    .projectDetail {
+        background-color: white;
+        border: solid 1px #dfe0eb;
+        padding: 1em;
+        
+        .title {
+            display: inline-block;
+        }
+        .add {
+            cursor: pointer;
+            border-radius: 100vh;
+            background-color: rgba(white, 0.05);
+            width: 2em;
+            height: 2em;
+            display: inline-grid;
+            place-items: center;
+            transition: background-color 100ms ease-in;
+            z-index: 10;
+            &:hover {
+                background-color: rgba(white, 0.15);
+            }
+        }
+
+        &.graphs {
+            grid-area: graph;
+        }
+        &.ticketInfo {
+            grid-area: ti;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 0.6em;
+            font-weight: 500;
+            .title {
+                font-weight: bold;
+            }
+        }
+        &.teamInfo {
+            grid-area: team;
+            .scroller {
+                max-height: 6em;
+                overflow-y: auto;
+            }
+        }
+        &.projectInfo {
+            grid-area: pr;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 0.6em;
+            font-weight: 500;
+            .title {
+                font-weight: bold;
+            }
+        }
+    }
+}
