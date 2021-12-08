@@ -7,17 +7,14 @@
 
 <hr>
 
+Nimble is an Agile Sprint management platform which provides functionality to manage all the three phases of a sprint- Pre,Active and Post. Pre sprint consists of effort estimation of various tickets using Poker board, Active Sprint consists of tracking tickets and Post sprint consists of retrospectives and reports.
+
 #### Table of Contents
 
-- [About the Project](#about-the-project)
 - [Major Features](#major-features)
 - [Project Artifacts](#project-artifacts)
 - [Getting started](#getting-started)
-- [Team](#team)
-
-### About the Project
-
-Nimble is an Agile Sprint management platform which provides functionality to manage all the three phases of a sprint- Pre,Active and Post. Pre sprint consists of effort estimation of various tickets using Poker board, Active Sprint consists of tracking tickets and Post sprint consists of retrospectives and reports.
+- [Authors](#authors)
 
 ### Major Features
 
@@ -63,28 +60,12 @@ Link for backend Repo : https://github.com/pesto-students/n8-nimble-iota-BE
 
 https://pesto-students.github.io/n8-nimble-iota-FE/docs/intro
 
-### Team
+### Authors
 
-1. ### Vipan kumar
+1. Vipan kumar
+2. Vishnu Thiyagarajan
+3. Jyotirmaya Sahu
 
-    Hey there. I am a passionate coder from Hoshiarpur, punjab. I am currently working with MakeMyTrip India . I have industry experience of 1 year. For the last year, I am working on ReactJs and NodeJs. I have built Reporting Engine from scratch to fetch data from different sources parallel and was able to acheive good latencies (less than 800ms).
+### License
 
-    [LinkedIn 💼](https://www.linkedin.com/in/vipank/")
-
-    [Email 📬](mailto:vipan16116@iiitd.ac.in)
-
-2. ### Vishnu Thiyagarajan
-
-    Hi. I'm a JS developer & MERN Stack Enthusiast from Hyderabad. I love everything that has to do with Coding & Problem solving, Application designing and development. I have been working as a Software developer for 4.5 years on various technologies like Sentinel rule based engine and developed MERN Stack application from scratch.
-
-    [LinkedIn 💼](https://www.linkedin.com/in/vishnu-thiyagarajan-2aa6a6129/)
-
-    [Email 📬](mailto:mrtvishnu@gmail.com)
-
-3. ### Jyotirmaya Sahu
-
-    Hi, I'm a full stack developer & tech enthusiast from Odisha. I like to experiment with new things in the tech market. I have been Coding from last 2 years professionally and worked with multiple MNCs.
-
-    [LinkedIn 💼](https://www.linkedin.com/in/jyotirmaya-sahu-52052b133/)
-
-    [Email 📬](mailto:jyotirmayasahu38@gmail.com)
+[MIT](https://opensource.org/licenses/MIT)
