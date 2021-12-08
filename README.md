@@ -18,7 +18,7 @@ Nimble is an Agile Sprint management platform which provides functionality to ma
 
 ### Demo
 
-<p align="center">Live url : <a href="https://nim-ble.netlify.app">https://nim-ble.netlify.app</a></p>
+Live url : <a href="https://nim-ble.netlify.app">https://nim-ble.netlify.app</a>
 
 1. User register/login
    
